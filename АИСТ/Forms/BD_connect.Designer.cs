@@ -45,7 +45,6 @@
             this.tb_password.Name = "tb_password";
             this.tb_password.Size = new System.Drawing.Size(145, 20);
             this.tb_password.TabIndex = 50;
-            this.tb_password.TextChanged += new System.EventHandler(this.tb_password_TextChanged);
             // 
             // label1
             // 
@@ -62,7 +61,6 @@
             this.tb_login.Name = "tb_login";
             this.tb_login.Size = new System.Drawing.Size(145, 20);
             this.tb_login.TabIndex = 48;
-            this.tb_login.TextChanged += new System.EventHandler(this.tb_login_TextChanged);
             // 
             // label8
             // 
@@ -80,7 +78,6 @@
             this.tb_name.Size = new System.Drawing.Size(145, 20);
             this.tb_name.TabIndex = 54;
             this.tb_name.Text = "bd_shop";
-            this.tb_name.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label2
             // 
@@ -90,7 +87,6 @@
             this.label2.Size = new System.Drawing.Size(124, 19);
             this.label2.TabIndex = 53;
             this.label2.Text = "database name";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // tb_server
             // 
@@ -100,7 +96,6 @@
             this.tb_server.Size = new System.Drawing.Size(145, 20);
             this.tb_server.TabIndex = 52;
             this.tb_server.Text = "localhost";
-            this.tb_server.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label3
             // 
@@ -110,7 +105,6 @@
             this.label3.Size = new System.Drawing.Size(124, 19);
             this.label3.TabIndex = 51;
             this.label3.Text = "Сервер";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btn_OK
             // 

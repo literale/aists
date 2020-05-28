@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using АИСТ.Class;
 
@@ -13,6 +8,9 @@ namespace АИСТ.Forms
 {
     public partial class BD_connect : Form
     {
+        /// <summary>
+        /// инициализауия
+        /// </summary>
         public BD_connect()
         {
             InitializeComponent();
@@ -29,36 +27,11 @@ namespace АИСТ.Forms
             //tb_password.Text = "";
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tb_login_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tb_password_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Пытаемся залогиниться в БД
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_OK_Click(object sender, EventArgs e)
         {
             SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
