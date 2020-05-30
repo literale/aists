@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using АИСТ.Class.algoritms;
 
 namespace АИСТ
 {
@@ -123,7 +124,8 @@ namespace АИСТ
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            algoritms a = new algoritms();
+            a.Auto();
             Form f2 = new Generete_report();
             f2.Show(); // отображаем Form2
             this.Hide(); // скрываем Form1 (this - текущая форма)

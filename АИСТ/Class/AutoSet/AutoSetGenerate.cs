@@ -33,7 +33,7 @@ namespace АИСТ.Class.AutoSet
             //    s1.Add(shop_string[0].ToString());
             //}
             lp.Add(new listProduct(true, enums.Group.Brand, prod));
-            Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 5000, new string[] { "1", "2", "3" }, "c1");
+            Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 2000, new string[] { "1", "2", "3" }, "c1");
             Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2", "3" }, "a1", lp);
             List<Assortiment> la = new List<Assortiment>();
             la.Add(a);

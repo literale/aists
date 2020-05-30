@@ -16,17 +16,20 @@ namespace АИСТ.Class.Setttings
         {
             Promo_types pt = new Promo_types();
             client_A.client_type = Type_ABC.A;
+            client_A.disc_prob = new Dictionary<Type_XYZ, double[]>();
             client_A.disc_prob.Add(Type_XYZ.X, new double[] {80, 3 } );
             client_A.disc_prob.Add(Type_XYZ.Y, new double[] {20, 2 });
             client_A.disc_prob.Add(Type_XYZ.Z, new double[] { 0, 0 });
 
             client_B.client_type = Type_ABC.B;
+            client_B.disc_prob = new Dictionary<Type_XYZ, double[]>();
             client_B.disc_prob.Add(Type_XYZ.X, new double[] { 20, 2 });
             client_B.disc_prob.Add(Type_XYZ.Y, new double[] { 80, 3 });
             client_B.disc_prob.Add(Type_XYZ.Z, new double[] { 0, 0 });
 
             client_C = null;
             //client_C.client_type = Type_ABC.C;
+            //client_C.disc_prob = new Dictionary<Type_XYZ, double[]>();
             //client_C.disc_prob.Add(Type_XYZ.X, new double[] { 0, 0 });
             //client_C.disc_prob.Add(Type_XYZ.Y, new double[] { 0, 0 });
             //client_C.disc_prob.Add(Type_XYZ.Z, new double[] { 0, 0 });

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using АИСТ.Class;
+using АИСТ.Class.algoritms;
 using АИСТ.Forms;
 
 namespace АИСТ
@@ -62,6 +63,17 @@ namespace АИСТ
         private void mainForm_EnabledChanged(object sender, EventArgs e)
         {
            lb_bd.Text = Info.Get_bd_name();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string connection_string = "server=localhost; " +
+                   "user=" + "admin" + "; " +
+                   "database=" + "bd_shop" + "; " +
+                   "password=" + "diplom2020";
+            SQL_Helper.setConnection(connection_string);
+            algoritms a = new algoritms();
+            a.Auto();
         }
     }
 }

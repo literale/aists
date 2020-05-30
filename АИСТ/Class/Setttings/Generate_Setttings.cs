@@ -9,13 +9,13 @@ namespace АИСТ.Class
 {
     class Generate_Setttings
     {
-        private DateTime start;
-        private DateTime end;
-        private int min_discount;
-        private int max_discount;
-        private List<Assortiment> assortiments;
-        private List<Customers> customers;
-        private Promo_types promo_type;
+        public DateTime start;
+        public DateTime end;
+        public int min_discount;
+        public int max_discount;
+        public List<Assortiment> assortiments;
+        public List<Customers> customers;
+        public Promo_types promo_type;
 
         public Generate_Setttings(DateTime start, DateTime end, int min_disc, int max_dist, List<Assortiment> assortiments, List<Customers> customers, Promo_types promo_type)
         {

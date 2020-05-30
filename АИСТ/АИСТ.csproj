@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\algoritms\algoritms.cs" />
+    <Compile Include="Class\algoritms\Client_Tab.cs" />
     <Compile Include="Class\enums\enums.cs" />
     <Compile Include="Class\essence\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
