@@ -43,6 +43,7 @@ namespace АИСТ
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //SQL_Helper.Get_columns("promo_full");
             Form f2 = new menu();
             f2.Show(); // отображаем Form2
             this.Hide(); // скрываем Form1 (this - текущая форма)

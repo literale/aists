@@ -28,441 +28,476 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btn_save = new System.Windows.Forms.Button();
+            this.btn_prod = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button22 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.button23 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.button25 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button26 = new System.Windows.Forms.Button();
+            this.btn_promo_history_fields = new System.Windows.Forms.Button();
+            this.lb_promo_his = new System.Windows.Forms.Label();
+            this.btn_promo_hisory = new System.Windows.Forms.Button();
+            this.btn_group_field = new System.Windows.Forms.Button();
+            this.btn_promo_info_fields = new System.Windows.Forms.Button();
+            this.lb_group = new System.Windows.Forms.Label();
+            this.lb_promo_info = new System.Windows.Forms.Label();
+            this.btn_group = new System.Windows.Forms.Button();
+            this.btn_promo_info = new System.Windows.Forms.Button();
+            this.btn_promo_fields = new System.Windows.Forms.Button();
+            this.lb_promo = new System.Windows.Forms.Label();
+            this.btn_promo = new System.Windows.Forms.Button();
+            this.btn_history_fields = new System.Windows.Forms.Button();
+            this.lb_his = new System.Windows.Forms.Label();
+            this.btn_history = new System.Windows.Forms.Button();
+            this.btn_checks_field = new System.Windows.Forms.Button();
+            this.lb_check = new System.Windows.Forms.Label();
+            this.btn_checks = new System.Windows.Forms.Button();
+            this.btn_clients_field = new System.Windows.Forms.Button();
+            this.lb_cl = new System.Windows.Forms.Label();
+            this.btn__clients = new System.Windows.Forms.Button();
+            this.btn_store_fields = new System.Windows.Forms.Button();
+            this.lb_store = new System.Windows.Forms.Label();
+            this.btn_store = new System.Windows.Forms.Button();
+            this.btn_shops_field = new System.Windows.Forms.Button();
+            this.lb_shop = new System.Windows.Forms.Label();
+            this.btn_shops = new System.Windows.Forms.Button();
+            this.btn_little_type_field = new System.Windows.Forms.Button();
+            this.lb_lt = new System.Windows.Forms.Label();
+            this.btn_little_type = new System.Windows.Forms.Button();
+            this.btn_big_type_field = new System.Windows.Forms.Button();
+            this.lb_bt = new System.Windows.Forms.Label();
+            this.btn_big_type = new System.Windows.Forms.Button();
+            this.btn_btands_field = new System.Windows.Forms.Button();
+            this.lb_brand = new System.Windows.Forms.Label();
+            this.btn_brands = new System.Windows.Forms.Button();
+            this.btn_prod_field = new System.Windows.Forms.Button();
+            this.lb_prod = new System.Windows.Forms.Label();
+            this.btn_emai = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button2
+            // btn_save
             // 
-            this.button2.Location = new System.Drawing.Point(302, 323);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(126, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Сохранить";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btn_save.Location = new System.Drawing.Point(296, 334);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(126, 23);
+            this.btn_save.TabIndex = 1;
+            this.btn_save.Text = "Сохранить";
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
-            // button3
+            // btn_prod
             // 
-            this.button3.Location = new System.Drawing.Point(6, 19);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(126, 23);
-            this.button3.TabIndex = 40;
-            this.button3.Text = "Продукты";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btn_prod.Location = new System.Drawing.Point(6, 19);
+            this.btn_prod.Name = "btn_prod";
+            this.btn_prod.Size = new System.Drawing.Size(126, 23);
+            this.btn_prod.TabIndex = 40;
+            this.btn_prod.Text = "Продукты";
+            this.btn_prod.UseVisualStyleBackColor = true;
+            this.btn_prod.Click += new System.EventHandler(this.btn_prod_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button22);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.button23);
-            this.groupBox1.Controls.Add(this.button24);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.button25);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button19);
-            this.groupBox1.Controls.Add(this.button20);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.button21);
-            this.groupBox1.Controls.Add(this.button17);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.button18);
-            this.groupBox1.Controls.Add(this.button15);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.button16);
-            this.groupBox1.Controls.Add(this.button13);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.button14);
-            this.groupBox1.Controls.Add(this.button11);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.button12);
-            this.groupBox1.Controls.Add(this.button9);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.button10);
-            this.groupBox1.Controls.Add(this.button7);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.button8);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.button6);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.btn_promo_history_fields);
+            this.groupBox1.Controls.Add(this.lb_promo_his);
+            this.groupBox1.Controls.Add(this.btn_promo_hisory);
+            this.groupBox1.Controls.Add(this.btn_group_field);
+            this.groupBox1.Controls.Add(this.btn_promo_info_fields);
+            this.groupBox1.Controls.Add(this.lb_group);
+            this.groupBox1.Controls.Add(this.lb_promo_info);
+            this.groupBox1.Controls.Add(this.btn_group);
+            this.groupBox1.Controls.Add(this.btn_promo_info);
+            this.groupBox1.Controls.Add(this.btn_promo_fields);
+            this.groupBox1.Controls.Add(this.lb_promo);
+            this.groupBox1.Controls.Add(this.btn_promo);
+            this.groupBox1.Controls.Add(this.btn_history_fields);
+            this.groupBox1.Controls.Add(this.lb_his);
+            this.groupBox1.Controls.Add(this.btn_history);
+            this.groupBox1.Controls.Add(this.btn_checks_field);
+            this.groupBox1.Controls.Add(this.lb_check);
+            this.groupBox1.Controls.Add(this.btn_checks);
+            this.groupBox1.Controls.Add(this.btn_clients_field);
+            this.groupBox1.Controls.Add(this.lb_cl);
+            this.groupBox1.Controls.Add(this.btn__clients);
+            this.groupBox1.Controls.Add(this.btn_store_fields);
+            this.groupBox1.Controls.Add(this.lb_store);
+            this.groupBox1.Controls.Add(this.btn_store);
+            this.groupBox1.Controls.Add(this.btn_shops_field);
+            this.groupBox1.Controls.Add(this.lb_shop);
+            this.groupBox1.Controls.Add(this.btn_shops);
+            this.groupBox1.Controls.Add(this.btn_little_type_field);
+            this.groupBox1.Controls.Add(this.lb_lt);
+            this.groupBox1.Controls.Add(this.btn_little_type);
+            this.groupBox1.Controls.Add(this.btn_big_type_field);
+            this.groupBox1.Controls.Add(this.lb_bt);
+            this.groupBox1.Controls.Add(this.btn_big_type);
+            this.groupBox1.Controls.Add(this.btn_btands_field);
+            this.groupBox1.Controls.Add(this.lb_brand);
+            this.groupBox1.Controls.Add(this.btn_brands);
+            this.groupBox1.Controls.Add(this.btn_prod_field);
+            this.groupBox1.Controls.Add(this.lb_prod);
+            this.groupBox1.Controls.Add(this.btn_prod);
             this.groupBox1.Location = new System.Drawing.Point(13, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(425, 304);
+            this.groupBox1.Size = new System.Drawing.Size(425, 316);
             this.groupBox1.TabIndex = 41;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Таблицы";
             // 
-            // button22
-            // 
-            this.button22.Location = new System.Drawing.Point(289, 268);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(126, 23);
-            this.button22.TabIndex = 76;
-            this.button22.Text = "Поля";
-            this.button22.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Location = new System.Drawing.Point(138, 268);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(145, 23);
-            this.label11.TabIndex = 75;
-            this.label11.Text = "tab";
-            // 
-            // button23
-            // 
-            this.button23.Location = new System.Drawing.Point(6, 268);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(126, 23);
-            this.button23.TabIndex = 74;
-            this.button23.Text = "Группировки";
-            this.button23.UseVisualStyleBackColor = true;
-            // 
-            // button24
-            // 
-            this.button24.Location = new System.Drawing.Point(289, 245);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(126, 23);
-            this.button24.TabIndex = 73;
-            this.button24.Text = "Поля";
-            this.button24.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Location = new System.Drawing.Point(138, 245);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(145, 23);
-            this.label12.TabIndex = 72;
-            this.label12.Text = "tab";
-            // 
-            // button25
-            // 
-            this.button25.Location = new System.Drawing.Point(6, 245);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(126, 23);
-            this.button25.TabIndex = 71;
-            this.button25.Text = "Промо-информация";
-            this.button25.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(289, 225);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 23);
-            this.button1.TabIndex = 70;
-            this.button1.Text = "Поля";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(138, 225);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 23);
-            this.label1.TabIndex = 69;
-            this.label1.Text = "tab";
-            // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(6, 225);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(126, 23);
-            this.button19.TabIndex = 68;
-            this.button19.Text = "Промо";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(289, 202);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(126, 23);
-            this.button20.TabIndex = 67;
-            this.button20.Text = "Поля";
-            this.button20.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label10.Location = new System.Drawing.Point(138, 202);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(145, 23);
-            this.label10.TabIndex = 66;
-            this.label10.Text = "tab";
-            // 
-            // button21
-            // 
-            this.button21.Location = new System.Drawing.Point(6, 202);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(126, 23);
-            this.button21.TabIndex = 65;
-            this.button21.Text = "История";
-            this.button21.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            this.button17.Location = new System.Drawing.Point(289, 180);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(126, 23);
-            this.button17.TabIndex = 64;
-            this.button17.Text = "Поля";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Location = new System.Drawing.Point(138, 180);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(145, 23);
-            this.label9.TabIndex = 63;
-            this.label9.Text = "tab";
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(6, 180);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(126, 23);
-            this.button18.TabIndex = 62;
-            this.button18.Text = "Чеки";
-            this.button18.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.Location = new System.Drawing.Point(289, 157);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(126, 23);
-            this.button15.TabIndex = 61;
-            this.button15.Text = "Поля";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label8.Location = new System.Drawing.Point(138, 157);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(145, 23);
-            this.label8.TabIndex = 60;
-            this.label8.Text = "tab";
-            // 
-            // button16
-            // 
-            this.button16.Location = new System.Drawing.Point(6, 157);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(126, 23);
-            this.button16.TabIndex = 59;
-            this.button16.Text = "Клиенты";
-            this.button16.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(289, 134);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(126, 23);
-            this.button13.TabIndex = 58;
-            this.button13.Text = "Поля";
-            this.button13.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(138, 134);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 23);
-            this.label7.TabIndex = 57;
-            this.label7.Text = "tab";
-            // 
-            // button14
-            // 
-            this.button14.Location = new System.Drawing.Point(6, 134);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(126, 23);
-            this.button14.TabIndex = 56;
-            this.button14.Text = "Склад";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Location = new System.Drawing.Point(289, 111);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(126, 23);
-            this.button11.TabIndex = 55;
-            this.button11.Text = "Поля";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label6.Location = new System.Drawing.Point(138, 111);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(145, 23);
-            this.label6.TabIndex = 54;
-            this.label6.Text = "tab";
-            // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(6, 111);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(126, 23);
-            this.button12.TabIndex = 53;
-            this.button12.Text = "Магазины";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(289, 88);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(126, 23);
-            this.button9.TabIndex = 52;
-            this.button9.Text = "Поля";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.Location = new System.Drawing.Point(138, 88);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(145, 23);
-            this.label5.TabIndex = 51;
-            this.label5.Text = "tab";
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(6, 88);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(126, 23);
-            this.button10.TabIndex = 50;
-            this.button10.Text = "Малый тип";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(289, 65);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(126, 23);
-            this.button7.TabIndex = 49;
-            this.button7.Text = "Поля";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(138, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(145, 23);
-            this.label4.TabIndex = 48;
-            this.label4.Text = "tab";
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(6, 65);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(126, 23);
-            this.button8.TabIndex = 47;
-            this.button8.Text = "Большой тип";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(289, 42);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(126, 23);
-            this.button5.TabIndex = 46;
-            this.button5.Text = "Поля";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(138, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(145, 23);
-            this.label3.TabIndex = 45;
-            this.label3.Text = "tab";
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(6, 42);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(126, 23);
-            this.button6.TabIndex = 44;
-            this.button6.Text = "Брэнды";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(289, 19);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(126, 23);
-            this.button4.TabIndex = 43;
-            this.button4.Text = "Поля";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // label2
-            // 
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(138, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(145, 23);
-            this.label2.TabIndex = 42;
-            this.label2.Text = "tab";
-            // 
-            // button26
-            // 
-            this.button26.Location = new System.Drawing.Point(19, 322);
-            this.button26.Name = "button26";
-            this.button26.Size = new System.Drawing.Size(126, 23);
-            this.button26.TabIndex = 77;
-            this.button26.Text = "email";
-            this.button26.UseVisualStyleBackColor = true;
+            // btn_promo_history_fields
+            // 
+            this.btn_promo_history_fields.Location = new System.Drawing.Point(289, 264);
+            this.btn_promo_history_fields.Name = "btn_promo_history_fields";
+            this.btn_promo_history_fields.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo_history_fields.TabIndex = 79;
+            this.btn_promo_history_fields.Text = "Поля";
+            this.btn_promo_history_fields.UseVisualStyleBackColor = true;
+            // 
+            // lb_promo_his
+            // 
+            this.lb_promo_his.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_promo_his.Location = new System.Drawing.Point(138, 264);
+            this.lb_promo_his.Name = "lb_promo_his";
+            this.lb_promo_his.Size = new System.Drawing.Size(145, 23);
+            this.lb_promo_his.TabIndex = 78;
+            this.lb_promo_his.Text = "tab";
+            // 
+            // btn_promo_hisory
+            // 
+            this.btn_promo_hisory.Location = new System.Drawing.Point(6, 264);
+            this.btn_promo_hisory.Name = "btn_promo_hisory";
+            this.btn_promo_hisory.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo_hisory.TabIndex = 77;
+            this.btn_promo_hisory.Text = "Промо-история";
+            this.btn_promo_hisory.UseVisualStyleBackColor = true;
+            // 
+            // btn_group_field
+            // 
+            this.btn_group_field.Location = new System.Drawing.Point(289, 285);
+            this.btn_group_field.Name = "btn_group_field";
+            this.btn_group_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_group_field.TabIndex = 76;
+            this.btn_group_field.Text = "Поля";
+            this.btn_group_field.UseVisualStyleBackColor = true;
+            // 
+            // btn_promo_info_fields
+            // 
+            this.btn_promo_info_fields.Location = new System.Drawing.Point(289, 245);
+            this.btn_promo_info_fields.Name = "btn_promo_info_fields";
+            this.btn_promo_info_fields.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo_info_fields.TabIndex = 73;
+            this.btn_promo_info_fields.Text = "Поля";
+            this.btn_promo_info_fields.UseVisualStyleBackColor = true;
+            // 
+            // lb_group
+            // 
+            this.lb_group.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_group.Location = new System.Drawing.Point(138, 285);
+            this.lb_group.Name = "lb_group";
+            this.lb_group.Size = new System.Drawing.Size(145, 23);
+            this.lb_group.TabIndex = 75;
+            this.lb_group.Text = "tab";
+            // 
+            // lb_promo_info
+            // 
+            this.lb_promo_info.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_promo_info.Location = new System.Drawing.Point(138, 245);
+            this.lb_promo_info.Name = "lb_promo_info";
+            this.lb_promo_info.Size = new System.Drawing.Size(145, 23);
+            this.lb_promo_info.TabIndex = 72;
+            this.lb_promo_info.Text = "tab";
+            // 
+            // btn_group
+            // 
+            this.btn_group.Location = new System.Drawing.Point(6, 285);
+            this.btn_group.Name = "btn_group";
+            this.btn_group.Size = new System.Drawing.Size(126, 23);
+            this.btn_group.TabIndex = 74;
+            this.btn_group.Text = "Группировки";
+            this.btn_group.UseVisualStyleBackColor = true;
+            // 
+            // btn_promo_info
+            // 
+            this.btn_promo_info.Location = new System.Drawing.Point(6, 245);
+            this.btn_promo_info.Name = "btn_promo_info";
+            this.btn_promo_info.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo_info.TabIndex = 71;
+            this.btn_promo_info.Text = "Промо-информация";
+            this.btn_promo_info.UseVisualStyleBackColor = true;
+            // 
+            // btn_promo_fields
+            // 
+            this.btn_promo_fields.Location = new System.Drawing.Point(289, 225);
+            this.btn_promo_fields.Name = "btn_promo_fields";
+            this.btn_promo_fields.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo_fields.TabIndex = 70;
+            this.btn_promo_fields.Text = "Поля";
+            this.btn_promo_fields.UseVisualStyleBackColor = true;
+            // 
+            // lb_promo
+            // 
+            this.lb_promo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_promo.Location = new System.Drawing.Point(138, 225);
+            this.lb_promo.Name = "lb_promo";
+            this.lb_promo.Size = new System.Drawing.Size(145, 23);
+            this.lb_promo.TabIndex = 69;
+            this.lb_promo.Text = "tab";
+            // 
+            // btn_promo
+            // 
+            this.btn_promo.Location = new System.Drawing.Point(6, 225);
+            this.btn_promo.Name = "btn_promo";
+            this.btn_promo.Size = new System.Drawing.Size(126, 23);
+            this.btn_promo.TabIndex = 68;
+            this.btn_promo.Text = "Промо";
+            this.btn_promo.UseVisualStyleBackColor = true;
+            // 
+            // btn_history_fields
+            // 
+            this.btn_history_fields.Location = new System.Drawing.Point(289, 202);
+            this.btn_history_fields.Name = "btn_history_fields";
+            this.btn_history_fields.Size = new System.Drawing.Size(126, 23);
+            this.btn_history_fields.TabIndex = 67;
+            this.btn_history_fields.Text = "Поля";
+            this.btn_history_fields.UseVisualStyleBackColor = true;
+            // 
+            // lb_his
+            // 
+            this.lb_his.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_his.Location = new System.Drawing.Point(138, 202);
+            this.lb_his.Name = "lb_his";
+            this.lb_his.Size = new System.Drawing.Size(145, 23);
+            this.lb_his.TabIndex = 66;
+            this.lb_his.Text = "tab";
+            // 
+            // btn_history
+            // 
+            this.btn_history.Location = new System.Drawing.Point(6, 202);
+            this.btn_history.Name = "btn_history";
+            this.btn_history.Size = new System.Drawing.Size(126, 23);
+            this.btn_history.TabIndex = 65;
+            this.btn_history.Text = "Чеки_подробно";
+            this.btn_history.UseVisualStyleBackColor = true;
+            // 
+            // btn_checks_field
+            // 
+            this.btn_checks_field.Location = new System.Drawing.Point(289, 180);
+            this.btn_checks_field.Name = "btn_checks_field";
+            this.btn_checks_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_checks_field.TabIndex = 64;
+            this.btn_checks_field.Text = "Поля";
+            this.btn_checks_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_check
+            // 
+            this.lb_check.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_check.Location = new System.Drawing.Point(138, 180);
+            this.lb_check.Name = "lb_check";
+            this.lb_check.Size = new System.Drawing.Size(145, 23);
+            this.lb_check.TabIndex = 63;
+            this.lb_check.Text = "tab";
+            // 
+            // btn_checks
+            // 
+            this.btn_checks.Location = new System.Drawing.Point(6, 180);
+            this.btn_checks.Name = "btn_checks";
+            this.btn_checks.Size = new System.Drawing.Size(126, 23);
+            this.btn_checks.TabIndex = 62;
+            this.btn_checks.Text = "Чеки";
+            this.btn_checks.UseVisualStyleBackColor = true;
+            // 
+            // btn_clients_field
+            // 
+            this.btn_clients_field.Location = new System.Drawing.Point(289, 157);
+            this.btn_clients_field.Name = "btn_clients_field";
+            this.btn_clients_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_clients_field.TabIndex = 61;
+            this.btn_clients_field.Text = "Поля";
+            this.btn_clients_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_cl
+            // 
+            this.lb_cl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_cl.Location = new System.Drawing.Point(138, 157);
+            this.lb_cl.Name = "lb_cl";
+            this.lb_cl.Size = new System.Drawing.Size(145, 23);
+            this.lb_cl.TabIndex = 60;
+            this.lb_cl.Text = "tab";
+            // 
+            // btn__clients
+            // 
+            this.btn__clients.Location = new System.Drawing.Point(6, 157);
+            this.btn__clients.Name = "btn__clients";
+            this.btn__clients.Size = new System.Drawing.Size(126, 23);
+            this.btn__clients.TabIndex = 59;
+            this.btn__clients.Text = "Клиенты";
+            this.btn__clients.UseVisualStyleBackColor = true;
+            // 
+            // btn_store_fields
+            // 
+            this.btn_store_fields.Location = new System.Drawing.Point(289, 134);
+            this.btn_store_fields.Name = "btn_store_fields";
+            this.btn_store_fields.Size = new System.Drawing.Size(126, 23);
+            this.btn_store_fields.TabIndex = 58;
+            this.btn_store_fields.Text = "Поля";
+            this.btn_store_fields.UseVisualStyleBackColor = true;
+            // 
+            // lb_store
+            // 
+            this.lb_store.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_store.Location = new System.Drawing.Point(138, 134);
+            this.lb_store.Name = "lb_store";
+            this.lb_store.Size = new System.Drawing.Size(145, 23);
+            this.lb_store.TabIndex = 57;
+            this.lb_store.Text = "tab";
+            // 
+            // btn_store
+            // 
+            this.btn_store.Location = new System.Drawing.Point(6, 134);
+            this.btn_store.Name = "btn_store";
+            this.btn_store.Size = new System.Drawing.Size(126, 23);
+            this.btn_store.TabIndex = 56;
+            this.btn_store.Text = "Склад";
+            this.btn_store.UseVisualStyleBackColor = true;
+            // 
+            // btn_shops_field
+            // 
+            this.btn_shops_field.Location = new System.Drawing.Point(289, 111);
+            this.btn_shops_field.Name = "btn_shops_field";
+            this.btn_shops_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_shops_field.TabIndex = 55;
+            this.btn_shops_field.Text = "Поля";
+            this.btn_shops_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_shop
+            // 
+            this.lb_shop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_shop.Location = new System.Drawing.Point(138, 111);
+            this.lb_shop.Name = "lb_shop";
+            this.lb_shop.Size = new System.Drawing.Size(145, 23);
+            this.lb_shop.TabIndex = 54;
+            this.lb_shop.Text = "tab";
+            // 
+            // btn_shops
+            // 
+            this.btn_shops.Location = new System.Drawing.Point(6, 111);
+            this.btn_shops.Name = "btn_shops";
+            this.btn_shops.Size = new System.Drawing.Size(126, 23);
+            this.btn_shops.TabIndex = 53;
+            this.btn_shops.Text = "Магазины";
+            this.btn_shops.UseVisualStyleBackColor = true;
+            // 
+            // btn_little_type_field
+            // 
+            this.btn_little_type_field.Location = new System.Drawing.Point(289, 88);
+            this.btn_little_type_field.Name = "btn_little_type_field";
+            this.btn_little_type_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_little_type_field.TabIndex = 52;
+            this.btn_little_type_field.Text = "Поля";
+            this.btn_little_type_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_lt
+            // 
+            this.lb_lt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_lt.Location = new System.Drawing.Point(138, 88);
+            this.lb_lt.Name = "lb_lt";
+            this.lb_lt.Size = new System.Drawing.Size(145, 23);
+            this.lb_lt.TabIndex = 51;
+            this.lb_lt.Text = "tab";
+            // 
+            // btn_little_type
+            // 
+            this.btn_little_type.Location = new System.Drawing.Point(6, 88);
+            this.btn_little_type.Name = "btn_little_type";
+            this.btn_little_type.Size = new System.Drawing.Size(126, 23);
+            this.btn_little_type.TabIndex = 50;
+            this.btn_little_type.Text = "Малый тип";
+            this.btn_little_type.UseVisualStyleBackColor = true;
+            // 
+            // btn_big_type_field
+            // 
+            this.btn_big_type_field.Location = new System.Drawing.Point(289, 65);
+            this.btn_big_type_field.Name = "btn_big_type_field";
+            this.btn_big_type_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_big_type_field.TabIndex = 49;
+            this.btn_big_type_field.Text = "Поля";
+            this.btn_big_type_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_bt
+            // 
+            this.lb_bt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_bt.Location = new System.Drawing.Point(138, 65);
+            this.lb_bt.Name = "lb_bt";
+            this.lb_bt.Size = new System.Drawing.Size(145, 23);
+            this.lb_bt.TabIndex = 48;
+            this.lb_bt.Text = "tab";
+            // 
+            // btn_big_type
+            // 
+            this.btn_big_type.Location = new System.Drawing.Point(6, 65);
+            this.btn_big_type.Name = "btn_big_type";
+            this.btn_big_type.Size = new System.Drawing.Size(126, 23);
+            this.btn_big_type.TabIndex = 47;
+            this.btn_big_type.Text = "Большой тип";
+            this.btn_big_type.UseVisualStyleBackColor = true;
+            // 
+            // btn_btands_field
+            // 
+            this.btn_btands_field.Location = new System.Drawing.Point(289, 42);
+            this.btn_btands_field.Name = "btn_btands_field";
+            this.btn_btands_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_btands_field.TabIndex = 46;
+            this.btn_btands_field.Text = "Поля";
+            this.btn_btands_field.UseVisualStyleBackColor = true;
+            // 
+            // lb_brand
+            // 
+            this.lb_brand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_brand.Location = new System.Drawing.Point(138, 42);
+            this.lb_brand.Name = "lb_brand";
+            this.lb_brand.Size = new System.Drawing.Size(145, 23);
+            this.lb_brand.TabIndex = 45;
+            this.lb_brand.Text = "tab";
+            // 
+            // btn_brands
+            // 
+            this.btn_brands.Location = new System.Drawing.Point(6, 42);
+            this.btn_brands.Name = "btn_brands";
+            this.btn_brands.Size = new System.Drawing.Size(126, 23);
+            this.btn_brands.TabIndex = 44;
+            this.btn_brands.Text = "Брэнды";
+            this.btn_brands.UseVisualStyleBackColor = true;
+            // 
+            // btn_prod_field
+            // 
+            this.btn_prod_field.Location = new System.Drawing.Point(289, 19);
+            this.btn_prod_field.Name = "btn_prod_field";
+            this.btn_prod_field.Size = new System.Drawing.Size(126, 23);
+            this.btn_prod_field.TabIndex = 43;
+            this.btn_prod_field.Text = "Поля";
+            this.btn_prod_field.UseVisualStyleBackColor = true;
+            this.btn_prod_field.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // lb_prod
+            // 
+            this.lb_prod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_prod.Location = new System.Drawing.Point(138, 19);
+            this.lb_prod.Name = "lb_prod";
+            this.lb_prod.Size = new System.Drawing.Size(145, 23);
+            this.lb_prod.TabIndex = 42;
+            this.lb_prod.Text = "tab";
+            // 
+            // btn_emai
+            // 
+            this.btn_emai.Location = new System.Drawing.Point(13, 334);
+            this.btn_emai.Name = "btn_emai";
+            this.btn_emai.Size = new System.Drawing.Size(126, 23);
+            this.btn_emai.TabIndex = 77;
+            this.btn_emai.Text = "email";
+            this.btn_emai.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Location = new System.Drawing.Point(151, 323);
+            this.label13.Location = new System.Drawing.Point(145, 334);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(145, 23);
             this.label13.TabIndex = 77;
@@ -472,60 +507,64 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 354);
+            this.ClientSize = new System.Drawing.Size(451, 363);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.button26);
+            this.Controls.Add(this.btn_emai);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btn_save);
             this.Name = "Settings";
             this.Text = "Settings";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Settings_FormClosed);
             this.Load += new System.EventHandler(this.Settings_Load);
+            this.Shown += new System.EventHandler(this.Settings_Shown);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_save;
+        private System.Windows.Forms.Button btn_prod;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button23;
-        private System.Windows.Forms.Button button24;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button25;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.Button button26;
+        private System.Windows.Forms.Button btn_checks_field;
+        private System.Windows.Forms.Label lb_check;
+        private System.Windows.Forms.Button btn_checks;
+        private System.Windows.Forms.Button btn_clients_field;
+        private System.Windows.Forms.Label lb_cl;
+        private System.Windows.Forms.Button btn__clients;
+        private System.Windows.Forms.Button btn_store_fields;
+        private System.Windows.Forms.Label lb_store;
+        private System.Windows.Forms.Button btn_store;
+        private System.Windows.Forms.Button btn_shops_field;
+        private System.Windows.Forms.Label lb_shop;
+        private System.Windows.Forms.Button btn_shops;
+        private System.Windows.Forms.Button btn_little_type_field;
+        private System.Windows.Forms.Label lb_lt;
+        private System.Windows.Forms.Button btn_little_type;
+        private System.Windows.Forms.Button btn_big_type_field;
+        private System.Windows.Forms.Label lb_bt;
+        private System.Windows.Forms.Button btn_big_type;
+        private System.Windows.Forms.Button btn_btands_field;
+        private System.Windows.Forms.Label lb_brand;
+        private System.Windows.Forms.Button btn_brands;
+        private System.Windows.Forms.Button btn_prod_field;
+        private System.Windows.Forms.Label lb_prod;
+        private System.Windows.Forms.Button btn_group_field;
+        private System.Windows.Forms.Label lb_group;
+        private System.Windows.Forms.Button btn_group;
+        private System.Windows.Forms.Button btn_promo_info_fields;
+        private System.Windows.Forms.Label lb_promo_info;
+        private System.Windows.Forms.Button btn_promo_info;
+        private System.Windows.Forms.Button btn_promo_fields;
+        private System.Windows.Forms.Label lb_promo;
+        private System.Windows.Forms.Button btn_promo;
+        private System.Windows.Forms.Button btn_history_fields;
+        private System.Windows.Forms.Label lb_his;
+        private System.Windows.Forms.Button btn_history;
+        private System.Windows.Forms.Button btn_emai;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btn_promo_history_fields;
+        private System.Windows.Forms.Label lb_promo_his;
+        private System.Windows.Forms.Button btn_promo_hisory;
     }
 }

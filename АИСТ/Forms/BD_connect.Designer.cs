@@ -105,6 +105,7 @@
             this.label3.Size = new System.Drawing.Size(124, 19);
             this.label3.TabIndex = 51;
             this.label3.Text = "Сервер";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btn_OK
             // 

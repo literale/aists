@@ -53,6 +53,28 @@ namespace АИСТ.Class
             connection.Close();
             return temp_dtable;
         }
+
+        public static DataTable Get_columns(string table)
+        {
+            connection.Open();
+            //SELECT COLUMN_NAME FROM all_tab_columns WHERE TABLE_NAME='Н_КВАЛИФИКАЦИИ';
+            string request = "SHOW COLUMNS FROM `"+table+"`;";
+            //string request = "SELECT * FROM " + table + ";";
+            MySqlCommand new_command = new MySqlCommand(request, connection);
+            MySqlDataReader data_reader = new_command.ExecuteReader();
+            DataTable temp_dtable = new DataTable();
+            temp_dtable.Load(data_reader);
+            //List<string> s1 = new List<string>();
+            //foreach (DataRow s in temp_dtable.Rows)
+            //{
+            //    object[] shop_string = s.ItemArray;
+            //    s1.Add(shop_string[0].ToString());
+            //}
+            connection.Close();
+            return temp_dtable;
+        }
+
+        
     }
 
 }

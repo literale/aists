@@ -59,5 +59,10 @@ namespace АИСТ.Forms
             ifrm.Update();
             BD_connect.ActiveForm.Close();
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

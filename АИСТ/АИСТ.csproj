@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="Class\SQL_Helper.cs" />
     <Compile Include="Class\Info.cs" />
+    <Compile Include="Class\Tabs.cs" />
+    <Compile Include="Class\Tab_Settings.cs" />
     <Compile Include="Forms\BD_connect.cs">
       <SubType>Form</SubType>
     </Compile>
