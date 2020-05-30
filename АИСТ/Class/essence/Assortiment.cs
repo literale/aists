@@ -9,28 +9,28 @@ namespace АИСТ.Class
 {
     class Assortiment
     {
-       private DateTime activ1;
-       private DateTime activ2; 
+       private int min_count;
+       private int max_count; 
        private DateTime deliver1;
        private DateTime deliver2;
-       private List<string> Shops;
+       private string[] Shops;
        private string name;
        private List<listProduct> product;
-       public Assortiment(DateTime activ1, DateTime activ2, DateTime deliver1, DateTime deliver2, List<string> Shops, string name, List<listProduct> product)
+       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name, List<listProduct> product)
         {
-            this.activ1 = activ1;
-            this.activ2 = activ2;
-            this.activ1 = deliver1;
-            this.activ2 = deliver2;
+            this.min_count = min_count;
+            this.max_count = max_count;
+            this.deliver1 = deliver1;
+            this.deliver2 = deliver2;
             this.Shops = Shops;
             this.name = name;
             this.product = product;
         }
         
-        public DateTime[] Get_active()
+        public int[] Get_count()
         {
-            DateTime[] dt = {activ1, activ2 };
-            return dt;
+            int[] count = { min_count, max_count };
+            return count;
         }
 
         public DateTime[] Get_deliver()
@@ -41,7 +41,7 @@ namespace АИСТ.Class
 
         public string[] Get_shops()
         {
-            string[] shops = Shops.ToArray();
+            string[] shops = Shops;
             return shops;
         }
 

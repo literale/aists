@@ -55,3 +55,4 @@ F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\System.Numerics.Ve
 F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.csproj.CopyComplete
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Forms.BD_connect.resources
+F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Forms.Promo_types_Setings.resources

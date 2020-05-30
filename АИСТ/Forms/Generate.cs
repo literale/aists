@@ -17,7 +17,6 @@ namespace АИСТ
         public Generate()
         {
             InitializeComponent();
-            button4.Enabled = false;
             button5.Enabled = false;
             listBox5.SetSelected(0, true);
             listBox6.SetSelected(3, true);
@@ -82,12 +81,9 @@ namespace АИСТ
             checkedListBox2.Items.Add(textBox5.Text);
             int i = checkedListBox2.Items.Count;
             checkedListBox2.SetItemChecked(i - 1, true);
-            listBox1.Items.Add(textBox5.Text);
-            listBox1.SetSelected(0, true);
-            listBox2.SetSelected(0, true);
             n++;
             textBox5.Text = "Клиенты " + n;
-            button4.Enabled = true;
+
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -100,10 +96,7 @@ namespace АИСТ
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            textBox5.Text = listBox1.SelectedItem.ToString();
-        }
+        
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -130,6 +123,7 @@ namespace АИСТ
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             Form f2 = new Generete_report();
             f2.Show(); // отображаем Form2
             this.Hide(); // скрываем Form1 (this - текущая форма)
