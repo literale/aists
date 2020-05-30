@@ -65,7 +65,6 @@
             this.listBox5 = new System.Windows.Forms.ListBox();
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.button5 = new System.Windows.Forms.Button();
-            this.listBox4 = new System.Windows.Forms.ListBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
@@ -83,6 +82,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.listBox7 = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -93,7 +93,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 410);
+            this.button1.Location = new System.Drawing.Point(3, 495);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(258, 23);
             this.button1.TabIndex = 16;
@@ -303,7 +303,9 @@
             this.groupBox1.Controls.Add(this.checkedListBox4);
             this.groupBox1.Controls.Add(this.checkedListBox2);
             this.groupBox1.Controls.Add(this.numericUpDown2);
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.numericUpDown1);
+            this.groupBox1.Controls.Add(this.listBox3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label2);
@@ -339,6 +341,11 @@
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(141, 20);
             this.numericUpDown2.TabIndex = 10;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
             // 
             // numericUpDown1
             // 
@@ -346,6 +353,11 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown1.TabIndex = 9;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
             // label1
             // 
@@ -399,18 +411,16 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button3);
             this.groupBox3.Controls.Add(this.checkedListBox5);
             this.groupBox3.Controls.Add(this.listBox6);
             this.groupBox3.Controls.Add(this.listBox5);
-            this.groupBox3.Controls.Add(this.listBox3);
-            this.groupBox3.Controls.Add(this.button5);
-            this.groupBox3.Controls.Add(this.listBox4);
             this.groupBox3.Controls.Add(this.label20);
             this.groupBox3.Controls.Add(this.textBox6);
-            this.groupBox3.Controls.Add(this.button6);
             this.groupBox3.Controls.Add(this.checkedListBox3);
             this.groupBox3.Controls.Add(this.textBox3);
             this.groupBox3.Controls.Add(this.textBox4);
+            this.groupBox3.Controls.Add(this.button6);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label14);
@@ -433,7 +443,7 @@
             this.checkedListBox5.Items.AddRange(new object[] {
             "Все",
             "(инф из бд)"});
-            this.checkedListBox5.Location = new System.Drawing.Point(108, 287);
+            this.checkedListBox5.Location = new System.Drawing.Point(108, 222);
             this.checkedListBox5.Name = "checkedListBox5";
             this.checkedListBox5.Size = new System.Drawing.Size(140, 94);
             this.checkedListBox5.TabIndex = 19;
@@ -446,7 +456,7 @@
             "Малый тип",
             "Бренд",
             "Товар"});
-            this.listBox6.Location = new System.Drawing.Point(6, 323);
+            this.listBox6.Location = new System.Drawing.Point(6, 260);
             this.listBox6.Name = "listBox6";
             this.listBox6.Size = new System.Drawing.Size(96, 56);
             this.listBox6.TabIndex = 38;
@@ -457,7 +467,7 @@
             this.listBox5.Items.AddRange(new object[] {
             "Разрешить",
             "Исключить"});
-            this.listBox5.Location = new System.Drawing.Point(6, 287);
+            this.listBox5.Location = new System.Drawing.Point(6, 222);
             this.listBox5.Name = "listBox5";
             this.listBox5.Size = new System.Drawing.Size(96, 30);
             this.listBox5.TabIndex = 37;
@@ -468,7 +478,7 @@
             this.listBox3.Items.AddRange(new object[] {
             "Редактировать",
             "Удалить"});
-            this.listBox3.Location = new System.Drawing.Point(6, 251);
+            this.listBox3.Location = new System.Drawing.Point(134, 153);
             this.listBox3.Name = "listBox3";
             this.listBox3.Size = new System.Drawing.Size(96, 30);
             this.listBox3.TabIndex = 36;
@@ -476,20 +486,13 @@
             // button5
             // 
             this.button5.Cursor = System.Windows.Forms.Cursors.SizeNESW;
-            this.button5.Location = new System.Drawing.Point(214, 252);
+            this.button5.Location = new System.Drawing.Point(134, 188);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(35, 29);
             this.button5.TabIndex = 35;
             this.button5.Text = "OK";
             this.button5.UseVisualStyleBackColor = true;
-            // 
-            // listBox4
-            // 
-            this.listBox4.FormattingEnabled = true;
-            this.listBox4.Location = new System.Drawing.Point(109, 251);
-            this.listBox4.Name = "listBox4";
-            this.listBox4.Size = new System.Drawing.Size(102, 30);
-            this.listBox4.TabIndex = 34;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label20
             // 
@@ -510,9 +513,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(3, 222);
+            this.button6.Location = new System.Drawing.Point(6, 362);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(246, 23);
+            this.button6.Size = new System.Drawing.Size(243, 23);
             this.button6.TabIndex = 31;
             this.button6.Text = "добавить в настройки";
             this.button6.UseVisualStyleBackColor = true;
@@ -598,7 +601,7 @@
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(78, 20);
             this.label16.TabIndex = 11;
-            this.label16.Text = "Активность";
+            this.label16.Text = "Поставки";
             // 
             // dateTimePicker6
             // 
@@ -619,9 +622,9 @@
             // label18
             // 
             this.label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label18.Location = new System.Drawing.Point(0, 81);
+            this.label18.Location = new System.Drawing.Point(6, 81);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(78, 19);
+            this.label18.Size = new System.Drawing.Size(72, 19);
             this.label18.TabIndex = 15;
             this.label18.Text = "На складе";
             // 
@@ -648,11 +651,20 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Тип акции";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 322);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(96, 33);
+            this.button3.TabIndex = 39;
+            this.button3.Text = "Подгрузить";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // Generate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 438);
+            this.ClientSize = new System.Drawing.Size(834, 530);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button1);
@@ -721,7 +733,6 @@
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ListBox listBox4;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button6;
@@ -731,5 +742,6 @@
         private System.Windows.Forms.ListBox listBox6;
         private System.Windows.Forms.ListBox listBox7;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button button3;
     }
 }

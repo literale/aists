@@ -110,8 +110,8 @@ namespace АИСТ
             checkedListBox4.Items.Add(textBox6.Text);
             int i = checkedListBox4.Items.Count;
             checkedListBox4.SetItemChecked(i - 1, true);
-            listBox4.Items.Add(textBox6.Text);
-            listBox4.SetSelected(0, true);
+            //listBox4.Items.Add(textBox6.Text);
+            //listBox4.SetSelected(0, true);
             listBox3.SetSelected(0, true);
             n2++;
             textBox6.Text = "Ассортимент " + n2;
@@ -133,6 +133,13 @@ namespace АИСТ
             Form f2 = new Generete_report();
             f2.Show(); // отображаем Form2
             this.Hide(); // скрываем Form1 (this - текущая форма)
+        }
+
+
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

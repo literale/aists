@@ -94,10 +94,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\SQL_Helper.cs" />
-    <Compile Include="Class\Info.cs" />
-    <Compile Include="Class\Tabs.cs" />
-    <Compile Include="Class\Tab_Settings.cs" />
+    <Compile Include="Class\essence\Assortiment.cs" />
+    <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
+    <Compile Include="Class\essence\Customers.cs" />
+    <Compile Include="Class\essence\listProduct.cs" />
+    <Compile Include="Class\Setttings\Generate_Setttings.cs" />
+    <Compile Include="Class\SQL\SQL_Helper.cs" />
+    <Compile Include="Class\essence\Info.cs" />
+    <Compile Include="Class\essence\Tabs.cs" />
+    <Compile Include="Class\Setttings\Tab_Settings.cs" />
     <Compile Include="Forms\BD_connect.cs">
       <SubType>Form</SubType>
     </Compile>
