@@ -10,9 +10,9 @@ namespace АИСТ.Class.algoritms
     class Client_Tab
     {
         private String id = "";
-        private Type_ABC abc = Type_ABC.N;
-        private Dictionary<string, Type_XYZ> prod = new Dictionary<string, Type_XYZ>();
-        private Type_XYZ xyz = Type_XYZ.N;
+        private Type_ABC_XYZ abc = Type_ABC_XYZ.N;
+        private Dictionary<string, Type_ABC_XYZ[]> prod = new Dictionary<string, Type_ABC_XYZ[]>();
+        private Type_ABC_XYZ xyz = Type_ABC_XYZ.N;
         public void Set_id (string id)
         {
             this.id = id;
@@ -23,29 +23,33 @@ namespace АИСТ.Class.algoritms
             return id;
         }
 
-        public void Set_ABC (Type_ABC a)
+        public void Set_ABC(Type_ABC_XYZ a)
         {
             this.abc = a;
         }
+        public Dictionary<string, Type_ABC_XYZ[]> Get_prod()
+        {
+            return prod;
+        }
 
-        public void Replase_prod (Dictionary<string, Type_XYZ> prod)
+        public void Replase_prod (Dictionary<string, Type_ABC_XYZ[]> prod)
         {
             this.prod = prod;
         }
 
-        public void Add_prod(string id_prod, Type_XYZ X)
+        public void Add_prod(string id_prod, Type_ABC_XYZ[] X)
         {
             prod.Add(id_prod, X);
         }
-        public Type_ABC Get_ABC()
+        public Type_ABC_XYZ Get_ABC()
         {
             return abc;
         }
-        public Type_XYZ Get_XYZ()
+        public Type_ABC_XYZ Get_XYZ()
         {
             return xyz;
         }
-        public void Set_XYZ(Type_XYZ xyz)
+        public void Set_XYZ(Type_ABC_XYZ xyz)
         {
             this.xyz = xyz;
         }

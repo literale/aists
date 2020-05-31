@@ -9,8 +9,18 @@ namespace АИСТ.Class.Setttings
 {
     class Client_type_disc
     {
-        public Type_ABC client_type_abc;
-        public Type_XYZ client_type_xyz;
-        public Dictionary<Type_XYZ, double[]> disc_prob;
+        public Type_ABC_XYZ client_type_abc;
+        public Type_ABC_XYZ client_type_xyz;
+        public Dictionary<Type_ABC_XYZ[], double[]> disc_prob;
+    }
+    class Product_type_disc
+    {
+        public Type_ABC_XYZ prod_abc;
+        public Type_ABC_XYZ prod_xyz;
+        public Dictionary<Type_ABC_XYZ[], int> client_prior;
+        //public Type_ABC_XYZ abc_client;
+        //public Type_ABC_XYZ xyz_client;
+        //public double prioryty;
+        public string name;
     }
 }

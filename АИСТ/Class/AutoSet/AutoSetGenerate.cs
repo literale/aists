@@ -14,8 +14,9 @@ namespace АИСТ.Class.AutoSet
     {
         public static Generate_Setttings AutoSettings()
         {
-            
-            Promo_types pt = Promo_types.Get_auto();
+
+            Promo_types pt = new Promo_types();
+            pt.Get_auto();
             List<listProduct> lp = new List<listProduct>();
             List<string> prod = new List<string>();
             DataTable dt = SQL_Helper.Try_To_Connect_Full("brands");

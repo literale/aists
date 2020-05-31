@@ -312,7 +312,7 @@
             "X",
             "Y",
             "Z"});
-            this.comboBox6.Location = new System.Drawing.Point(50, 56);
+            this.comboBox6.Location = new System.Drawing.Point(51, 56);
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(38, 21);
             this.comboBox6.TabIndex = 30;
@@ -334,7 +334,7 @@
             "X",
             "Y",
             "Z"});
-            this.comboBox7.Location = new System.Drawing.Point(6, 56);
+            this.comboBox7.Location = new System.Drawing.Point(7, 56);
             this.comboBox7.Name = "comboBox7";
             this.comboBox7.Size = new System.Drawing.Size(38, 21);
             this.comboBox7.TabIndex = 28;

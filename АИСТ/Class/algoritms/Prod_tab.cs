@@ -10,8 +10,8 @@ namespace АИСТ.Class.algoritms
     class Prod_tab
     {
         private String id = "";
-        private Type_ABC abc = Type_ABC.N;
-        private Type_XYZ xyz = Type_XYZ.N;
+        private Type_ABC_XYZ abc = Type_ABC_XYZ.N;
+        private Type_ABC_XYZ xyz = Type_ABC_XYZ.N;
         public void Set_id(string id)
         {
             this.id = id;
@@ -22,21 +22,21 @@ namespace АИСТ.Class.algoritms
             return id;
         }
 
-        public void Set_ABC(Type_ABC a)
+        public void Set_ABC(Type_ABC_XYZ a)
         {
             this.abc = a;
         }
 
-        public void Set_XYZ(Type_XYZ xyz)
+        public void Set_XYZ(Type_ABC_XYZ xyz)
         {
             this.xyz = xyz;
         }
 
-        public Type_ABC Get_ABC()
+        public Type_ABC_XYZ Get_ABC()
         {
             return abc;
         }
-        public Type_XYZ Get_XYZ()
+        public Type_ABC_XYZ Get_XYZ()
         {
             return xyz;
         }

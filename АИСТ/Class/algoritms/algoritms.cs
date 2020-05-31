@@ -264,21 +264,21 @@ namespace АИСТ.Class.algoritms
                 {
                     temp = new Client_Tab();
                     temp.Set_id(id);
-                    temp.Set_ABC(enums.Type_ABC.C);
+                    temp.Set_ABC(enums.Type_ABC_XYZ.C);
                     ct.Add(temp);
                 }
                 if (c < i && i <= b)
                 {
                     temp = new Client_Tab();
                     temp.Set_id(id);
-                    temp.Set_ABC(enums.Type_ABC.B);
+                    temp.Set_ABC(enums.Type_ABC_XYZ.B);
                     ct.Add(temp);
                 }
                 if (b < i)
                 {
                     temp = new Client_Tab();
                     temp.Set_id(id);
-                    temp.Set_ABC(enums.Type_ABC.A);
+                    temp.Set_ABC(enums.Type_ABC_XYZ.A);
                     ct.Add(temp);
                 }
                 i++;

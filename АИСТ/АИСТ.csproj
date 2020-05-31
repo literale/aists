@@ -104,7 +104,6 @@
     <Compile Include="Class\essence\listProduct.cs" />
     <Compile Include="Class\Setttings\Client_type_disc.cs" />
     <Compile Include="Class\Setttings\Generate_Setttings.cs" />
-    <Compile Include="Class\Setttings\Prod_type_dis.cs" />
     <Compile Include="Class\Setttings\Promo_types.cs" />
     <Compile Include="Class\SQL\SQL_Helper.cs" />
     <Compile Include="Class\essence\Info.cs" />
