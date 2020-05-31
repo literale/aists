@@ -14,8 +14,8 @@ namespace АИСТ.Class.Setttings
 
         private void Generate_matrix()
         {
-            Type_ABC_XYZ abc;
-            Type_ABC_XYZ xyz;
+            Type_ABC_XYZ abc  = new Type_ABC_XYZ();
+            Type_ABC_XYZ xyz =  new Type_ABC_XYZ();
             for (int i = 0; i<3; i++)
             {
                 if (i == 0)
@@ -30,8 +30,12 @@ namespace АИСТ.Class.Setttings
                     else if (j == 1)
                         xyz = Type_ABC_XYZ.Y;
                     else xyz = Type_ABC_XYZ.Z;
+
+                    clients[i, j] = new Client_type_disc();
                     clients[i, j].client_type_abc = abc;
                     clients[i, j].client_type_xyz = xyz;
+
+                    products[i, j] = new Product_type_disc();
                     products[i, j].prod_abc = abc;
                     products[i, j].prod_xyz = xyz;
                 }
