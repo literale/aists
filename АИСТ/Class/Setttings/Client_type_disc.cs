@@ -9,7 +9,8 @@ namespace АИСТ.Class.Setttings
 {
     class Client_type_disc
     {
-        public Type_ABC client_type;
+        public Type_ABC client_type_abc;
+        public Type_XYZ client_type_xyz;
         public Dictionary<Type_XYZ, double[]> disc_prob;
     }
 }
