@@ -19,8 +19,7 @@ namespace АИСТ
         {
             InitializeComponent();
             button5.Enabled = false;
-            listBox5.SetSelected(0, true);
-            listBox6.SetSelected(3, true);
+           
             checkedListBox5.SetItemChecked(0, true);
 
         }
@@ -134,6 +133,11 @@ namespace АИСТ
 
 
         private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
         {
 
         }

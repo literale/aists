@@ -15,8 +15,8 @@ namespace АИСТ.Class
        private DateTime deliver2;
        private string[] Shops;
        private string name;
-       private List<listProduct> product;
-       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name, List<listProduct> product)
+       private List<listProductOver> product;
+       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name, List<listProductOver> product)
         {
             this.min_count = min_count;
             this.max_count = max_count;
@@ -50,9 +50,9 @@ namespace АИСТ.Class
             return name;
         }
 
-        public listProduct[] Get_product()
+        public listProductOver[] Get_product()
         {
-            listProduct[] lp = product.ToArray();
+            listProductOver[] lp = product.ToArray();
             return lp;
         }
     }

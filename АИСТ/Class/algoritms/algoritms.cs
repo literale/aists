@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using АИСТ.Class.AutoSet;
 using АИСТ.Class.enums;
+using АИСТ.Class.essence;
 
 namespace АИСТ.Class.algoritms
 {
@@ -16,124 +18,13 @@ namespace АИСТ.Class.algoritms
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
             File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
-            List<Client_Tab> ct = Get_Clients_analyze(all_customres_sets);
-            //DateTime[] activ = lc[0].Get_active();
-            //int[] av_sum = lc[0].Get_averrage_sum();
-            //string[] shops = lc[0].Get_shops();////////////БЛИН ВВЕДИ ИХ В ОТБОР
-            //КЛИЕНТЫ
-            //List<Client_Tab> client_tabs = Get_Clients_by_sum_and_analyze_it(av_sum, activ, shops);
-            //int i = 88;
-
-            //List<Assortiment> la = gs.assortiments;
-            //DateTime[] duliver = la[0].Get_deliver();
-
-
+            List<Assortiment> all_assortiment_sets = gs.assortiments;
+            List<Client_Tab> client_tabs = Get_Clients_analyze(all_customres_sets);
+            List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets);
         }
-        //------------------------------------------------------------------------------//
-        //Отсеивает клиентов, анализирует абс,  и потом анализирует их покупки по xyz
-        //public List<Client_Tab> Get_Clients_by_sum_and_analyze_it_auto(int[] av_sum, DateTime[] active, string[] shops)
-        //{
-        //Dictionary<string, double> cust = new Dictionary<string, double>();
-        //string table_name = "checks";
-        //string request = "";
-        //string s1 = active[0].ToString("u");
-        //s1 = s1.Substring(0, 10);
-        //string s2 = active[1].ToString("u");
-        //s2 = s2.Substring(0, 10);
 
-        //// request = "SELECT * FROM checks WHERE check_date > \"" + s1 + "\" AND check_date < \"" + s2 + "\";";
-        //request = "SELECT * FROM checks WHERE check_date > \"" + s1 + "\" AND check_date < \"" + s2 + "\" AND (";
-        //foreach (string s in shops)
-        //{
-        //    request += "ID_shop_check = '"+ s+"' OR ";
-        //}
-        //request = request.Substring(0, request.Length - 3) + ");";
-        //DataTable temp_dt = SQL_Helper.Just_do_it(request);
-        //Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>();
-        //Dictionary<string, List<string>> client_checks = new Dictionary<string, List<string>>();
-        //foreach (DataRow s in temp_dt.Rows)
-        //{
-        //    object[] temp = s.ItemArray;
-        //    string id = temp[3].ToString();
-        //    double sum = Convert.ToDouble(temp[4]);
-        //    if (client_sum.ContainsKey(id))
-        //    {
-        //        double[] sm = client_sum[id];
-        //        sm[0] += sum;
-        //        sm[1] += 1;
-        //        client_checks[id].Add(temp[0].ToString());
-        //    }
-        //    else
-        //    {
-        //        client_sum.Add(id, new double[] { sum, 1 });
-        //        List<string> l = new List<string>();
-        //        l.Add(temp[0].ToString());
-        //        client_checks.Add(id, l);
-        //    }
-        //}//собираем чеки
-        //foreach (string key in client_sum.Keys)
-        //{
-        //    double av = client_sum[key][0] / client_sum[key][1];
-        //    if (av > av_sum[0] && av <= av_sum[1])
-        //    {
-        //        cust.Add(key, client_sum[key][0]);
 
-        //    }
-        //    else
-        //    {
-        //        client_checks.Remove(key);
-        //    }
-        //}//выбираем клиентов с нужными суммами
-        // List<Client_Tab> client_tabs = client_Analitic_ABC_auto(cust);
-        //foreach (Client_Tab ct in client_tabs)
-        //{
-        //    Dictionary<string, int> checks_contains = new Dictionary<string, int>();
-        //    List<string> checks = client_checks[ct.Get_id()];
-        //    foreach (string c_id in checks)
-        //    {
-        //        request = "SELECT * FROM history WHERE ID_check_history = '" + c_id + "';";
-        //        temp_dt = SQL_Helper.Just_do_it(request);
-        //        foreach (DataRow s in temp_dt.Rows)
-        //        {
-        //            string id_prod = s.ItemArray[1].ToString();
-
-        //            if (checks_contains.ContainsKey(id_prod))
-        //            {
-        //                checks_contains[id_prod]+=1;
-
-        //            }
-        //            else
-        //            {
-        //                checks_contains.Add(id_prod, 1);
-        //            }
-        //        }
-        //    }
-        //    checks_contains = checks_contains.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-        //    int count = checks_contains.Count();
-        //    double x = count * 0.75;
-        //    double y = count * 0.20;
-        //    double z = count * 0.05;
-        //    int i = 0;
-        //    foreach (string id in checks_contains.Keys)
-        //    {
-        //        if (0 <= i && i <= z)
-        //        {
-        //            ct.Add_prod(id, enums.Type_XYZ.Z);
-        //        }
-        //        if (z < i && i <= y)
-        //        {
-        //            ct.Add_prod(id, enums.Type_XYZ.Y);
-        //        }
-        //        if (y < i)
-        //        {
-        //            ct.Add_prod(id, enums.Type_XYZ.X);
-        //        }
-        //        i++;
-        //    }
-        //}//собираем и анализируем продукты
-        //return client_tabs;
-
-        //------------------------------------------------------------------------------//
+        //--------------------------------КЛИЕНТЫ----------------------------------------------//
         public List<Client_Tab> Get_Clients_analyze(List<Customers> all_customres_sets)
         {
             List<Client_Tab> client_tabs = new List<Client_Tab>();
@@ -142,14 +33,26 @@ namespace АИСТ.Class.algoritms
             {
                 string request = "";
                 //выборка по времени покупок
-                string active_start = customer_set.Get_active()[0].ToString("u");
-                active_start = active_start.Substring(0, 10);
-                string active_end = customer_set.Get_active()[1].ToString("u");
-                active_end = active_end.Substring(0, 10);
-
+                //string active_start = customer_set.Get_active()[0].ToString("u");
+                //active_start = active_start.Substring(0, 10);
+                //string active_end = customer_set.Get_active()[1].ToString("u");
+                //active_end = active_end.Substring(0, 10);
+                string[] active = new string[]
+                {
+                     customer_set.Get_active()[0].ToString("u").Substring(0, 10) , 
+                     customer_set.Get_active()[1].ToString("u").Substring(0, 10)
+                };
+                int[] av_sum = customer_set.Get_averrage_sum(); //границы средней суммы покупок для данного сета
+                Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>(); //ид клиента, сумма покупок киента + кол-во чеков
+                Dictionary<string, List<string>> client_checks = new Dictionary<string, List<string>>();//ид клиента, чеки клиента
+                Dictionary<string, double> cust = new Dictionary<string, double>(); // чистый словарь с клиентами и суммой покупок
+                Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod; //<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
+                Dictionary<string, double> clients_volumes;// объемы закупок клиента
+                // Dictionary<string, Dictionary<string, double[]>> client_prod;
+                //List<Client_Tab> client_tabs_XYZ;//сборный анализ клиентов и их покупок
 
                 //Реквест с временем и магазинами
-                request = "SELECT * FROM checks WHERE check_date > \"" + active_start + "\" AND check_date < \"" + active_end + "\" AND (";
+                request = "SELECT * FROM checks WHERE check_date > \"" + active[0] + "\" AND check_date < \"" + active[1] + "\" AND (";
                 foreach (string shop in customer_set.Get_shops())
                 {
                     request += "ID_shop_check = '" + shop + "' OR ";
@@ -157,12 +60,6 @@ namespace АИСТ.Class.algoritms
                 request = request.Substring(0, request.Length - 3) + ");";
                 //получаем выборку активных клиентов по нудным магазинам
                 DataTable temp_dt = SQL_Helper.Just_do_it(request);
-
-
-                //подготавливает словари для посчета средней суммы и ведения всех чеков клиента за нужное время
-                Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>(); //ид клиента, сумма покупок киента + кол-во чеков
-                Dictionary<string, List<string>> client_checks = new Dictionary<string, List<string>>();//ид клиента, чеки клиента
-
 
                 //собираем все чеки всех выбраных клиентов и суммируем их стоимость
                 foreach (DataRow s in temp_dt.Rows) //для каждой строки из таблицы чеков //собираем чеки и суммы
@@ -186,9 +83,6 @@ namespace АИСТ.Class.algoritms
                         client_checks.Add(id, l);
                     }
                 }//собираем чеки и суммы
-
-                int[] av_sum = customer_set.Get_averrage_sum(); //границы средней суммы покупок для данного сета
-                Dictionary<string, double> cust = new Dictionary<string, double>(); // чистый словарь с клиентами и суммой покупок
                 foreach (string key in client_sum.Keys)//выбираем клиентов с нужными суммами
                 {
                     double av = client_sum[key][0] / client_sum[key][1]; //считаем ср сумму покупок клиента
@@ -202,20 +96,19 @@ namespace АИСТ.Class.algoritms
                     }
                 }//выбираем клиентов с нужными суммами
 
-                //собираем словарь объемов закупок клиентом
-               // Dictionary<string, Dictionary<string, double[]>> client_prod = get_checks_1(client_checks);
-                Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod = get_checks_2(client_checks);
-               
-                Dictionary<string, double> clients_volumes = Get_dictionary_volume(client_prod);
-               List<Client_Tab> client_tabs_XYZ = client_Analitic_ABC_XYZ(cust, clients_volumes); //фнализ клиентов
+                //client_prod = get_checks_1(client_checks);//<Ид клиента, <ид товара - [кол-во товара - цена товара]>>
+                client_prod = get_checks_2(client_checks); //<Ид клиента, <ид товара - <кол-во товара - цена товара>>> меньше памяти есть в прпоцессе
+                clients_volumes = Get_dictionary_volume(client_prod);// объемы закупок клиента
+                client_tabs = client_Analitic_ABC_XYZ(cust, clients_volumes); //фнализ клиентов
+                client_tabs = prod_analitic_abc_xyz(client_tabs, client_prod);
                 int hu = 3;
+                //определяем типы закупок для клиента
 
 
             }//для каждого сета клиента из заданых
 
             return client_tabs;
         }
-
         public Dictionary<string, double> Get_dictionary_volume(Dictionary<string, Dictionary<string, double[]>> client_prod)
         {
             Dictionary<string, double> clients_volumes = new Dictionary<string, double>();
@@ -249,14 +142,14 @@ namespace АИСТ.Class.algoritms
 
             }
             return clients_volumes;
-        }//создания словаря оюъемов закупок
+        }//создания словаря оюъемам и суммам закупок
         public List<Client_Tab> client_Analitic_ABC_XYZ(Dictionary<string, double> cl_sum, Dictionary<string, double> clients_volumes)//анализ по объемам закупок И суммам
         {
             List<Client_Tab> ct = new List<Client_Tab>();
             cl_sum = cl_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
             clients_volumes = clients_volumes.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            Dictionary<string, Type_ABC_XYZ> abc = client_Types(cl_sum, "a");
-            Dictionary<string, Type_ABC_XYZ> xyz = client_Types(clients_volumes, "z");
+            Dictionary<string, Type_ABC_XYZ> abc = obj_Types(cl_sum, "a");
+            Dictionary<string, Type_ABC_XYZ> xyz = obj_Types(clients_volumes, "z");
             foreach (string id in abc.Keys)
             {
                 Client_Tab temp = new Client_Tab();
@@ -268,8 +161,7 @@ namespace АИСТ.Class.algoritms
 
             return ct;
         }
-
-        public Dictionary<string, Type_ABC_XYZ> client_Types(Dictionary<string, double> param, string az)
+        public Dictionary<string, Type_ABC_XYZ> obj_Types(Dictionary<string, double> param, string az)
         {
             Dictionary<string, Type_ABC_XYZ> clients_types = new Dictionary<string, Type_ABC_XYZ>();
             int count = param.Count;
@@ -367,7 +259,7 @@ namespace АИСТ.Class.algoritms
                         double cost = Convert.ToDouble(s.ItemArray[3]);
                         if (prods.ContainsKey(id_prod))
                         {
-                            prods[id_prod] = new Tuple<double, double>(prods[id_prod].Item1 + amount, prods[id_prod].Item1 + cost);
+                            prods[id_prod] = new Tuple<double, double>(prods[id_prod].Item1 + amount, prods[id_prod].Item2 + cost);
                         }
                         else
                         {
@@ -379,6 +271,91 @@ namespace АИСТ.Class.algoritms
             }
             return client_prod;
         }
+        public List<Client_Tab> prod_analitic_abc_xyz(List<Client_Tab> client_tabs, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod)
+        {
+            foreach (Client_Tab ct in client_tabs)
+            {
+                string client_id = ct.Get_id();
+                Dictionary<string, Type_ABC_XYZ[]> prod = new Dictionary<string, Type_ABC_XYZ[]>();
+                //XYZ – доля типа товара в закупках клиента
+                //ABC – суммы закупок товара
+                Dictionary<string, double> volume = new Dictionary<string, double>();
+                Dictionary<string, double> sum = new Dictionary<string, double>();
+                Dictionary<string, Tuple<double, double>> prods = client_prod[client_id];
+                //собираем словари продуктов дл клиента, потом по любому из них добавляем (соединяем) словари в слиент_таб
+                foreach (string id_prod in prods.Keys)
+                {
+                    Tuple<double, double> one_prod = prods[id_prod]; //кол-во товара - цена товара (суммарная)
+                    volume.Add(id_prod, one_prod.Item1);
+                    sum.Add(id_prod, one_prod.Item2);
+                }
+                Dictionary<string, Type_ABC_XYZ> abc = obj_Types(sum, "a");
+                Dictionary<string, Type_ABC_XYZ> xyz = obj_Types(volume, "z");
+                foreach (string id in abc.Keys)
+                {
+                    prod.Add(id, new Type_ABC_XYZ[] { abc[id], xyz[id] });
+                }
+                ct.Set_prod(prod);
+            }
 
+            return client_tabs;
+        }
+        //--------------------------------ПРОДУКТЫ---------------------------------------------//
+    
+        public List<Prod_tab> Get_Prod_analyze(List<Assortiment> all_assortiment_sets)
+        {
+            List<Prod_tab> prod_Tabs = new List<Prod_tab>(); //таблица отдельных товаров и группировок
+            string request = "";
+            foreach (Assortiment assortiment in all_assortiment_sets)
+            {
+                List<Prod_tab> prod_Tabs_set = new List<Prod_tab>(); //заполняется в конце
+                Dictionary<string, Group> temp_diction_prod = new Dictionary<string, Group>(); //хранит рабочие значения, что б удобно удалять
+                int[] count = assortiment.Get_count();
+                string[] deliver = new string[]
+                {
+                     assortiment.Get_deliver()[0].ToString("u").Substring(0, 10) ,
+                     assortiment.Get_deliver()[1].ToString("u").Substring(0, 10)
+                };
+                string[] shops = assortiment.Get_shops();
+                listProductOver[] listsProd = assortiment.Get_product();
+                ///сначала получаем скписок продуктов по ассортименту, потом удаляем/добавляем все овергруппы
+                request = "SELECT ID_product_store FROM product_on_store WHERE " +
+                    "( last_shipment > \"" + deliver[0] + "\" AND last_shipment < \"" + deliver[1] + "\") " +
+                    "AND ( product_amount > \"" + count[0] + "\" AND product_amount < \"" + count[1] + "\") AND (";
+                foreach (string shop in shops)
+                {
+                    request += "ID_shop_store = '" + shop + "' OR ";
+                }
+                request = request.Substring(0, request.Length - 3) + ");";     
+                DataTable temp_dt = SQL_Helper.Just_do_it(request);
+                //Мы получили выборку всех подходящих апродуктов. Добавим их в табы
+                //теперь удаляем/добавляем обязательные категории
+                foreach (DataRow row in temp_dt.Rows)
+                {
+                    object[] temp = row.ItemArray;
+                    temp_diction_prod.Add(temp[0].ToString(), Group.Product);
+                }
+                foreach (listProductOver listProd in listsProd)
+                {
+
+
+                }
+                int ghj = 678;
+            }
+          
+
+            return prod_Tabs;
+        }
+
+        public string Bild_request_prod(Group type)
+        {
+            string request = "";
+            string table = "";
+            //Dictionary<string, string>
+
+
+
+            return request;
+        }
     }
 }

@@ -18,9 +18,6 @@ namespace АИСТ.Class.Setttings
         public Type_ABC_XYZ prod_abc;
         public Type_ABC_XYZ prod_xyz;
         public Dictionary<Type_ABC_XYZ[], int> client_prior;
-        //public Type_ABC_XYZ abc_client;
-        //public Type_ABC_XYZ xyz_client;
-        //public double prioryty;
         public string name;
     }
 }

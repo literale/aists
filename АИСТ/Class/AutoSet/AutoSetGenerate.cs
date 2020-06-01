@@ -17,7 +17,7 @@ namespace АИСТ.Class.AutoSet
 
             Promo_types pt = new Promo_types();
             pt.Get_auto();
-            List<listProduct> lp = new List<listProduct>();
+            List<listProductOver> lp = new List<listProductOver>();
             List<string> prod = new List<string>();
             DataTable dt = SQL_Helper.Try_To_Connect_Full("brands");
             //List<string> s1 = new List<string>();
@@ -33,7 +33,7 @@ namespace АИСТ.Class.AutoSet
             //    object[] shop_string = s.ItemArray;
             //    s1.Add(shop_string[0].ToString());
             //}
-            lp.Add(new listProduct(true, enums.Group.Brand, prod));
+            lp.Add(new listProductOver(true, enums.Group.Brand, prod));
             Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 20000, new string[] { "1", "2" }, "c1");
             Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2"}, "a1", lp);
             List<Assortiment> la = new List<Assortiment>();

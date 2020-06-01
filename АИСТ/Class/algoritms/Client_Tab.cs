@@ -32,14 +32,14 @@ namespace АИСТ.Class.algoritms
             return prod;
         }
 
-        public void Replase_prod (Dictionary<string, Type_ABC_XYZ[]> prod)
+        public void Set_prod (Dictionary<string, Type_ABC_XYZ[]> prod)
         {
             this.prod = prod;
         }
 
-        public void Add_prod(string id_prod, Type_ABC_XYZ[] X)
+        public void Add_prod(string id_prod, Type_ABC_XYZ[] AX)
         {
-            prod.Add(id_prod, X);
+            prod.Add(id_prod, AX);
         }
         public Type_ABC_XYZ Get_ABC()
         {
