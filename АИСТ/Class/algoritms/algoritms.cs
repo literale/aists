@@ -175,8 +175,8 @@ namespace АИСТ.Class.algoritms
         public List<Client_Tab> client_Analitic_ABC_XYZ(Dictionary<string, double> cl_sum, Dictionary<string, double> clients_volumes)//анализ по объемам закупок И суммам
         {
             List<Client_Tab> ct = new List<Client_Tab>();
-            cl_sum = cl_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            clients_volumes = clients_volumes.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
+            cl_sum = cl_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
+            clients_volumes = clients_volumes.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
             Dictionary<string, Type_ABC_XYZ> abc = obj_Types(cl_sum, "a");
             Dictionary<string, Type_ABC_XYZ> xyz = obj_Types(clients_volumes, "z");
             foreach (string id in abc.Keys)
@@ -426,74 +426,171 @@ namespace АИСТ.Class.algoritms
             Dictionary<string, double> bt_volume = new Dictionary<string, double>();
             rtb.Text += "Начат анализ списка \n ";
             rtb.Refresh();
-            Dictionary<string, double[]> all_sells2 = new Dictionary<string, double[]>();
-            Hashtable all_sells = new Hashtable(new Dictionary<string, double[]>());
+            Dictionary<string, double[]> all_sells = new Dictionary<string, double[]>(); //все проданые товары - колвоб прибыль
+          //  Hashtable all_sells = new Hashtable(new Dictionary<string, double[]>());
             string request = "SELECT ID_check FROM checks WHERE check_date > \"" + analiz_border.ToString("u").Substring(0, 10) + "\";";
             DataTable checks_full = SQL_Helper.Just_do_it(request);
             rtb.Text += "БЛЯЯЯЯЯЯ \n ";
             rtb.Refresh();
             System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
             myStopwatch.Start();
+
             foreach (DataRow check in checks_full.Rows)
             {
-                request = "SELECT produc_ID_history, product_amount, product_price FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString()+ "';";
+                request = "SELECT * FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString() + "';";
                 DataTable prods = SQL_Helper.Just_do_it(request);
                 foreach (DataRow p in prods.Rows)
                 {
-                    string id = p.ItemArray[0].ToString();
-                    double amount = Convert.ToDouble(p.ItemArray[1].ToString());
-                    double sum = Convert.ToDouble(p.ItemArray[1].ToString()) * Convert.ToDouble(p.ItemArray[2].ToString());
+                    string id = p.ItemArray[1].ToString();
+                    double amount = Convert.ToDouble(p.ItemArray[2].ToString());
+                    double sum = Convert.ToDouble(p.ItemArray[2].ToString()) * Convert.ToDouble(p.ItemArray[3].ToString());
 
-                    //double[] t = (double[])all_sells[id];
-                    //if (t == null) all_sells[id] = new double[] { amount, amount * sum };
-                    //else all_sells[id] =  new double[] { t[0] + amount, t[1] + amount * sum };
-                    if (all_sells[id] == null) all_sells[id] = new double[] { amount, amount * sum };
-                    else all_sells[id] =  new double[] { ((double[])all_sells[id])[0] + amount, ((double[])all_sells[id])[1] + amount * sum };
-                    //}
-                    //else
-                    //{
-                    //all_sells.Add(id, new double[] { amount, sum });
-                    //}
-                }
-            }
-            myStopwatch.Stop();
-            myStopwatch.Reset();
-            myStopwatch.Start();
-            foreach (DataRow check in checks_full.Rows)
-            {
-                request = "SELECT produc_ID_history, product_amount, product_price FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString() + "';";
-                DataTable prods = SQL_Helper.Just_do_it(request);
-                foreach (DataRow p in prods.Rows)
-                {
-                    string id = p.ItemArray[0].ToString();
-                    double amount = Convert.ToDouble(p.ItemArray[1].ToString());
-                    double sum = Convert.ToDouble(p.ItemArray[1].ToString()) * Convert.ToDouble(p.ItemArray[2].ToString());
-
-                    if (all_sells2.ContainsKey(p.ItemArray[0].ToString()))
+                    if (all_sells.ContainsKey(id))
                     {
-                        double[] t = all_sells2[id];
-                        all_sells2[id] = new double[] { t[0] + amount, t[1] + amount * sum };
+                        double[] t = all_sells[id];
+                        all_sells[id] = new double[] { t[0] + amount, t[1] + amount * sum };
                     }
                     else
                     {
-                        all_sells2.Add(id, new double[] { amount, sum });
+                        all_sells.Add(id, new double[] { amount, sum });
+                    }
+                }
+            }
+            all_sells = all_sells.OrderBy(pair => Convert.ToInt32(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            rtb.Text += "БЛЯЯЯЯЯЯ \n ";
+            rtb.Refresh();
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+            Dictionary<Tuple<string, Group>, double> cleared_prods = new Dictionary<Tuple<string, Group>, double>(all_prods);
+            rtb.Text += "Собираем словарь товаров \n ";
+            rtb.Refresh();
+            myStopwatch.Start();
+            foreach (Tuple<string, Group> prod in all_prods.Keys)
+            {
+                if (prod.Item2 == Group.Product)
+                {
+                    cleared_prods.Remove(prod);
+                    if (all_sells.ContainsKey(prod.Item1))
+                    {
+                        prod_sum.Add(prod.Item1, all_sells[prod.Item1][0]);
+                        prod_volume.Add(prod.Item1, all_sells[prod.Item1][1]);
                     }
                 }
             }
             myStopwatch.Stop();
             myStopwatch.Reset();
+
+            rtb.Text += "Собираем словарь брэндов \n ";
+            rtb.Refresh();
+            all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
+            myStopwatch.Start();
+            foreach (Tuple<string, Group> brand in all_prods.Keys)
+            {
+                if (brand.Item2 == Group.Brand)
+                {
+                    cleared_prods.Remove(brand);
+                    request = "SELECT ID_product FROM products WHERE brand_ID = '" + brand + "';";
+                    DataTable prods = SQL_Helper.Just_do_it(request);
+                    brand_sum.Add(brand.Item1, 0);
+                    brand_volume.Add(brand.Item1, 0);
+                    foreach (DataRow prod in prods.Rows)
+                    {
+                        string id = prod.ItemArray[0].ToString();
+                        if (all_sells.ContainsKey(id))
+                        {
+                            brand_sum[brand.Item1] += all_sells[id][0];
+                            brand_volume[brand.Item1] += all_sells[id][1];
+                        }
+                    }
+                }
+            }
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+            rtb.Text += "Собираем словарь малых типов \n ";
+            rtb.Refresh();
+            all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
+            myStopwatch.Start();
+            foreach (Tuple<string, Group> lt in all_prods.Keys)
+            {
+                if (lt.Item2 == Group.Little_type)
+                {
+                    cleared_prods.Remove(lt);
+                    request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + lt.Item1 + "';";
+                    DataTable name = SQL_Helper.Just_do_it(request);
+                    string lt_name = name.Rows[0].ItemArray[0].ToString();
+                    request = "SELECT ID_product FROM products WHERE type_little_name = '" + lt_name + "';";
+                    DataTable prods = SQL_Helper.Just_do_it(request);
+                    lt_sum.Add(lt.Item1, 0);
+                    lt_volume.Add(lt.Item1, 0);
+                    foreach (DataRow prod in prods.Rows)
+                    {
+                        string id = prod.ItemArray[0].ToString();
+                        if (all_sells.ContainsKey(id))
+                        {
+                            lt_sum[lt.Item1] += all_sells[id][0];
+                            lt_volume[lt.Item1] += all_sells[id][1];
+                        }
+                    }
+                }
+            }
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+            rtb.Text += "Собираем словарь больших типов \n ";
+            rtb.Refresh();
+            all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
+            myStopwatch.Start();
+            foreach (Tuple<string, Group> bt in all_prods.Keys)
+            {
+                if (bt.Item2 == Group.Big_type)
+                {
+                    cleared_prods.Remove(bt);
+                    request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + bt.Item1 + "';";
+                    DataTable names = SQL_Helper.Just_do_it(request);
+                    bt_sum.Add(bt.Item1, 0);
+                    bt_volume.Add(bt.Item1, 0);
+                    foreach (DataRow r_name in names.Rows)
+                    {
+                        string lt_name = r_name.ItemArray[0].ToString();
+                        request = "SELECT ID_product FROM products WHERE type_little_name = '" + lt_name + "';";
+                        DataTable prods = SQL_Helper.Just_do_it(request);    
+                        foreach (DataRow prod in prods.Rows)
+                        {
+                            string id = prod.ItemArray[0].ToString();
+                            if (all_sells.ContainsKey(id))
+                            {
+                                bt_sum[bt.Item1] += all_sells[id][0];
+                                bt_volume[bt.Item1] += all_sells[id][1];
+                            }
+                        }
+                    }
+ 
+                }
+            }
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+
             rtb.Text += "Начат сортировка исключений \n ";
             rtb.Refresh();
-            prod_sum = prod_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            prod_volume = prod_volume.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            brand_sum = brand_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            brand_volume = brand_volume.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            lt_sum = lt_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            lt_volume = lt_volume.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            bt_sum = bt_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            bt_volume = bt_volume.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            rtb.Text += "Начат анализ исключений \n ";
+            myStopwatch.Start();
+            prod_sum = prod_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
+            prod_volume = prod_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
+            brand_sum = brand_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
+            brand_volume = brand_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
+            lt_sum = lt_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
+            lt_volume = lt_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
+            bt_sum = bt_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
+            bt_volume = bt_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+            rtb.Text += "Начат анализ товаров \n ";
             rtb.Refresh();
+            
+            myStopwatch.Start();
+            //////////// ТУТ МЫ ЗАКОНЧИЛИ
             Dictionary<string, Type_ABC_XYZ> abc = obj_Types(prod_sum, "a");
             Dictionary<string, Type_ABC_XYZ> xyz = obj_Types(prod_volume, "z");
             foreach (string id in abc.Keys)
@@ -542,6 +639,9 @@ namespace АИСТ.Class.algoritms
                 prod_Tabs.Add(temp);
             }
 
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+            ///кто б добавил это все в таблицы
             return prod_Tabs;
         }
         //--------------------------------ОБЩЕЕ---------------------------------------------//
