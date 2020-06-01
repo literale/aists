@@ -83,6 +83,9 @@
             this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
             this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -267,6 +270,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dateTimePicker7);
+            this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.checkedListBox4);
             this.groupBox1.Controls.Add(this.checkedListBox2);
             this.groupBox1.Controls.Add(this.numericUpDown2);
@@ -281,7 +286,7 @@
             this.groupBox1.Controls.Add(this.dateTimePicker2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 392);
+            this.groupBox1.Size = new System.Drawing.Size(259, 420);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Основная информация";
@@ -304,7 +309,7 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(109, 116);
+            this.numericUpDown2.Location = new System.Drawing.Point(113, 117);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(141, 20);
             this.numericUpDown2.TabIndex = 10;
@@ -327,7 +332,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(109, 87);
+            this.numericUpDown1.Location = new System.Drawing.Point(114, 86);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown1.TabIndex = 9;
@@ -386,21 +391,20 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(112, 27);
+            this.dateTimePicker1.Location = new System.Drawing.Point(113, 27);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(141, 20);
             this.dateTimePicker1.TabIndex = 5;
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(112, 61);
+            this.dateTimePicker2.Location = new System.Drawing.Point(114, 57);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(141, 20);
             this.dateTimePicker2.TabIndex = 6;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.label20);
             this.groupBox3.Controls.Add(this.textBox6);
             this.groupBox3.Controls.Add(this.checkedListBox3);
@@ -418,7 +422,7 @@
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Location = new System.Drawing.Point(277, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(258, 392);
+            this.groupBox3.Size = new System.Drawing.Size(258, 252);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ассортимент отдельных товаров";
@@ -438,9 +442,9 @@
             this.checkedListBox5.Items.AddRange(new object[] {
             "Все",
             "(инф из бд)"});
-            this.checkedListBox5.Location = new System.Drawing.Point(105, 16);
+            this.checkedListBox5.Location = new System.Drawing.Point(102, 16);
             this.checkedListBox5.Name = "checkedListBox5";
-            this.checkedListBox5.Size = new System.Drawing.Size(131, 109);
+            this.checkedListBox5.Size = new System.Drawing.Size(146, 109);
             this.checkedListBox5.TabIndex = 19;
             // 
             // label20
@@ -492,7 +496,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(6, 362);
+            this.button6.Location = new System.Drawing.Point(5, 222);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(243, 23);
             this.button6.TabIndex = 31;
@@ -614,14 +618,15 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.button7);
             this.groupBox5.Controls.Add(this.button3);
             this.groupBox5.Controls.Add(this.domainUpDown3);
             this.groupBox5.Controls.Add(this.domainUpDown2);
             this.groupBox5.Controls.Add(this.domainUpDown1);
             this.groupBox5.Controls.Add(this.checkedListBox5);
-            this.groupBox5.Location = new System.Drawing.Point(6, 222);
+            this.groupBox5.Location = new System.Drawing.Point(277, 270);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(242, 135);
+            this.groupBox5.Size = new System.Drawing.Size(258, 162);
             this.groupBox5.TabIndex = 34;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Обязательно добавить/исключить";
@@ -657,11 +662,37 @@
             this.domainUpDown3.TabIndex = 22;
             this.domainUpDown3.Text = "Исключить";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(5, 131);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(247, 23);
+            this.button7.TabIndex = 34;
+            this.button7.Text = "добавить в настройки";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // label21
+            // 
+            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label21.Location = new System.Drawing.Point(6, 355);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(79, 19);
+            this.label21.TabIndex = 37;
+            this.label21.Text = "анализ с";
+            // 
+            // dateTimePicker7
+            // 
+            this.dateTimePicker7.Location = new System.Drawing.Point(113, 357);
+            this.dateTimePicker7.Name = "dateTimePicker7";
+            this.dateTimePicker7.Size = new System.Drawing.Size(141, 20);
+            this.dateTimePicker7.TabIndex = 38;
+            // 
             // Generate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 530);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button1);
@@ -741,5 +772,8 @@
         private System.Windows.Forms.DomainUpDown domainUpDown3;
         private System.Windows.Forms.DomainUpDown domainUpDown2;
         private System.Windows.Forms.DomainUpDown domainUpDown1;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.DateTimePicker dateTimePicker7;
+        private System.Windows.Forms.Label label21;
     }
 }

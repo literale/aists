@@ -101,7 +101,7 @@
     <Compile Include="Class\essence\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
     <Compile Include="Class\essence\Customers.cs" />
-    <Compile Include="Class\essence\listProduct.cs" />
+    <Compile Include="Class\essence\listProductOverRules.cs" />
     <Compile Include="Class\Setttings\Client_type_disc.cs" />
     <Compile Include="Class\Setttings\Generate_Setttings.cs" />
     <Compile Include="Class\Setttings\Promo_types.cs" />
@@ -138,6 +138,12 @@
     </Compile>
     <Compile Include="Forms\menu.Designer.cs">
       <DependentUpon>menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Process.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Process.Designer.cs">
+      <DependentUpon>Process.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Promo_types_Setings.cs">
       <SubType>Form</SubType>
@@ -179,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\menu.resx">
       <DependentUpon>menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Process.resx">
+      <DependentUpon>Process.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Promo_types_Setings.resx">
       <DependentUpon>Promo_types_Setings.cs</DependentUpon>

@@ -15,8 +15,8 @@ namespace АИСТ.Class
        private DateTime deliver2;
        private string[] Shops;
        private string name;
-       private List<listProductOver> product;
-       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name, List<listProductOver> product)
+       //private listProductOverRules rules;
+       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name)
         {
             this.min_count = min_count;
             this.max_count = max_count;
@@ -24,7 +24,6 @@ namespace АИСТ.Class
             this.deliver2 = deliver2;
             this.Shops = Shops;
             this.name = name;
-            this.product = product;
         }
         
         public int[] Get_count()
@@ -50,10 +49,10 @@ namespace АИСТ.Class
             return name;
         }
 
-        public listProductOver[] Get_product()
-        {
-            listProductOver[] lp = product.ToArray();
-            return lp;
-        }
+        //public listProductOverRules[] Get_product()
+        //{
+        //    listProductOverRules[] lp = product.ToArray();
+        //    return lp;
+        //}
     }
 }

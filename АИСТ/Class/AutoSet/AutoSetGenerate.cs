@@ -4,7 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+
 using System.Threading.Tasks;
+using АИСТ.Class.enums;
 using АИСТ.Class.essence;
 using АИСТ.Class.Setttings;
 
@@ -17,34 +19,55 @@ namespace АИСТ.Class.AutoSet
 
             Promo_types pt = new Promo_types();
             pt.Get_auto();
-            List<listProductOver> lp = new List<listProductOver>();
-            List<string> prod = new List<string>();
-            DataTable dt = SQL_Helper.Try_To_Connect_Full("brands");
-            //List<string> s1 = new List<string>();
-            Random r = new Random();
-            int count = dt.Rows.Count;
-            for(int i = 0; i < 500; i++)
-            {
-                int j = r.Next(0, count);
-                prod.Add(dt.Rows[j].ItemArray[0].ToString());
-            }
-            //foreach (DataRow s in dt.Rows)
-            //{
-            //    object[] shop_string = s.ItemArray;
-            //    s1.Add(shop_string[0].ToString());
-            //}
-            lp.Add(new listProductOver(true, enums.Group.Brand, prod));
+            listProductOverRules over_rules = new listProductOverRules();
+            over_rules = AddRandomRules(Group.Brand, over_rules, 50);
+            over_rules = AddRandomRules(Group.Big_type, over_rules, 3);
+            over_rules = AddRandomRules(Group.Little_type, over_rules, 10);
+            over_rules = AddRandomRules(Group.Product, over_rules, 1000);
+
             Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 20000, new string[] { "1", "2" }, "c1");
-            Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2"}, "a1", lp);
+            Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2"}, "a1");
             List<Assortiment> la = new List<Assortiment>();
             la.Add(a);
             List<Customers> lc = new List<Customers>();
             lc.Add(c);
-            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt);
+            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-365));
 
             return gs;
         }
 
+        private static listProductOverRules AddRandomRules(Group group, listProductOverRules over_rules, int count)
+        {
+            List<string> pieses = new List<string>();
+            DataTable dt = new DataTable();
+            if (group == Group.Brand) dt = SQL_Helper.Try_To_Connect_Full("brands");
+            if (group == Group.Little_type) dt = SQL_Helper.Try_To_Connect_Full("product_type_little");
+            if (group == Group.Big_type) dt = SQL_Helper.Try_To_Connect_Full("product_type_big");
+            if (group == Group.Product) dt = SQL_Helper.Try_To_Connect_Full("products");
+            Random r = new Random();
+            int size = dt.Rows.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                int j = r.Next(0, count);
+                pieses.Add(dt.Rows[j].ItemArray[0].ToString());
+            }
+            foreach (string p in pieses)
+            {
+                over_rules.Add_rule(new Tuple<string, Group>(p, group), true);
+            }
+            for (int i = 0; i < count; i++)
+            {
+                int j = r.Next(0, count);
+                pieses.Add(dt.Rows[j].ItemArray[0].ToString());
+            }
+            foreach (string p in pieses)
+            {
+                over_rules.Add_rule(new Tuple<string, Group>(p, group), false);
+            }
+
+            return over_rules;
+        }
 
     }
 }
