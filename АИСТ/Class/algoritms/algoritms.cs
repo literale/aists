@@ -1,5 +1,6 @@
 ﻿using Renci.SshNet.Security;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Drawing2D;
@@ -377,7 +378,7 @@ namespace АИСТ.Class.algoritms
                     {
                         string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + kvp.Key.Item1 + "';";
                         DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
-                        foreach(DataRow row in temp_dt2.Rows)
+                        foreach (DataRow row in temp_dt2.Rows)
                         {
                             request = "SELECT ID_product FROM products WHERE type_little_name = '" + row.ItemArray[0] + "';";
                             DataTable temp_dt = SQL_Helper.Just_do_it(request);
@@ -425,144 +426,62 @@ namespace АИСТ.Class.algoritms
             Dictionary<string, double> bt_volume = new Dictionary<string, double>();
             rtb.Text += "Начат анализ списка \n ";
             rtb.Refresh();
-            int i = 0;
-            foreach (Tuple<string, Group> key in all_prods.Keys)
-            { i++;
-                if (key.Item2 == Group.Product)
+            Dictionary<string, double[]> all_sells2 = new Dictionary<string, double[]>();
+            Hashtable all_sells = new Hashtable(new Dictionary<string, double[]>());
+            string request = "SELECT ID_check FROM checks WHERE check_date > \"" + analiz_border.ToString("u").Substring(0, 10) + "\";";
+            DataTable checks_full = SQL_Helper.Just_do_it(request);
+            rtb.Text += "БЛЯЯЯЯЯЯ \n ";
+            rtb.Refresh();
+            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
+            myStopwatch.Start();
+            foreach (DataRow check in checks_full.Rows)
+            {
+                request = "SELECT produc_ID_history, product_amount, product_price FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString()+ "';";
+                DataTable prods = SQL_Helper.Just_do_it(request);
+                foreach (DataRow p in prods.Rows)
                 {
-                    string request = "SELECT ID_check_history, product_amount, product_price FROM history WHERE produc_ID_history = '" + key.Item1 + "';";
-                    DataTable checks_full = SQL_Helper.Just_do_it(request);
-                    foreach(DataRow check_full in checks_full.Rows)
-                    {
-                        request = "SELECT check_date FROM checks WHERE ID_check = '" + check_full.ItemArray[0].ToString() + "';";
-                        DataTable check_d = SQL_Helper.Just_do_it(request);
-                        DateTime date = Convert.ToDateTime(check_d.Rows[0].ItemArray[0].ToString());
-                        if (date >= analiz_border)
-                        {
-                            if (prod_sum.ContainsKey(key.Item1))
-                            {
-                                prod_sum[key.Item1] = prod_sum[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString());
-                                prod_volume[key.Item1] = prod_volume[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString());
-                                
-                            }
-                            else
-                            {
-                                prod_sum.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString())* Convert.ToDouble(check_full.ItemArray[2].ToString()));
-                                prod_volume.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()));
-                            }
-                        }
-                    }
-                }
-                if (key.Item2 == Group.Brand)
-                {
-                    string request = "SELECT ID_product FROM products WHERE brand_ID = '" + key.Item1 + "';";
-                    DataTable prods_full = SQL_Helper.Just_do_it(request);
-                    foreach(DataRow prod in prods_full.Rows)
-                    {
-                        request = "SELECT ID_check_history, product_amount, product_price FROM history WHERE produc_ID_history = '" + prod.ItemArray[0].ToString() + "';";
-                        DataTable checks_full = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow check_full in checks_full.Rows)
-                        {
-                            request = "SELECT check_date FROM checks WHERE ID_check = '" + check_full.ItemArray[0].ToString() + "';";
-                            DataTable check_d = SQL_Helper.Just_do_it(request);
-                            DateTime date = Convert.ToDateTime(check_d.Rows[0].ItemArray[0].ToString());
-                            if (date >= analiz_border)
-                            {
-                                if (brand_sum.ContainsKey(key.Item1))
-                                {
-                                    brand_sum[key.Item1] = brand_sum[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString());
-                                    brand_volume[key.Item1] = brand_volume[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString());
+                    string id = p.ItemArray[0].ToString();
+                    double amount = Convert.ToDouble(p.ItemArray[1].ToString());
+                    double sum = Convert.ToDouble(p.ItemArray[1].ToString()) * Convert.ToDouble(p.ItemArray[2].ToString());
 
-                                }
-                                else
-                                {
-                                    brand_sum.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString()));
-                                    brand_volume.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()));
-                                }
-                            }
-                        }
-                    }
-
-                 
-                }
-                if (key.Item2 == Group.Little_type)
-                {
-                    string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + key.Item1 + "';";
-                    DataTable little = SQL_Helper.Just_do_it(request);
-                    foreach (DataRow name in little.Rows)
-                    {
-                        request = "SELECT ID_product FROM products WHERE type_little_name = '" + name.ItemArray[0].ToString() + "';";
-                        DataTable prods_full = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow prod in prods_full.Rows)
-                        {
-                            request = "SELECT ID_check_history, product_amount, product_price FROM history WHERE produc_ID_history = '" + prod.ItemArray[0].ToString() + "';";
-                            DataTable checks_full = SQL_Helper.Just_do_it(request);
-                            foreach (DataRow check_full in checks_full.Rows)
-                            {
-                                request = "SELECT check_date FROM checks WHERE ID_check = '" + check_full.ItemArray[0].ToString() + "';";
-                                DataTable check_d = SQL_Helper.Just_do_it(request);
-                                DateTime date = Convert.ToDateTime(check_d.Rows[0].ItemArray[0].ToString());
-                                if (date >= analiz_border)
-                                {
-                                    if (lt_sum.ContainsKey(key.Item1))
-                                    {
-                                        lt_sum[key.Item1] = lt_sum[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString());
-                                        lt_volume[key.Item1] = lt_volume[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString());
-
-                                    }
-                                    else
-                                    {
-                                        lt_sum.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString()));
-                                        lt_volume.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                   
-                }
-                if (key.Item2 == Group.Big_type)
-                {
-
-                    string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + key.Item1 + "';";
-                    DataTable little = SQL_Helper.Just_do_it(request);
-                    foreach (DataRow name in little.Rows)
-                    {
-                        request = "SELECT ID_product FROM products WHERE type_little_name = '" + name.ItemArray[0].ToString() + "';";
-                        DataTable prods_full = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow prod in prods_full.Rows)
-                        {
-                            request = "SELECT ID_check_history, product_amount, product_price FROM history WHERE produc_ID_history = '" + prod.ItemArray[0].ToString() + "';";
-                            DataTable checks_full = SQL_Helper.Just_do_it(request);
-                            foreach (DataRow check_full in checks_full.Rows)
-                            {
-                                request = "SELECT check_date FROM checks WHERE ID_check = '" + check_full.ItemArray[0].ToString() + "';";
-                                DataTable check_d = SQL_Helper.Just_do_it(request);
-                                DateTime date = Convert.ToDateTime(check_d.Rows[0].ItemArray[0].ToString());
-                                if (date >= analiz_border)
-                                {
-                                    if (bt_sum.ContainsKey(key.Item1))
-                                    {
-                                        bt_sum[key.Item1] = bt_sum[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString());
-                                        bt_volume[key.Item1] = bt_volume[key.Item1] + Convert.ToDouble(check_full.ItemArray[1].ToString());
-
-                                    }
-                                    else
-                                    {
-                                        bt_sum.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()) * Convert.ToDouble(check_full.ItemArray[2].ToString()));
-                                        bt_volume.Add(key.Item1, Convert.ToDouble(check_full.ItemArray[1].ToString()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if(i%100 == 0)
-                {
-                    rtb.Text += "Шел товар " + i+" \n ";
-                    rtb.Refresh();
+                    //double[] t = (double[])all_sells[id];
+                    //if (t == null) all_sells[id] = new double[] { amount, amount * sum };
+                    //else all_sells[id] =  new double[] { t[0] + amount, t[1] + amount * sum };
+                    if (all_sells[id] == null) all_sells[id] = new double[] { amount, amount * sum };
+                    else all_sells[id] =  new double[] { ((double[])all_sells[id])[0] + amount, ((double[])all_sells[id])[1] + amount * sum };
+                    //}
+                    //else
+                    //{
+                    //all_sells.Add(id, new double[] { amount, sum });
+                    //}
                 }
             }
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+            myStopwatch.Start();
+            foreach (DataRow check in checks_full.Rows)
+            {
+                request = "SELECT produc_ID_history, product_amount, product_price FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString() + "';";
+                DataTable prods = SQL_Helper.Just_do_it(request);
+                foreach (DataRow p in prods.Rows)
+                {
+                    string id = p.ItemArray[0].ToString();
+                    double amount = Convert.ToDouble(p.ItemArray[1].ToString());
+                    double sum = Convert.ToDouble(p.ItemArray[1].ToString()) * Convert.ToDouble(p.ItemArray[2].ToString());
+
+                    if (all_sells2.ContainsKey(p.ItemArray[0].ToString()))
+                    {
+                        double[] t = all_sells2[id];
+                        all_sells2[id] = new double[] { t[0] + amount, t[1] + amount * sum };
+                    }
+                    else
+                    {
+                        all_sells2.Add(id, new double[] { amount, sum });
+                    }
+                }
+            }
+            myStopwatch.Stop();
+            myStopwatch.Reset();
             rtb.Text += "Начат сортировка исключений \n ";
             rtb.Refresh();
             prod_sum = prod_sum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм

@@ -31,7 +31,7 @@ namespace АИСТ.Class.AutoSet
             la.Add(a);
             List<Customers> lc = new List<Customers>();
             lc.Add(c);
-            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-365));
+            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-90));
 
             return gs;
         }
