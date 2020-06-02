@@ -16,12 +16,13 @@ namespace АИСТ.Class.algoritms
 {
     class algoritms
     {
+        System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
         RichTextBox rtb = new RichTextBox();
         public void Auto()
         {
             Form f2 = new Process();
             f2.Show(); // отображаем Form2
-            
+
             foreach (Control ctrl in f2.Controls)
             {
                 if (ctrl is RichTextBox)
@@ -29,21 +30,40 @@ namespace АИСТ.Class.algoritms
                     rtb = (RichTextBox)ctrl;
                 }
             }
-            rtb.Text+="начали \n";
+            rtb.Text = "";
+            rtb.Refresh();
+
+            myStopwatch.Start();
+            rtb.Text += "-Начат импорт настроек-" + '\n';
+            rtb.Refresh();
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
             File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
             List<Assortiment> all_assortiment_sets = gs.assortiments;
             listProductOverRules rules = gs.rules;
-            rtb.Text += "Импортированы настройки"+'\n';
+            rtb.Text += "-Импортированы настройки-" + '\n';
+            rtb.Refresh();
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+            myStopwatch.Start();
+            rtb.Text += "-Начат процесс анализа клиентов-" + '\n';
             rtb.Refresh();
             List<Client_Tab> client_tabs = Get_Clients_analyze(all_customres_sets);
-            rtb.Text += "Клиенты проанализированы\n ";
+            rtb.Text += "-Клиенты проанализированы- \n ";
+            rtb.Refresh();
+            myStopwatch.Stop();
+            myStopwatch.Reset();
+
+            myStopwatch.Start();
+            rtb.Text += "-Начат процесс анализа товаров-" + '\n';
             rtb.Refresh();
             List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
-            rtb.Text += "Товары проанализированы\n ";
+            rtb.Text += "-Товары проанализированы-\n ";
             rtb.Refresh();
+            myStopwatch.Stop();
+            myStopwatch.Reset();
             int i = 0;
         }
 
@@ -55,17 +75,12 @@ namespace АИСТ.Class.algoritms
 
             foreach (Customers customer_set in all_customres_sets)//для каждого сета клиента из заданых
             {
-                rtb.Text += "Начат анализ сета клиентов " + customer_set.Get_name()+ "\n ";
+                rtb.Text += "   Начат процесс анализ сета клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
                 string request = "";
-                //выборка по времени покупок
-                //string active_start = customer_set.Get_active()[0].ToString("u");
-                //active_start = active_start.Substring(0, 10);
-                //string active_end = customer_set.Get_active()[1].ToString("u");
-                //active_end = active_end.Substring(0, 10);
                 string[] active = new string[]
                 {
-                     customer_set.Get_active()[0].ToString("u").Substring(0, 10) , 
+                     customer_set.Get_active()[0].ToString("u").Substring(0, 10) ,
                      customer_set.Get_active()[1].ToString("u").Substring(0, 10)
                 };
                 int[] av_sum = customer_set.Get_averrage_sum(); //границы средней суммы покупок для данного сета
@@ -77,6 +92,8 @@ namespace АИСТ.Class.algoritms
                 // Dictionary<string, Dictionary<string, double[]>> client_prod;
                 //List<Client_Tab> client_tabs_XYZ;//сборный анализ клиентов и их покупок
 
+                rtb.Text += "       Начато составления списка клиенто по " + customer_set.Get_name() + "\n ";
+                rtb.Refresh();
                 //Реквест с временем и магазинами
                 request = "SELECT * FROM checks WHERE check_date > \"" + active[0] + "\" AND check_date < \"" + active[1] + "\" AND (";
                 foreach (string shop in customer_set.Get_shops())
@@ -87,6 +104,7 @@ namespace АИСТ.Class.algoritms
                 //получаем выборку активных клиентов по нудным магазинам
                 DataTable temp_dt = SQL_Helper.Just_do_it(request);
 
+                rtb.Text += "       Начато составление списка покупок клиентов по " + customer_set.Get_name() + "\n ";
                 //собираем все чеки всех выбраных клиентов и суммируем их стоимость
                 foreach (DataRow s in temp_dt.Rows) //для каждой строки из таблицы чеков //собираем чеки и суммы
                 {
@@ -122,17 +140,20 @@ namespace АИСТ.Class.algoritms
                     }
                 }//выбираем клиентов с нужными суммами
                 //client_prod = get_checks_1(client_checks);//<Ид клиента, <ид товара - [кол-во товара - цена товара]>>
+               
+               
+                rtb.Text += "       Начат анализ клиентов " + customer_set.Get_name() + "\n ";
+                rtb.Refresh();
                 client_prod = get_checks_2(client_checks); //<Ид клиента, <ид товара - <кол-во товара - цена товара>>> меньше памяти есть в прпоцессе
                 clients_volumes = Get_dictionary_volume(client_prod);// объемы закупок клиента
-                rtb.Text += "Начат анализ сета клиентов " + customer_set.Get_name() + "\n ";
-                rtb.Refresh();
                 client_tabs = client_Analitic_ABC_XYZ(cust, clients_volumes); //фнализ клиентов
-                rtb.Text += "Начат анализ покупок клиентов " + customer_set.Get_name() + "\n ";
+                rtb.Text += "       Начат анализ покупок клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
                 client_tabs = prod_analitic_abc_xyz(client_tabs, client_prod);
                 int hu = 3;
                 //определяем типы закупок для клиента
-
+                rtb.Text += "   Закончен процесс анализ сета клиентов " + customer_set.Get_name() + "\n ";
+                rtb.Refresh();
 
             }//для каждого сета клиента из заданых
 
@@ -190,7 +211,7 @@ namespace АИСТ.Class.algoritms
 
             return ct;
         }
-        
+
         public Dictionary<string, Dictionary<string, double[]>> get_checks_1(Dictionary<string, List<string>> client_checks)
         {
             Dictionary<string, Dictionary<string, double[]>> client_prod = new Dictionary<string, Dictionary<string, double[]>>();//<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
@@ -211,12 +232,12 @@ namespace АИСТ.Class.algoritms
                         if (prods.ContainsKey(id_prod))
                         {
                             double[] t = prods[id_prod];
-                            prods[id_prod] = new double[] { t[0] + amount, t[1] + cost*amount };
+                            prods[id_prod] = new double[] { t[0] + amount, t[1] + cost * amount };
                         }
                         else
                         {
                             prods.Add(id_prod, new double[2]);
-                            prods[id_prod] = new double[] { amount, cost*amount };
+                            prods[id_prod] = new double[] { amount, cost * amount };
                         }
                     }
                 }
@@ -284,25 +305,23 @@ namespace АИСТ.Class.algoritms
             return client_tabs;
         }
         //--------------------------------ПРОДУКТЫ---------------------------------------------//
-    
+
         public List<Prod_tab> Get_Prod_analyze(List<Assortiment> all_assortiment_sets, listProductOverRules rules, DateTime analiz_border)
         {
             List<Prod_tab> prod_Tabs = new List<Prod_tab>(); //таблица отдельных товаров и группировок     
-            rtb.Text += "Начат анализ товаров " + "\n ";
-            rtb.Refresh();
             Dictionary<Tuple<string, Group>, double> all_prods = Get_All_simple_products(all_assortiment_sets);
-            rtb.Text += "Составлена основная выборка товаров \n ";
+            rtb.Text += "   Составлена основная выборка товаров \n ";
             rtb.Refresh();
-            rtb.Text += "Начата обработка исключений \n ";
+            rtb.Text += "       Начата обработка исключений \n ";
             rtb.Refresh();
             all_prods = Set_over_rules_prod(rules, all_prods);
-            rtb.Text += "Составлена полная выборка \n ";
+            rtb.Text += "       Составлена полная выборка \n ";
             rtb.Refresh();
             //формируем два списка по суммам и обхемам закупок
-            rtb.Text += "Начат анализ товаров \n ";
+            rtb.Text += "       Начат анализ товаров \n ";
             rtb.Refresh();
             prod_Tabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
-            rtb.Text += "анализ товар закончен \n ";
+            rtb.Text += "   анализ товар закончен \n ";
             rtb.Refresh();
             return prod_Tabs;
         }
@@ -311,7 +330,7 @@ namespace АИСТ.Class.algoritms
             Dictionary<Tuple<string, Group>, double> temp_diction_prod = new Dictionary<Tuple<string, Group>, double>(); //хранит рабочие значения, что б удобно удалять
             foreach (Assortiment assortiment in all_assortiment_sets)
             {
-                rtb.Text += "Начат анализ сета товаров " + assortiment.Get_name() + "\n ";
+                rtb.Text += "Начата сборка из сета товаров " + assortiment.Get_name() + "\n ";
                 List<Prod_tab> prod_Tabs_set = new List<Prod_tab>(); //заполняется в конце
                 int[] count = assortiment.Get_count();
                 string[] deliver = new string[]
@@ -336,12 +355,13 @@ namespace АИСТ.Class.algoritms
                     object[] temp = row.ItemArray;
                     temp_diction_prod.Add(new Tuple<string, Group>(temp[0].ToString(), Group.Product), 1);
                 }
+                rtb.Text += "Закончена сборка из сета товаров " + assortiment.Get_name() + "\n ";
             }
             return temp_diction_prod;
         }
         public Dictionary<Tuple<string, Group>, double> Set_over_rules_prod(listProductOverRules rules, Dictionary<Tuple<string, Group>, double> all_prods)
         {
-            foreach ( KeyValuePair<Tuple<string, Group>, bool> kvp in rules.Get_rules())
+            foreach (KeyValuePair<Tuple<string, Group>, bool> kvp in rules.Get_rules())
             {
                 if (kvp.Key.Item2 == Group.Product)
                 {
@@ -393,7 +413,7 @@ namespace АИСТ.Class.algoritms
                 if (kvp.Key.Item2 == Group.Big_type)
                 {
                     if (kvp.Value)
-                        all_prods[ new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
+                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
                     else
                     {
                         string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + kvp.Key.Item1 + "';";
@@ -411,30 +431,20 @@ namespace АИСТ.Class.algoritms
                     }
                 }
             }
-          return all_prods;
+            return all_prods;
         }
         public List<Prod_tab> prod_Analitic_ABC_XYZ(Dictionary<Tuple<string, Group>, double> all_prods, DateTime analiz_border)
         {
-            List<Prod_tab> prod_Tabs = new List<Prod_tab>();
-            Dictionary<string, double> prod_sum = new Dictionary<string, double>();
-            Dictionary<string, double> prod_volume = new Dictionary<string, double>();
-            Dictionary<string, double> brand_sum = new Dictionary<string, double>();
-            Dictionary<string, double> brand_volume = new Dictionary<string, double>();
-            Dictionary<string, double> lt_sum = new Dictionary<string, double>();
-            Dictionary<string, double> lt_volume = new Dictionary<string, double>();
-            Dictionary<string, double> bt_sum = new Dictionary<string, double>();
-            Dictionary<string, double> bt_volume = new Dictionary<string, double>();
-            rtb.Text += "Начат анализ списка \n ";
+
+            rtb.Text += "           Начато составления списка для анализа \n ";
             rtb.Refresh();
             Dictionary<string, double[]> all_sells = new Dictionary<string, double[]>(); //все проданые товары - колвоб прибыль
-          //  Hashtable all_sells = new Hashtable(new Dictionary<string, double[]>());
+                                                                                         //  Hashtable all_sells = new Hashtable(new Dictionary<string, double[]>());
             string request = "SELECT ID_check FROM checks WHERE check_date > \"" + analiz_border.ToString("u").Substring(0, 10) + "\";";
             DataTable checks_full = SQL_Helper.Just_do_it(request);
-            rtb.Text += "БЛЯЯЯЯЯЯ \n ";
+            rtb.Text += "               Начато составление списка для анализа продаж \n ";
             rtb.Refresh();
-            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
-            myStopwatch.Start();
-
+          
             foreach (DataRow check in checks_full.Rows)
             {
                 request = "SELECT * FROM history WHERE ID_check_history = '" + check.ItemArray[0].ToString() + "';";
@@ -457,15 +467,16 @@ namespace АИСТ.Class.algoritms
                 }
             }
             all_sells = all_sells.OrderBy(pair => Convert.ToInt32(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value);
-            rtb.Text += "БЛЯЯЯЯЯЯ \n ";
-            rtb.Refresh();
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            Dictionary<Tuple<string, Group>, double> cleared_prods = new Dictionary<Tuple<string, Group>, double>(all_prods);
-            rtb.Text += "Собираем словарь товаров \n ";
+            Dictionary<Tuple<string, Group>, double> cleared_prods = new Dictionary<Tuple<string, Group>, double>(all_prods);//из этого словаря удаляем обработанные элементы для ускорения работы
+
+            rtb.Text += "                   Собираем словарь товаров \n ";
             rtb.Refresh();
-            myStopwatch.Start();
+            List<Dictionary<string, double>> diction_sum_value = new List<Dictionary<string, double>>();
+            for (int i = 0; i < 8; i++)
+            {
+                diction_sum_value.Add(new Dictionary<string, double>());
+            }
             foreach (Tuple<string, Group> prod in all_prods.Keys)
             {
                 if (prod.Item2 == Group.Product)
@@ -473,18 +484,16 @@ namespace АИСТ.Class.algoritms
                     cleared_prods.Remove(prod);
                     if (all_sells.ContainsKey(prod.Item1))
                     {
-                        prod_sum.Add(prod.Item1, all_sells[prod.Item1][0]);
-                        prod_volume.Add(prod.Item1, all_sells[prod.Item1][1]);
+                        diction_sum_value[0].Add(prod.Item1, all_sells[prod.Item1][0]);
+                        diction_sum_value[1].Add(prod.Item1, all_sells[prod.Item1][1]);
                     }
                 }
             }
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            rtb.Text += "Собираем словарь брэндов \n ";
+
+            rtb.Text += "                   Собираем словарь брэндов \n ";
             rtb.Refresh();
             all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
-            myStopwatch.Start();
             foreach (Tuple<string, Group> brand in all_prods.Keys)
             {
                 if (brand.Item2 == Group.Brand)
@@ -492,26 +501,24 @@ namespace АИСТ.Class.algoritms
                     cleared_prods.Remove(brand);
                     request = "SELECT ID_product FROM products WHERE brand_ID = '" + brand + "';";
                     DataTable prods = SQL_Helper.Just_do_it(request);
-                    brand_sum.Add(brand.Item1, 0);
-                    brand_volume.Add(brand.Item1, 0);
+                    diction_sum_value[2].Add(brand.Item1, 0);
+                    diction_sum_value[3].Add(brand.Item1, 0);
                     foreach (DataRow prod in prods.Rows)
                     {
                         string id = prod.ItemArray[0].ToString();
                         if (all_sells.ContainsKey(id))
                         {
-                            brand_sum[brand.Item1] += all_sells[id][0];
-                            brand_volume[brand.Item1] += all_sells[id][1];
+                            diction_sum_value[2][brand.Item1] += all_sells[id][0];
+                            diction_sum_value[3][brand.Item1] += all_sells[id][1];
                         }
                     }
                 }
             }
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            rtb.Text += "Собираем словарь малых типов \n ";
+
+            rtb.Text += "                   Собираем словарь малых типов \n ";
             rtb.Refresh();
             all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
-            myStopwatch.Start();
             foreach (Tuple<string, Group> lt in all_prods.Keys)
             {
                 if (lt.Item2 == Group.Little_type)
@@ -522,26 +529,23 @@ namespace АИСТ.Class.algoritms
                     string lt_name = name.Rows[0].ItemArray[0].ToString();
                     request = "SELECT ID_product FROM products WHERE type_little_name = '" + lt_name + "';";
                     DataTable prods = SQL_Helper.Just_do_it(request);
-                    lt_sum.Add(lt.Item1, 0);
-                    lt_volume.Add(lt.Item1, 0);
+                    diction_sum_value[4].Add(lt.Item1, 0);
+                    diction_sum_value[5].Add(lt.Item1, 0);
                     foreach (DataRow prod in prods.Rows)
                     {
                         string id = prod.ItemArray[0].ToString();
                         if (all_sells.ContainsKey(id))
                         {
-                            lt_sum[lt.Item1] += all_sells[id][0];
-                            lt_volume[lt.Item1] += all_sells[id][1];
+                            diction_sum_value[4][lt.Item1] += all_sells[id][0];
+                            diction_sum_value[5][lt.Item1] += all_sells[id][1];
                         }
                     }
                 }
             }
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            rtb.Text += "Собираем словарь больших типов \n ";
+            rtb.Text += "                   Собираем словарь больших типов \n ";
             rtb.Refresh();
             all_prods = new Dictionary<Tuple<string, Group>, double>(cleared_prods);
-            myStopwatch.Start();
             foreach (Tuple<string, Group> bt in all_prods.Keys)
             {
                 if (bt.Item2 == Group.Big_type)
@@ -549,104 +553,79 @@ namespace АИСТ.Class.algoritms
                     cleared_prods.Remove(bt);
                     request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + bt.Item1 + "';";
                     DataTable names = SQL_Helper.Just_do_it(request);
-                    bt_sum.Add(bt.Item1, 0);
-                    bt_volume.Add(bt.Item1, 0);
+                    diction_sum_value[6].Add(bt.Item1, 0);
+                    diction_sum_value[7].Add(bt.Item1, 0);
                     foreach (DataRow r_name in names.Rows)
                     {
                         string lt_name = r_name.ItemArray[0].ToString();
                         request = "SELECT ID_product FROM products WHERE type_little_name = '" + lt_name + "';";
-                        DataTable prods = SQL_Helper.Just_do_it(request);    
+                        DataTable prods = SQL_Helper.Just_do_it(request);
                         foreach (DataRow prod in prods.Rows)
                         {
                             string id = prod.ItemArray[0].ToString();
                             if (all_sells.ContainsKey(id))
                             {
-                                bt_sum[bt.Item1] += all_sells[id][0];
-                                bt_volume[bt.Item1] += all_sells[id][1];
+                                diction_sum_value[6][bt.Item1] += all_sells[id][0];
+                                diction_sum_value[7][bt.Item1] += all_sells[id][1];
                             }
                         }
                     }
- 
+
                 }
             }
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
 
-            rtb.Text += "Начат сортировка исключений \n ";
+
+            rtb.Text +="            Сортируем словари \n ";
             rtb.Refresh();
-            myStopwatch.Start();
-            prod_sum = prod_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            prod_volume = prod_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            brand_sum = brand_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            brand_volume = brand_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            lt_sum = lt_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            lt_volume = lt_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            bt_sum = bt_sum.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует словарь по общих возрастанию сумм
-            bt_volume = bt_volume.OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует по возрастанию объемов
-            myStopwatch.Stop();
-            myStopwatch.Reset();
-            rtb.Text += "Начат анализ товаров \n ";
+            for (int i = 0; i < 8; i++)
+            {
+                diction_sum_value[i] = diction_sum_value[i].OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            }
+
+            rtb.Text += "   Анализируем товары \n ";
             rtb.Refresh();
-            
-            myStopwatch.Start();
+
             //////////// ТУТ МЫ ЗАКОНЧИЛИ
-            Dictionary<string, Type_ABC_XYZ> abc = obj_Types(prod_sum, "a");
-            Dictionary<string, Type_ABC_XYZ> xyz = obj_Types(prod_volume, "z");
-            foreach (string id in abc.Keys)
-            {
-                Prod_tab temp = new Prod_tab();
-                temp.Set_id(id);
-                temp.Set_ABC(abc[id]);
-                temp.Set_XYZ(xyz[id]);
-                temp.Set_type(Group.Product);
-                prod_Tabs.Add(temp);
-            }
+            System.Diagnostics.Stopwatch myStopwatch2 = new System.Diagnostics.Stopwatch();
+            myStopwatch2.Start();
+            List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz = new List<Dictionary<string, Type_ABC_XYZ>>();
 
-            abc = obj_Types(brand_sum, "a");
-            xyz = obj_Types(brand_volume, "z");
-            foreach (string id in abc.Keys)
+            for (int i = 0; i < 8; i++)
             {
-                Prod_tab temp = new Prod_tab();
-                temp.Set_id(id);
-                temp.Set_ABC(abc[id]);
-                temp.Set_XYZ(xyz[id]);
-                temp.Set_type(Group.Brand);
-                prod_Tabs.Add(temp);
+                if (i == 0 || i%2 == 0) temp_abcxyz.Add(obj_Types(diction_sum_value[i], "a"));
+                else temp_abcxyz.Add(obj_Types(diction_sum_value[i], "x"));
             }
-
-            abc = obj_Types(lt_sum, "a");
-            xyz = obj_Types(lt_volume, "z");
-            foreach (string id in abc.Keys)
-            {
-                Prod_tab temp = new Prod_tab();
-                temp.Set_id(id);
-                temp.Set_ABC(abc[id]);
-                temp.Set_XYZ(xyz[id]);
-                temp.Set_type(Group.Little_type);
-                prod_Tabs.Add(temp);
-            }
-
-            abc = obj_Types(bt_sum, "a");
-            xyz = obj_Types(bt_volume, "z");
-            foreach (string id in abc.Keys)
-            {
-                Prod_tab temp = new Prod_tab();
-                temp.Set_id(id);
-                temp.Set_ABC(abc[id]);
-                temp.Set_XYZ(xyz[id]);
-                temp.Set_type(Group.Big_type);
-                prod_Tabs.Add(temp);
-            }
-
-            myStopwatch.Stop();
-            myStopwatch.Reset();
-            ///кто б добавил это все в таблицы
+            List<Prod_tab> prod_Tabs = Get_prod_tabs(temp_abcxyz);
+            myStopwatch2.Stop();
             return prod_Tabs;
         }
+
+        public List<Prod_tab> Get_prod_tabs(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
+        {
+            List<Prod_tab> prod_Tabs = new List<Prod_tab>();
+            List<Group> g = new List<Group>() { Group.Product, Group.Brand, Group.Little_type, Group.Big_type };
+            int j = 0;
+            for (int i = 0; i < 8; i+=2)
+            {
+                foreach( string id in temp_abcxyz[i].Keys)
+                {
+                    Prod_tab temp = new Prod_tab();
+                    temp.Set_id(id);
+                    temp.Set_ABC(temp_abcxyz[i][id]);
+                    temp.Set_XYZ(temp_abcxyz[i+1][id]);
+                    temp.Set_type(g[j]);
+                    prod_Tabs.Add(temp);
+                }
+                j++;
+            }
+            return prod_Tabs;
+        }
+
+
         //--------------------------------ОБЩЕЕ---------------------------------------------//
 
-        public Dictionary<string, Type_ABC_XYZ> obj_Types(Dictionary<string, double> param, string az)
+        public Dictionary<string, Type_ABC_XYZ> obj_Types(Dictionary<string, double> param, string az )
         {
             Dictionary<string, Type_ABC_XYZ> clients_types = new Dictionary<string, Type_ABC_XYZ>();
             int count = param.Count;
@@ -693,5 +672,6 @@ namespace АИСТ.Class.algoritms
 
             return clients_types;
         }
+
     }
 }
