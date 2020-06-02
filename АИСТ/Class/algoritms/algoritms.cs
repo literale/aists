@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using АИСТ.Class.AutoSet;
 using АИСТ.Class.enums;
 using АИСТ.Class.essence;
+using АИСТ.Class.Setttings;
 using АИСТ.Forms;
 
 namespace АИСТ.Class.algoritms
@@ -18,6 +19,11 @@ namespace АИСТ.Class.algoritms
     {
         System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
         RichTextBox rtb = new RichTextBox();
+        Group[] g = new Group[4] { Group.Product, Group.Brand, Group.Little_type, Group.Big_type, };
+        List<Dictionary<string, double>> diction_sum_value;//продажи товаров, 8 словарей товар-брэнд-подтим-тип каждый сумма и объем продаж
+        Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов
+        Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store;//товар на складе (в том числе по группам)
+
         public void Auto()
         {
             Form f2 = new Process();
@@ -33,7 +39,7 @@ namespace АИСТ.Class.algoritms
             rtb.Text = "";
             rtb.Refresh();
 
-            myStopwatch.Start();
+            
             rtb.Text += "-Начат импорт настроек-" + '\n';
             rtb.Refresh();
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
@@ -44,28 +50,26 @@ namespace АИСТ.Class.algoritms
             listProductOverRules rules = gs.rules;
             rtb.Text += "-Импортированы настройки-" + '\n';
             rtb.Refresh();
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            myStopwatch.Start();
             rtb.Text += "-Начат процесс анализа клиентов-" + '\n';
             rtb.Refresh();
             List<Client_Tab> client_tabs = Get_Clients_analyze(all_customres_sets);
             rtb.Text += "-Клиенты проанализированы- \n ";
             rtb.Refresh();
-            myStopwatch.Stop();
-            myStopwatch.Reset();
 
-            myStopwatch.Start();
             rtb.Text += "-Начат процесс анализа товаров-" + '\n';
             rtb.Refresh();
-            List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
+         //   List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
             rtb.Text += "-Товары проанализированы-\n ";
             rtb.Refresh();
+
+            rtb.Text += "-Начат процесс генерации предложений-\n ";
+            myStopwatch.Start();
+            Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(prodTabs, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
+            Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
             myStopwatch.Stop();
             myStopwatch.Reset();
-
-            string file = Generate(prod_tabs,client_tabs, gs);
         }
 
 
@@ -89,9 +93,9 @@ namespace АИСТ.Class.algoritms
                 Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>(); //ид клиента, сумма покупок киента + кол-во чеков
                 Dictionary<string, List<string>> client_checks = new Dictionary<string, List<string>>();//ид клиента, чеки клиента
                 Dictionary<string, double> cust = new Dictionary<string, double>(); // чистый словарь с клиентами и суммой покупок
-                Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod; //<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
+                //client_prod; //<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
                 Dictionary<string, double> clients_volumes;// объемы закупок клиента
-                // Dictionary<string, Dictionary<string, double[]>> client_prod;
+                //Dictionary<string, Dictionary<string, double[]>> client_prod;
                 //List<Client_Tab> client_tabs_XYZ;//сборный анализ клиентов и их покупок
 
                 rtb.Text += "       Начато составления списка клиенто по " + customer_set.Get_name() + "\n ";
@@ -212,40 +216,6 @@ namespace АИСТ.Class.algoritms
 
             return ct;
         }
-
-        public Dictionary<string, Dictionary<string, double[]>> get_checks_1(Dictionary<string, List<string>> client_checks)
-        {
-            Dictionary<string, Dictionary<string, double[]>> client_prod = new Dictionary<string, Dictionary<string, double[]>>();//<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            foreach (string id_client in client_checks.Keys)//получаем список вскх покупок кдиентов из заданых чеков
-            {
-                Dictionary<string, double[]> prods = new Dictionary<string, double[]>();
-                foreach (string check_id in client_checks[id_client])
-                {
-                    string request = "SELECT * FROM history WHERE ID_check_history = '" + check_id + "';";
-                    DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                    foreach (DataRow s in temp_dt.Rows)
-                    {
-                        string id_prod = s.ItemArray[1].ToString();
-                        double amount = Convert.ToDouble(s.ItemArray[2]);
-                        double cost = Convert.ToDouble(s.ItemArray[3]);
-                        if (prods.ContainsKey(id_prod))
-                        {
-                            double[] t = prods[id_prod];
-                            prods[id_prod] = new double[] { t[0] + amount, t[1] + cost * amount };
-                        }
-                        else
-                        {
-                            prods.Add(id_prod, new double[2]);
-                            prods[id_prod] = new double[] { amount, cost * amount };
-                        }
-                    }
-                }
-                client_prod.Add(id_client, prods);
-            }
-            return client_prod;
-        }
         public Dictionary<string, Dictionary<string, Tuple<double, double>>> get_checks_2(Dictionary<string, List<string>> client_checks)
 
         {
@@ -308,7 +278,7 @@ namespace АИСТ.Class.algoritms
 
         //--------------------------------ПРОДУКТЫ---------------------------------------------//
 
-        public List<Prod_tab> Get_Prod_analyze(List<Assortiment> all_assortiment_sets, listProductOverRules rules, DateTime analiz_border)
+        public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> Get_Prod_analyze(List<Assortiment> all_assortiment_sets, listProductOverRules rules, DateTime analiz_border)
         {
             List<Prod_tab> prod_Tabs = new List<Prod_tab>(); //таблица отдельных товаров и группировок     
             Dictionary<Tuple<string, Group>, double> all_prods = Get_All_simple_products(all_assortiment_sets);
@@ -317,22 +287,24 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "       Начата обработка исключений \n ";
             rtb.Refresh();
             all_prods = Set_over_rules_prod(rules, all_prods);
+            all_prods_and_group_amount_on_store = new Dictionary<Tuple<string, Group>, double>(all_prods);
             rtb.Text += "       Составлена полная выборка \n ";
             rtb.Refresh();
             //формируем два списка по суммам и обхемам закупок
             rtb.Text += "       Начат анализ товаров \n ";
             rtb.Refresh();
-            prod_Tabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
+            //prod_Tabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
             rtb.Text += "   анализ товар закончен \n ";
             rtb.Refresh();
-            return prod_Tabs;
+            return prodTabs;
         }
         public Dictionary<Tuple<string, Group>, double> Get_All_simple_products(List<Assortiment> all_assortiment_sets)
         {
             Dictionary<Tuple<string, Group>, double> temp_diction_prod = new Dictionary<Tuple<string, Group>, double>(); //хранит рабочие значения, что б удобно удалять
             foreach (Assortiment assortiment in all_assortiment_sets)
             {
-                rtb.Text += "Начата сборка из сета товаров " + assortiment.Get_name() + "\n ";
+                rtb.Text += "   Начата сборка из сета товаров " + assortiment.Get_name() + "\n ";
                 List<Prod_tab> prod_Tabs_set = new List<Prod_tab>(); //заполняется в конце
                 int[] count = assortiment.Get_count();
                 string[] deliver = new string[]
@@ -342,7 +314,7 @@ namespace АИСТ.Class.algoritms
                 };
                 string[] shops = assortiment.Get_shops();
                 ///сначала получаем скписок продуктов по ассортименту, потом удаляем/добавляем все овергруппы
-                string request = "SELECT ID_product_store FROM product_on_store WHERE " +
+                string request = "SELECT ID_product_store, product_amount FROM product_on_store WHERE " +
                     "( last_shipment > \"" + deliver[0] + "\" AND last_shipment < \"" + deliver[1] + "\") " +
                     "AND ( product_amount > \"" + count[0] + "\" AND product_amount < \"" + count[1] + "\") AND (";
                 foreach (string shop in shops)
@@ -355,22 +327,21 @@ namespace АИСТ.Class.algoritms
                 foreach (DataRow row in temp_dt.Rows)
                 {
                     object[] temp = row.ItemArray;
-                    temp_diction_prod.Add(new Tuple<string, Group>(temp[0].ToString(), Group.Product), 1);
+                    temp_diction_prod.Add(new Tuple<string, Group>(temp[0].ToString(), Group.Product), Convert.ToDouble(temp[1].ToString()));
                 }
-                rtb.Text += "Закончена сборка из сета товаров " + assortiment.Get_name() + "\n ";
+                rtb.Text += "   Закончена сборка из сета товаров " + assortiment.Get_name() + "\n ";
             }
             return temp_diction_prod;
         }
         public Dictionary<Tuple<string, Group>, double> Set_over_rules_prod(listProductOverRules rules, Dictionary<Tuple<string, Group>, double> all_prods)
         {
+            
             foreach (KeyValuePair<Tuple<string, Group>, bool> kvp in rules.Get_rules())
             {
                 if (kvp.Key.Item2 == Group.Product)
                 {
-                    if (kvp.Value)
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
-                    else
-                    {
+                        if (!kvp.Value)
+                        {
 
                         bool b = all_prods.Remove(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2));
                         bool c = b;
@@ -378,37 +349,81 @@ namespace АИСТ.Class.algoritms
                 }
                 if (kvp.Key.Item2 == Group.Brand)
                 {
+                    string request = "SELECT ID_product FROM products WHERE brand_ID = '" + kvp.Key.Item1 + "';";
+                    DataTable temp_dt = SQL_Helper.Just_do_it(request);
                     if (kvp.Value)
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
-                    else
                     {
-                        string request = "SELECT ID_product FROM products WHERE brand_ID = '" + kvp.Key.Item1 + "';";
-                        DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow row in temp_dt.Rows)
+                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                    }
+                    foreach (DataRow row in temp_dt.Rows)
+                    {
+                        if (kvp.Value)
                         {
-                            bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));
-                            bool c = b;
-                            //all_prods.Remove(row.ItemArray[0].ToString());//удалим так же все продукты этой группы
+                            if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
+                            {
+                                all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                            }
+                            else
+                            {
+                                request = "SELECT product_amount FROM product_on_store WHERE ID_product_store = '" + row.ItemArray[0].ToString() + "';";
+                                DataTable am = SQL_Helper.Just_do_it(request);
+                                if (am.Rows.Count > 0)
+                                {
+                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                    all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                }
+                            }
                         }
+                        else
+                        {
+                            bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));//удалим так же все продукты этой группы
+                            bool c = b;
+                        }
+
                     }
                 }
                 if (kvp.Key.Item2 == Group.Little_type)
                 {
                     if (kvp.Value)
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
-                    else
                     {
-                        string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + kvp.Key.Item1 + "';";
-                        DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow row in temp_dt2.Rows)
+                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                    }
+                    string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + kvp.Key.Item1 + "';";
+                    DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
+                    foreach (DataRow row2 in temp_dt2.Rows)
+                    {
+                        request = "SELECT ID_product FROM products WHERE type_little_name = '" + row2.ItemArray[0] + "';";
+                        DataTable temp_dt = SQL_Helper.Just_do_it(request);
+                        if (kvp.Value)
                         {
-                            request = "SELECT ID_product FROM products WHERE type_little_name = '" + row.ItemArray[0] + "';";
-                            DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                            foreach (DataRow row2 in temp_dt.Rows)
+                            all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                        }
+                        foreach (DataRow row in temp_dt.Rows)
+                        {
+                            if (kvp.Value)
                             {
-                                bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));
+                                if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
+                                {
+                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                                }
+                                else
+                                {
+                                    request = "SELECT product_amount FROM product_on_store WHERE ID_product_store = '" + row.ItemArray[0].ToString() + "';";
+                                    
+                                    DataTable am = SQL_Helper.Just_do_it(request);
+                                    if (am.Rows.Count > 0)
+                                    {
+                                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                        all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));//удалим так же все продукты этой группы
                                 bool c = b;
                             }
+
                         }
                     }
                 }
@@ -416,26 +431,52 @@ namespace АИСТ.Class.algoritms
                 {
                     if (kvp.Value)
                         all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
-                    else
+
+                    string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + kvp.Key.Item1 + "';";
+                    DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
+                    foreach (DataRow row2 in temp_dt2.Rows)
                     {
-                        string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + kvp.Key.Item1 + "';";
-                        DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
-                        foreach (DataRow row in temp_dt2.Rows)
+                        request = "SELECT ID_product FROM products WHERE type_little_name = '" + row2.ItemArray[0].ToString() + "';";
+                        DataTable temp_dt = SQL_Helper.Just_do_it(request);
+                        if (kvp.Value)
                         {
-                            request = "SELECT ID_product FROM products WHERE type_little_name = '" + row.ItemArray[0] + "';";
-                            DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                            foreach (DataRow row2 in temp_dt.Rows)
+                            all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                        }
+                        foreach (DataRow row in temp_dt.Rows)
+                        {
+                            if (kvp.Value)
                             {
-                                bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));
+                                if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
+                                {
+                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                                }
+                                else
+                                {
+                                    request = "SELECT product_amount FROM product_on_store WHERE ID_product_store = '" + row.ItemArray[0].ToString() + "';";
+                                    DataTable am = SQL_Helper.Just_do_it(request);
+                                    if (am.Rows.Count > 0)
+                                    {
+                                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                        all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));//удалим так же все продукты этой группы
                                 bool c = b;
                             }
+
                         }
                     }
+
+                
                 }
             }
+
             return all_prods;
         }
-        public List<Prod_tab> prod_Analitic_ABC_XYZ(Dictionary<Tuple<string, Group>, double> all_prods, DateTime analiz_border)
+        public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prod_Analitic_ABC_XYZ(Dictionary<Tuple<string, Group>, double> all_prods, DateTime analiz_border)
         {
 
             rtb.Text += "           Начато составления списка для анализа \n ";
@@ -474,7 +515,7 @@ namespace АИСТ.Class.algoritms
 
             rtb.Text += "                   Собираем словарь товаров \n ";
             rtb.Refresh();
-            List<Dictionary<string, double>> diction_sum_value = new List<Dictionary<string, double>>();
+            diction_sum_value = new List<Dictionary<string, double>>();
             for (int i = 0; i < 8; i++)
             {
                 diction_sum_value.Add(new Dictionary<string, double>());
@@ -583,6 +624,7 @@ namespace АИСТ.Class.algoritms
             for (int i = 0; i < 8; i++)
             {
                 diction_sum_value[i] = diction_sum_value[i].OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);
+                int y = 9;
             }
 
             rtb.Text += "   Анализируем товары \n ";
@@ -598,9 +640,11 @@ namespace АИСТ.Class.algoritms
                 if (i == 0 || i%2 == 0) temp_abcxyz.Add(obj_Types(diction_sum_value[i], "a"));
                 else temp_abcxyz.Add(obj_Types(diction_sum_value[i], "x"));
             }
-            List<Prod_tab> prod_Tabs = Get_prod_tabs(temp_abcxyz);
+            //List<Prod_tab> prod_Tabs = Get_prod_tabs(temp_abcxyz);
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = new Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>>();
+            prodTabs = Get_prod_list(temp_abcxyz, prodTabs);
             myStopwatch2.Stop();
-            return prod_Tabs;
+            return prodTabs;
         }
         public List<Prod_tab> Get_prod_tabs(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
         {
@@ -622,6 +666,34 @@ namespace АИСТ.Class.algoritms
             }
             return prod_Tabs;
         }
+        public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> Get_prod_list(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz, Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs)
+        {
+           // List<Prod_tab> prod_Tabs = new List<Prod_tab>();
+            List<Group> g = new List<Group>() { Group.Product, Group.Brand, Group.Little_type, Group.Big_type };
+            int j = 0;
+            for (int i = 0; i < 8; i += 2)
+            {
+                foreach (string id in temp_abcxyz[i].Keys)
+                {
+                    //Tuple<Group, Type_ABC_XYZ[]> key = new Tuple<Group, Type_ABC_XYZ[]>(g[j], new Type_ABC_XYZ[2] { temp_abcxyz[i][id], temp_abcxyz[i+1][id] } );
+                    Tuple < Type_ABC_XYZ, Type_ABC_XYZ > a = new Tuple < Type_ABC_XYZ, Type_ABC_XYZ >( temp_abcxyz[i][id], temp_abcxyz[i + 1][id] );
+                    if (prodTabs.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)))
+                    {
+                        prodTabs[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)].Add(id);
+                    }
+                    else
+                    {
+
+                        List<string> tl = new List<string>();
+                        tl.Add(id);
+                        prodTabs.Add(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a), tl);
+                    }
+                }
+                j++;
+            }
+            return prodTabs;
+        }
+
 
         //--------------------------------ОБЩЕЕ---------------------------------------------//
 
@@ -651,38 +723,164 @@ namespace АИСТ.Class.algoritms
                 t2 = Type_ABC_XYZ.Y;
                 t3 = Type_ABC_XYZ.X;
             }
-
-            foreach (string id in param.Keys)
+            if (param.Count < 4)
             {
-                if (0 <= i && i <= s1)
+                int k = 0;
+                foreach (string id in param.Keys)
                 {
-                    clients_types.Add(id, t1);
+                    if (k==0)
+                        clients_types.Add(id, t1);
+                    if (k==1)
+                        clients_types.Add(id, t2);
+                    if (k == 2)
+                        clients_types.Add(id, t3);
+                    k++;
                 }
-                if (s1 < i && i <= s2)
-                {
-                    clients_types.Add(id, t2);
-                }
-                if (s2 < i)
-                {
-                    clients_types.Add(id, t3);
-                }
-                i++;
             }
+            else
+            {
+                foreach (string id in param.Keys)
+                {
 
+                    if (0 <= i && i <= s1)
+                    {
+                        clients_types.Add(id, t1);
+                    }
+                    if (s1 < i && i <= s2)
+                    {
+                        clients_types.Add(id, t2);
+                    }
+                    if (s2 < i)
+                    {
+                        clients_types.Add(id, t3);
+                    }
+                    i++;
+                }
+            }
 
             return clients_types;
         }
 
         //--------------------------------Генерация----------------------------------------------//
-        public string Generate(List<Prod_tab> prod_tabs, List<Client_Tab> client_tabs, Generate_Setttings gs)
+        public Dictionary<string, List<Final_product_group>> Get_summary_tables(Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs, List<Client_Tab> client_tabs, Generate_Setttings gs)
         {
-            string file = "";
+           // string file = "";
+            Table_for_strategy[,] clients = gs.promo_type.Get_clients();//двумерный массив АВС-XYZ
+            Table_for_strategy[,] products = gs.promo_type.Get_products();
+            Dictionary<string, List<Final_product_group>> summary = new Dictionary<string, List<Final_product_group>>();
+            List<Client_Tab> client_tabs_clear = new List<Client_Tab>(client_tabs);
+            rtb.Text += "   Начат процесс создания сводных таблиц\n ";
+            rtb.Refresh();
+            foreach (Client_Tab client in client_tabs)
+            {
+                Type_ABC_XYZ abc = client.Get_ABC();
+                Type_ABC_XYZ xyz = client.Get_XYZ(); //тип клиента
+                Table_for_strategy table_strat_client = Get_client_or_prod(abc, xyz, clients); //строка из матрицы стратегий для этого клиента
+                if (table_strat_client.Get_prob_of_discount_for().Count == 0)   
+                {
+                    client_tabs_clear.Remove(client);
+                    continue;//сбрасываем, если для этих клиентов не предусмотрена акция
+                }
+                Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> goods_for_this_client = table_strat_client.Get_prob_of_discount_for(); //если не пусто - собираем стратегии
+                List<Final_product_group> s = new List<Final_product_group>();
+                foreach (Tuple<Type_ABC_XYZ, Type_ABC_XYZ> type in goods_for_this_client.Keys) //для каждого типа товаров допустимого для клиента
+                {
+                    Table_for_strategy table_strat_goods = Get_client_or_prod(type.Item1, type.Item2, products);//строка из матрицы стратегий для этого типа продукта
+                    double[] this_type_of_goods_available_for_this_client = table_strat_goods.Get_prob_of_discount_for_one(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(abc,xyz));
+                    if (this_type_of_goods_available_for_this_client[0] == -1) continue; //проверяем, дпусти ли данный тип клиента для данного типа продукта
+                    //если да - добавляем все продукты этого типа в итог
 
+                    for (int i = 0; i < 4; i++)
+                    {
+                       
+                        if (prodTabs.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)))
+                        {
+                            List<string> temp = prodTabs[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)];
+                            List<string> temp2 = new List<string>();
+                            foreach (string id in temp)
+                            {
+                                if (client.Get_prod().ContainsKey(id))
+                                    temp2.Add(id);
 
+                            }
+                            if (temp2.Count > 0)
+                            s.Add(new Final_product_group(temp2, goods_for_this_client[type][0], goods_for_this_client[type][1], this_type_of_goods_available_for_this_client[0], g[i] ));
+                        }
+                    }
+                }
 
-
-            return file;
+                if (s.Count > 0)
+                    summary.Add(client.Get_id(),s);
+                int gffguyik = 0;
+            }
+            rtb.Text += "   Сводные таблицы собраны \n ";
+            rtb.Refresh();
+            return summary;
+        }
+        public Table_for_strategy Get_client_or_prod(Type_ABC_XYZ abc, Type_ABC_XYZ xyz, Table_for_strategy[,] custOrProd)
+        {
+            int i = (abc == Type_ABC_XYZ.A) ? 0 : ((abc == Type_ABC_XYZ.B) ? 1 : 2);
+            int j = (xyz == Type_ABC_XYZ.X) ? 0 : ((xyz == Type_ABC_XYZ.Y) ? 1 : 2);
+            return custOrProd[i, j];
         }
 
+        public void Get_comparable_lists(Dictionary<string, List<Final_product_group>> summary, List<Dictionary<string, double>> diction_sum_value, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_sells, Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store)
+        {
+            Object[] d;//Массив, который вернет эта функция
+            Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> comparable_lists_clients = new Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>();
+            Dictionary<Tuple<string, Group>, Product_for_list_shop> comparable_lists_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
+            d = new object[2] { comparable_lists_clients, comparable_lists_goods };
+            rtb.Text += "   Начато составление общих пространтв наложения \n ";
+            rtb.Refresh();
+            rtb.Text += "       Начато составление опространства наложения товаров \n ";
+            rtb.Refresh();
+            for (int i = 0; i< 8; i+=2)//составляем фулный лист товаров
+            {
+                Group gr = g[i / 2];
+                Dictionary<string, double> sum = diction_sum_value[i];
+                Dictionary<string, double> value = diction_sum_value[i+1];
+                foreach (string id in sum.Keys)
+                {
+                    Product_for_list_shop temp_list = new Product_for_list_shop();
+                    temp_list.prod_id = id;
+                    temp_list.sell_value = value[id];
+                    temp_list.sum = sum[id];
+                    temp_list.amount_on_store = all_prods_and_group_amount_on_store[new Tuple<string, Group>(id, gr)];
+                    comparable_lists_goods.Add(new Tuple<string, Group>(id, gr), temp_list);
+                }
+                
+            }
+            rtb.Text += "       Закончено составление опространства наложения товаров \n ";
+            rtb.Refresh();
+            rtb.Text += "       Начато составление опространства наложения клиентов \n ";
+            rtb.Refresh();
+            myStopwatch.Restart();
+            myStopwatch.Start();
+            foreach (string client in summary.Keys)
+            {
+                Dictionary<Group, List<Product_for_list_client>> temp_d = new Dictionary<Group, List<Product_for_list_client>>();
+                temp_d.Add(g[0], new List<Product_for_list_client>());
+                temp_d.Add(g[1], new List<Product_for_list_client>());
+                temp_d.Add(g[2], new List<Product_for_list_client>());
+                temp_d.Add(g[3], new List<Product_for_list_client>());
+                comparable_lists_clients.Add(client, temp_d);
+                foreach (Final_product_group prod in summary[client])//тут объединяется то что клиент хочет и может купить
+                {
+                    foreach (string id_prod in prod.ids_prods)
+                    {
+                        Product_for_list_client temp_list = new Product_for_list_client();
+                        temp_list.prod_id = id_prod;
+                        temp_list.purchase_value = client_sells[client][id_prod].Item2;
+                        temp_list.sum = client_sells[client][id_prod].Item1;
+                        temp_d[prod.group].Add(temp_list);
+                    }
+
+                }
+                //организовать удаление пустых листов брэндов и т.д
+            }
+            myStopwatch.Stop();
+            rtb.Text += "       Закончено составление опространства наложения клиентов \n ";
+            rtb.Refresh();
+        }
     }
 }

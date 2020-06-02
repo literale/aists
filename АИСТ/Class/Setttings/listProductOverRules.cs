@@ -33,29 +33,5 @@ namespace АИСТ.Class.essence
             return t;
         }
 
-        //bool allow = true;
-        //Group type = Group.Product;
-        //List<string> id_prod = new List<string>();
-        //public listProductOver(bool allow, Group type, List<string> prod)
-        //{
-        //    this.allow = allow;
-        //    this.type = type;
-        //    this.id_prod = prod;
-        //}
-        //public bool Get_allow()
-        //{
-        //    return allow;
-        //}
-
-        //public Group Get_type()
-        //{
-        //    return type;
-        //}
-
-        //public List<string> Get_id_prod()
-        //{
-        //    return id_prod;
-        //}
-
     }
 }

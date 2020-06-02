@@ -52,5 +52,7 @@ namespace АИСТ.Class.algoritms
         {
             this.type = type;
         }
+
+
     }
 }
