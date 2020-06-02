@@ -95,20 +95,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\algoritms\algoritms.cs" />
-    <Compile Include="Class\algoritms\Client_Tab.cs" />
-    <Compile Include="Class\algoritms\Prod_tab.cs" />
+    <Compile Include="Class\essence\Client_Tab.cs" />
+    <Compile Include="Class\essence\Prod_tab.cs" />
     <Compile Include="Class\enums\enums.cs" />
     <Compile Include="Class\essence\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
     <Compile Include="Class\essence\Customers.cs" />
-    <Compile Include="Class\essence\listProductOverRules.cs" />
-    <Compile Include="Class\Setttings\Client_type_disc.cs" />
+    <Compile Include="Class\Setttings\listProductOverRules.cs" />
     <Compile Include="Class\Setttings\Generate_Setttings.cs" />
-    <Compile Include="Class\Setttings\Promo_types.cs" />
+    <Compile Include="Class\essence\Promo_types.cs" />
     <Compile Include="Class\Setttings\Types.cs" />
     <Compile Include="Class\SQL\SQL_Helper.cs" />
-    <Compile Include="Class\essence\Info.cs" />
-    <Compile Include="Class\essence\Tabs.cs" />
+    <Compile Include="Class\algoritms\Info.cs" />
+    <Compile Include="Class\Setttings\Tabs.cs" />
     <Compile Include="Class\Setttings\Tab_Settings.cs" />
     <Compile Include="Forms\BD_connect.cs">
       <SubType>Form</SubType>

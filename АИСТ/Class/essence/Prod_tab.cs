@@ -13,6 +13,7 @@ namespace АИСТ.Class.algoritms
         private Group type = Group.Product;
         private Type_ABC_XYZ abc = Type_ABC_XYZ.N;
         private Type_ABC_XYZ xyz = Type_ABC_XYZ.N;
+
         public void Set_id(string id)
         {
             this.id = id;

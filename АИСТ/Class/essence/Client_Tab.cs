@@ -13,6 +13,8 @@ namespace АИСТ.Class.algoritms
         private Type_ABC_XYZ abc = Type_ABC_XYZ.N;
         private Dictionary<string, Type_ABC_XYZ[]> prod = new Dictionary<string, Type_ABC_XYZ[]>();
         private Type_ABC_XYZ xyz = Type_ABC_XYZ.N;
+
+
         public void Set_id (string id)
         {
             this.id = id;
@@ -27,6 +29,7 @@ namespace АИСТ.Class.algoritms
         {
             this.abc = a;
         }
+
         public Dictionary<string, Type_ABC_XYZ[]> Get_prod()
         {
             return prod;

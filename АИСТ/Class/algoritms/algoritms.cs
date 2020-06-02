@@ -38,7 +38,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
-            File.Create("test.xml");
+          //  File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
             List<Assortiment> all_assortiment_sets = gs.assortiments;
             listProductOverRules rules = gs.rules;
@@ -64,11 +64,13 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             myStopwatch.Stop();
             myStopwatch.Reset();
-            int i = 0;
+
+            string file = Generate(prod_tabs,client_tabs, gs);
         }
 
 
         //--------------------------------КЛИЕНТЫ----------------------------------------------//
+
         public List<Client_Tab> Get_Clients_analyze(List<Customers> all_customres_sets)
         {
             List<Client_Tab> client_tabs = new List<Client_Tab>();
@@ -150,7 +152,6 @@ namespace АИСТ.Class.algoritms
                 rtb.Text += "       Начат анализ покупок клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
                 client_tabs = prod_analitic_abc_xyz(client_tabs, client_prod);
-                int hu = 3;
                 //определяем типы закупок для клиента
                 rtb.Text += "   Закончен процесс анализ сета клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
@@ -304,6 +305,7 @@ namespace АИСТ.Class.algoritms
 
             return client_tabs;
         }
+
         //--------------------------------ПРОДУКТЫ---------------------------------------------//
 
         public List<Prod_tab> Get_Prod_analyze(List<Assortiment> all_assortiment_sets, listProductOverRules rules, DateTime analiz_border)
@@ -600,7 +602,6 @@ namespace АИСТ.Class.algoritms
             myStopwatch2.Stop();
             return prod_Tabs;
         }
-
         public List<Prod_tab> Get_prod_tabs(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
         {
             List<Prod_tab> prod_Tabs = new List<Prod_tab>();
@@ -621,7 +622,6 @@ namespace АИСТ.Class.algoritms
             }
             return prod_Tabs;
         }
-
 
         //--------------------------------ОБЩЕЕ---------------------------------------------//
 
@@ -671,6 +671,17 @@ namespace АИСТ.Class.algoritms
 
 
             return clients_types;
+        }
+
+        //--------------------------------Генерация----------------------------------------------//
+        public string Generate(List<Prod_tab> prod_tabs, List<Client_Tab> client_tabs, Generate_Setttings gs)
+        {
+            string file = "";
+
+
+
+
+            return file;
         }
 
     }
