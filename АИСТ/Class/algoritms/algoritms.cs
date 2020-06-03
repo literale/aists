@@ -1,17 +1,24 @@
-﻿using Renci.SshNet.Security;
+﻿using Google.Protobuf.WellKnownTypes;
+using Org.BouncyCastle.Asn1.X509.Qualified;
+using Renci.SshNet.Security;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using АИСТ.Class.AutoSet;
 using АИСТ.Class.enums;
 using АИСТ.Class.essence;
 using АИСТ.Class.Setttings;
 using АИСТ.Forms;
+using System.Drawing;
 
 namespace АИСТ.Class.algoritms
 {
@@ -21,14 +28,14 @@ namespace АИСТ.Class.algoritms
         RichTextBox rtb = new RichTextBox();
         Group[] g = new Group[4] { Group.Product, Group.Brand, Group.Little_type, Group.Big_type, };
         List<Dictionary<string, double>> diction_sum_value;//продажи товаров, 8 словарей товар-брэнд-подтим-тип каждый сумма и объем продаж
-        Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов
+        Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов кол-вл сумма
         Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store;//товар на складе (в том числе по группам)
 
         public void Auto()
         {
             Form f2 = new Process();
             f2.Show(); // отображаем Form2
-
+           
             foreach (Control ctrl in f2.Controls)
             {
                 if (ctrl is RichTextBox)
@@ -67,7 +74,12 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "-Начат процесс генерации предложений-\n ";
             myStopwatch.Start();
             Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(prodTabs, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
-            Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
+            Object[] d = Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
+            Dictionary<string, List<Promo>> promos =  Generate(d, gs);
+            rtb.Text += "-Начат процесс отправки предложений-\n ";
+            myStopwatch.Start();
+            Generate_mails(promos);
+            // Mail_it(promos);
             myStopwatch.Stop();
             myStopwatch.Reset();
         }
@@ -230,8 +242,8 @@ namespace АИСТ.Class.algoritms
                     foreach (DataRow s in temp_dt.Rows)
                     {
                         string id_prod = s.ItemArray[1].ToString();
-                        double amount = Convert.ToDouble(s.ItemArray[2]);
-                        double cost = Convert.ToDouble(s.ItemArray[3]);
+                        double amount = Convert.ToDouble(s.ItemArray[2]); //кол-во
+                        double cost = Convert.ToDouble(s.ItemArray[3]);//сумма
                         if (prods.ContainsKey(id_prod))
                         {
                             prods[id_prod] = new Tuple<double, double>(prods[id_prod].Item1 + amount, prods[id_prod].Item2 + cost);
@@ -823,13 +835,13 @@ namespace АИСТ.Class.algoritms
             int j = (xyz == Type_ABC_XYZ.X) ? 0 : ((xyz == Type_ABC_XYZ.Y) ? 1 : 2);
             return custOrProd[i, j];
         }
-
-        public void Get_comparable_lists(Dictionary<string, List<Final_product_group>> summary, List<Dictionary<string, double>> diction_sum_value, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_sells, Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store)
+        public Object[] Get_comparable_lists(Dictionary<string, List<Final_product_group>> summary, List<Dictionary<string, double>> diction_sum_value, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_sells, Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store)
         {
             Object[] d;//Массив, который вернет эта функция
-            Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> comparable_lists_clients = new Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>();
+            //Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> comparable_lists_clients = new Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>();
+            Dictionary<string,List<Product_for_list_client>> comparable_lists_clients = new Dictionary<string, List<Product_for_list_client>>();
             Dictionary<Tuple<string, Group>, Product_for_list_shop> comparable_lists_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
-            d = new object[2] { comparable_lists_clients, comparable_lists_goods };
+            d = new object[2] { comparable_lists_clients, comparable_lists_goods};
             rtb.Text += "   Начато составление общих пространтв наложения \n ";
             rtb.Refresh();
             rtb.Text += "       Начато составление опространства наложения товаров \n ";
@@ -856,23 +868,23 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             myStopwatch.Restart();
             myStopwatch.Start();
-            foreach (string client in summary.Keys)
+            foreach (string client in summary.Keys)//составляем сравниемый лист для всех клиентов
             {
-                Dictionary<Group, List<Product_for_list_client>> temp_d = new Dictionary<Group, List<Product_for_list_client>>();
-                temp_d.Add(g[0], new List<Product_for_list_client>());
-                temp_d.Add(g[1], new List<Product_for_list_client>());
-                temp_d.Add(g[2], new List<Product_for_list_client>());
-                temp_d.Add(g[3], new List<Product_for_list_client>());
+                List<Product_for_list_client> temp_d = new List<Product_for_list_client>();
                 comparable_lists_clients.Add(client, temp_d);
-                foreach (Final_product_group prod in summary[client])//тут объединяется то что клиент хочет и может купить
+                foreach (Final_product_group prod in summary[client])
                 {
                     foreach (string id_prod in prod.ids_prods)
                     {
                         Product_for_list_client temp_list = new Product_for_list_client();
                         temp_list.prod_id = id_prod;
-                        temp_list.purchase_value = client_sells[client][id_prod].Item2;
-                        temp_list.sum = client_sells[client][id_prod].Item1;
-                        temp_d[prod.group].Add(temp_list);
+                        temp_list.purchase_value = client_sells[client][id_prod].Item1;
+                        temp_list.sum = client_sells[client][id_prod].Item2;
+                        temp_list.disc_size_by_client = prod.disc_size_by_client;
+                        temp_list.prob_by_client = prod.prob_by_client;
+                        temp_list.prior_by_good = prod.prior_by_good;
+                        temp_list.g = prod.group;
+                        temp_d.Add(temp_list);
                     }
 
                 }
@@ -881,6 +893,327 @@ namespace АИСТ.Class.algoritms
             myStopwatch.Stop();
             rtb.Text += "       Закончено составление опространства наложения клиентов \n ";
             rtb.Refresh();
+            return d;
+        }   
+        public Dictionary<string, List<Promo>> Generate(Object[] d, Generate_Setttings gs)
+        {
+            rtb.Text += "   Начато наложение пространтв \n ";
+            rtb.Refresh();
+           // Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> comparable_lists_clients = (Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>)d[0];
+            Dictionary<Tuple<string, Group>, Product_for_list_shop> comparable_lists_goods = (Dictionary<Tuple<string, Group>, Product_for_list_shop>)d[1];
+            Dictionary<string, List<Product_for_list_client>> comparable_lists_clients = (Dictionary<string, List<Product_for_list_client>>)d[0];
+
+            Random r = new Random();
+            comparable_lists_clients = comparable_lists_clients.OrderByDescending(pair => pair.Value.Count).ToDictionary(pair => pair.Key, pair => pair.Value);
+            // comparable_lists_clients = comparable_lists_clients.OrderByDescending(pair => pair.Value.First().Value.Count).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует клиентов по кол-ву доступных покупок
+            List<string> s = new List<string>(comparable_lists_clients.Keys);
+
+            // Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> temp = new Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>();
+            Dictionary<string, List<Product_for_list_client>> temp = new Dictionary<string, List<Product_for_list_client>>();
+            // Dictionary<string, List<Product_for_list_client>> temp2 = new Dictionary<string, List<Product_for_list_client>>();
+            Dictionary<string, List<Product_for_list_client>> temp2 = new Dictionary<string, List<Product_for_list_client>>();
+
+            for (int i = 0; i< 5; i++)
+            {
+                //t k = r.Next(0, s.Count);
+                temp.Add(s[i], comparable_lists_clients[s[i]]);
+                int j = s.Count - i-1;
+                temp.Add(s[j], comparable_lists_clients[s[j]]);
+                int k = s.Count / 2 - i;
+                temp.Add(s[k], comparable_lists_clients[s[k]]);
+            }
+             int[] discount = new int[2] { gs.min_discount, gs.max_discount };
+            Dictionary<string, List<Promo>> promos = new Dictionary<string, List<Promo>>();
+
+
+            foreach (string client in comparable_lists_clients.Keys)
+            {
+                // promos.Add(client, new List<Promo>());
+                Dictionary<Tuple<string, Group>, Product_for_list_shop> temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
+                foreach (Product_for_list_client pc in comparable_lists_clients[client])
+                {
+                    temp_goods.Add(new Tuple<string, Group>(pc.prod_id, pc.g), comparable_lists_goods[new Tuple<string, Group>(pc.prod_id, pc.g)]);
+                }
+
+                temp_goods = temp_goods.OrderByDescending(pair => pair.Value.sum).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                //temp[client] = client.OrderByDescending(pair => pair).ToDictionary(pair => pair.Key, pair => pair.Value);
+                List<Product_for_list_client> temp_client_goods = comparable_lists_clients[client].OrderByDescending(pair => pair.sum).ToList();
+                ///напоминалка
+                ///temp = new Dictionary<string, List<Product_for_list_client>>(); - проды клиента
+                ///temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>(); - проды магазинв
+                if (temp_goods.Count == 0 || temp_client_goods.Count == 0) continue;
+                List<Promo> temp_p = new List<Promo>();
+                promos.Add(client, temp_p);
+                double disc_spread = discount[1] - discount[0];
+                double disc_step = disc_spread / 3;
+                disc_step = Math.Round(disc_step, 1);
+
+                //if (temp_goods.Count == temp_client_goods.Count || temp_client_goods.Count < temp_goods.Count)
+                //{
+                //    foreach (Product_for_list_client k in temp_client_goods)
+                //    {
+                //        double disc = k.disc_size_by_client * disc_step + discount[1];
+                //        temp_p.Add(new Promo(k.prod_id, k.g, disc));
+                //    }
+                //}
+
+                //else
+                //{
+
+                Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
+                Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
+                Dictionary<double, List <Tuple<string, Group>>>  distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
+                //Dictionary<double, List<string>> prods_c = new Dictionary<double, List<string>>();
+                //Dictionary<double, List<string>> prods_s = new Dictionary<double, List<string>>();
+                //Dictionary<double, int> distribution_full = new Dictionary<double, int>();
+                foreach (Product_for_list_client k in temp_client_goods)
+                {
+                    if (distribution_full.ContainsKey(k.prob_by_client))
+                    {
+                        distribution_full[k.prob_by_client].Add(new Tuple<string, Group>(k.prod_id, k.g));
+                    }
+                    else
+                    {
+                        distribution_full[k.prob_by_client] = new List<Tuple<string, Group>>();
+                        distribution_full[k.prob_by_client].Add(new Tuple<string, Group>(k.prod_id, k.g));
+                        
+                    }
+                    prods_c.Add(new Tuple<string, Group>(k.prod_id, k.g), k.disc_size_by_client);
+                   // if (prods_c.ContainsKey(new Tuple<string, Group>(k.prod_id, k.g)))
+                   // {
+                   //     prods_c[new Tuple<string, Group>(k.prod_id, k.g)].Add(k.disc_size_by_client);
+                   // }
+                   //else
+                   // {
+                   //     prods_c[k.disc_size_by_client] = new List<string>();
+                   //     prods_c[k.disc_size_by_client].Add(k.disc_size_by_client);
+                   // }
+                    if (prods_s.ContainsKey(k.prior_by_good))
+                    {
+                        prods_s[k.prior_by_good].Add(new Tuple<string, Group>(k.prod_id, k.g));
+                    }
+                    else
+                    {
+                        prods_s[k.prior_by_good] = new List<Tuple<string, Group>>();
+                        prods_s[k.prior_by_good].Add(new Tuple<string, Group>(k.prod_id, k.g));
+                    }
+
+                }
+                Dictionary<double, int> distribution_for_disc = new Dictionary<double, int>();
+                //List<Product_for_list_client> temp_client_goods Напоминалка. сортированый список по честному приоритету
+                ///temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>(); - проды магазинв
+                foreach (double prob in distribution_full.Keys)//получаем сколько скидок каждого типа получим
+                {
+                    int h = 0;
+                    if (distribution_full.Keys.Count == 1)
+                    {
+                        h = 5;
+                    }
+                    int hh = 0;
+                    foreach (Tuple<string, Group> t in distribution_full[prob])
+                    {
+                        hh++;
+                    }
+                    h = Convert.ToInt32(hh * (prob / 100));
+                    if (h < 5) h = 5;
+
+                    distribution_for_disc.Add(prob, h);
+                }
+                //соберем список по совместному приоритету (например сумма и приоритет)
+                Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
+
+                foreach (double prob in prods_s.Keys)
+                {
+                    foreach (Tuple<string, Group> t_prod in prods_s[prob])
+                    {
+                        foreach (Product_for_list_client k in temp_client_goods)
+                        {
+                            if ((t_prod.Item1.Equals(k.prod_id))&&(t_prod.Item2.Equals(k.g)))
+                            {
+                                full_prior.Add(t_prod, new Tuple<double, double>(prob, k.sum));
+                                continue;
+                            }
+                        }
+
+                    }
+
+                }
+
+
+                //Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
+                //Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
+                //Dictionary<double, List<Tuple<string, Group>>> distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
+                //Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
+                full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                foreach (double prob in distribution_for_disc.Keys)//для кадой вероятносит
+                {
+                    List<Tuple<string, Group>> prods = distribution_full[prob];//список товаров с этой вероятностью
+                    for (int i = 0; i < distribution_for_disc[prob]; i++) //кол-во товаров с этой вероятностью
+                    {
+                        int f = distribution_for_disc[prob];
+                        bool brk = false;
+                        Tuple<string, Group> delete_this = new Tuple<string, Group>("", Group.Product);
+                        foreach(Tuple<string, Group> prod in full_prior.Keys)
+                        {
+                            if (prods.Contains(prod))
+                            {
+                                //double disc = k.disc_size_by_client * disc_step + discount[1];
+                                //temp_p.Add(new Promo(k.prod_id, k.g, disc));
+                                double disc = discount[0] + disc_step * prods_c[prod];
+                                double spesial_step = 10*((double)i / distribution_for_disc[prob]);
+                                disc = Convert.ToInt32(disc - spesial_step);
+                                if (disc < discount[0]) disc = discount[0];
+                                temp_p.Add(new Promo(prod.Item1, prod.Item2, disc));
+                                brk = true;
+                                delete_this = prod;
+                                break;
+                            }
+                        }
+                        full_prior.Remove(delete_this);
+
+                    }
+                }
+
+
+            }
+
+
+                int gy = 8;
+            //}
+            rtb.Text += "   Закончено наложение пространтв \n ";
+            rtb.Refresh();
+            return promos;
         }
+        //--------------------------------отправка----------------------------------------------//
+
+        public void Generate_mails(Dictionary<string, List<Promo>> promos)
+        {
+            string client = promos.First().Key;
+            List<Promo> promo = promos.First().Value;
+            string text = "<h2>Дорогой клиент, мы рады, что вы с нами!</h2>";
+            
+            string request = "SELECT FIO_customer, email_customer FROM customers WHERE ID_customer = '" + client + "';";
+            DataTable temp_dt = SQL_Helper.Just_do_it(request);
+            string mail = temp_dt.Rows[0].ItemArray[1].ToString();
+            string name = temp_dt.Rows[0].ItemArray[1].ToString();
+            text += "<br> И специально для вас, <b>" + name +"</b>, мы подготовили эти уникальные предложения.</br>";
+            text += "<br> Что бы воспользоваться ими - просто покажите на кассе эти штрихкоды </br>";
+            string path = Directory.GetCurrentDirectory();
+            string[] d = Directory.GetDirectories(path);
+            path += "\\promos" + DateTime.Now.ToString().Replace(':', '.');
+            Directory.CreateDirectory(path);
+            System.Drawing.Imaging.ImageFormat imf = System.Drawing.Imaging.ImageFormat.Bmp;
+            foreach (Promo p in promo)
+            {
+                int discount = (int)p.disc;
+                string prod_name = " ";
+                string image = "";
+                
+                switch (p.group)
+                {
+                    case Group.Product:
+                        {
+                            request = "SELECT product_name, image_prod, type_little_name FROM products WHERE ID_product = '" + p.id_prod + "';";
+                            temp_dt = SQL_Helper.Just_do_it(request);
+                            prod_name = temp_dt.Rows[0].ItemArray[0].ToString();
+                            image = temp_dt.Rows[0].ItemArray[1].ToString();
+                            if (image.Length < 1)
+                            {
+                                request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + temp_dt.Rows[0].ItemArray[2].ToString() + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                if (image.Length < 1)
+                                {
+                                    request = "SELECT image_big_type FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
+                                    temp_dt = SQL_Helper.Just_do_it(request);
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                    if (image.Length < 1)
+                                    {
+                                        image = "no_image.png";
+                                    }
+                                }
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " +client;
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() +".bmp";
+
+                                Code128 c = new Code128(input);
+                                Bitmap image_this = c.get_img();
+                                //Bitmap strih = new Bitmap(image_this, new Size(image_this.Width, 100));
+                                Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
+                                Bitmap strih2 = DrawWatermark(strih_t, input);
+                                strih2.Save(this_path, imf);
+                               // strih2.Save(this_path, imf);
+                            
+
+
+                        
+                            text += "<br> Что бы воспользоваться ими - просто покажите на кассе эти штрихкоды </br>";
+                            }
+                            break;
+                        }
+                    case Group.Brand:
+                        {
+
+                            break;
+                        }
+                    case Group.Little_type:
+                        {
+
+                            break;
+                        }
+                    case Group.Big_type:
+                        {
+
+                            break;
+                        }
+                }
+
+            }
+
+
+        }
+        public void Mail_it(string text, string mail)
+        {
+            // отправитель - устанавливаем адрес и отображаемое в письме имя
+            MailAddress from = new MailAddress("ESGdiplom2020shop@yandex.ru", "Торговая сеть N");
+            // кому отправляем
+            MailAddress to = new MailAddress(mail);
+            // создаем объект сообщения
+            MailMessage m = new MailMessage(from, to);
+            // тема письма
+            m.Subject = "Специально для Вас от N!";
+            // текст письма
+            //string text = "<h2>Уважаемый клиент</h2>" +
+            //    "<br><img src=\"https://www.gemboxsoftware.com/email/examples/104/content/save-email-in-cs-vb.png \"> </br>";
+            m.Body = text;
+            // письмо представляет код html
+            m.IsBodyHtml = true;
+            // адрес smtp-сервера и порт, с которого будем отправлять письмо
+            SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 587);
+            // логин и пароль
+            smtp.Credentials = new NetworkCredential("ESGdiplom2020shop@yandex.ru", "Literal696Ll!");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+            Console.Read();
+        }
+        private Bitmap DrawWatermark(Bitmap originalImage, string text)
+        {
+            Bitmap bitmap = new Bitmap(originalImage.Width, originalImage.Height);
+            using (Graphics gr = Graphics.FromImage(bitmap))
+            {
+                gr.DrawImage(originalImage, new Rectangle(0, 0, originalImage.Width, originalImage.Height));
+
+                float xText = originalImage.Width;
+                float yText = 20;
+                float fontSize = 11;
+
+                gr.FillRectangle(new SolidBrush(Color.White), 0, originalImage.Height-20, xText, yText);
+                gr.DrawString(text, new Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(Color.Black), 40, originalImage.Height-20);
+               // gr.DrawString(text, new Font("Segoe UI", fontSize, FontStyle.Bold), new SolidBrush(Color.DodgerBlue), xText, yText);
+                return bitmap;
+            }
+        }
+
     }
 }

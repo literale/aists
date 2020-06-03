@@ -29,8 +29,11 @@ namespace АИСТ.Class.algoritms
     {
         public double sum = 0;
         public double purchase_value = 0;
-       
-        public int CompareTo(Product_for_list_client prod, CompareType compType, bool toMax)
+        public double prob_by_client = 0;
+        public double disc_size_by_client = 0;
+        public double prior_by_good = 0;
+        public Group g = Group.Product;
+        public int CompareTo(Product_for_list_client prod, CompareType compType)
         {
             if (compType == CompareType.cost)
                 return this.sum.CompareTo(prod.sum);
@@ -48,7 +51,7 @@ namespace АИСТ.Class.algoritms
         public double sum = 0;
         public double amount_on_store = 0;
         public double sell_value = 0;
-        public int CompareTo(Product_for_list_shop prod, CompareType compType, bool toMax)
+        public int CompareTo(Product_for_list_shop prod, CompareType compType)
         {
             if (compType == CompareType.cost)
                 return this.sum.CompareTo(prod.sum);

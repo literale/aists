@@ -97,7 +97,9 @@
     <Compile Include="Class\algoritms\algoritms.cs" />
     <Compile Include="Class\algoritms\Final_product_group.cs" />
     <Compile Include="Class\algoritms\Product_for_list.cs" />
+    <Compile Include="Class\algoritms\Promo.cs" />
     <Compile Include="Class\essence\Client_Tab.cs" />
+    <Compile Include="Class\essence\Code128.cs" />
     <Compile Include="Class\essence\Prod_tab.cs" />
     <Compile Include="Class\enums\enums.cs" />
     <Compile Include="Class\essence\Assortiment.cs" />
