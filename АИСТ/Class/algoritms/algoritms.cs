@@ -1112,68 +1112,63 @@ namespace АИСТ.Class.algoritms
                 int discount = (int)p.disc;
                 string prod_name = " ";
                 string image = "";
-                
+
                 switch (p.group)
                 {
                     case Group.Product:
                         {
-                            request = "SELECT product_name, image_prod, type_little_name FROM products WHERE ID_product = '" + p.id_prod + "';";
+                            request = "SELECT product_name, image_prod, type_little_name, brand_ID FROM products WHERE ID_product = '" + p.id_prod + "';";
                             temp_dt = SQL_Helper.Just_do_it(request);
                             prod_name = temp_dt.Rows[0].ItemArray[0].ToString();
                             image = temp_dt.Rows[0].ItemArray[1].ToString();
                             string little_type = temp_dt.Rows[0].ItemArray[2].ToString();
                             string big_type = "";
+                            request = "SELECT Image_brand, brand_name FROM brands WHERE ID_brand = '" + temp_dt.Rows[0].ItemArray[3].ToString() + "';";
+                            temp_dt = SQL_Helper.Just_do_it(request);
+                            string brand = temp_dt.Rows[0].ItemArray[1].ToString();
+                            if (image.Length < 1)
+                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+
+                            request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + little_type + "';";
+                            temp_dt = SQL_Helper.Just_do_it(request);
+                            if (image.Length < 1)
+                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+                            request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
+                            temp_dt = SQL_Helper.Just_do_it(request);
+                            if (image.Length < 1)
+                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+
+                            big_type = temp_dt.Rows[0].ItemArray[1].ToString();
                             if (image.Length < 1)
                             {
-                                request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + temp_dt.Rows[0].ItemArray[2].ToString() + "';";
-                                temp_dt = SQL_Helper.Just_do_it(request);
-                                image = temp_dt.Rows[0].ItemArray[0].ToString();
-                                if (image.Length < 1)
-                                {
-                                    request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
-                                    temp_dt = SQL_Helper.Just_do_it(request);
-                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
-                                    big_type = temp_dt.Rows[0].ItemArray[1].ToString();
-                                    if (image.Length < 1)
-                                    {
-                                        image = "no_image.png";
-                                    }
-                                }
-                                string input = p.group + " " + p.id_prod + " " + discount + "% " +client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() +".bmp";
-
-                                Code128 c = new Code128(input);
-                                Bitmap image_this = c.get_img();
-                                //Bitmap strih = new Bitmap(image_this, new Size(image_this.Width, 100));
-                                Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
-                                Bitmap strih2 = DrawWatermark(strih_t, input);
-                                strih2.Save(this_path, image_format);
-                                // strih2.Save(this_path, imf);
-                                ///TODO: Красиво оформить текст  
-                                ///Ferplast_Россия_Амуниция-для-питомцев_Клетка-для-грызунов_1шт prod_name 
-                                ///little_type - Вино например
-                                ///image - картинка товара
-                                ///big_type - Алкогольл
-                                ///this_path -штрихкод в btm
-                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(strih2.ToString().ToCharArray()));
-                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(this_path.Replace('\\', '/')));
-                                //Image image_b = Image.FromFile(@"this_path");
-                                //System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
-                                //image_b.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
-                                //byte[] b = memoryStream.ToArray();
-                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(strih2.ToString().ToCharArray()));
-                                //this_path = this_path.Replace('\\', '/');
-                                //data:image/png;base64
-                                System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
-                                System.Drawing.ImageConverter converter = new ImageConverter();
-                                String imgString = Convert.ToBase64String((byte[])converter.ConvertTo(temp, typeof(byte[])));
-                                imgString = "data:image/png;base64," + imgString;
-                                text += "<table align=\"center\" width=80% border=\"1\">";
-                                text += "<tr><td><img src=\"" + image + "\" width=50% height=60%></td><td><img src=\"" + imgString + "\" width=50% height=60%></td></tr>";
-                                //text += "<tr><td><img src=\"" + image + "\" width=50% height=60%></td><td><img src=\"" + imgString + "\" width=50% height=60%></td></tr>";
-                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + prod_name + "</p></td></tr></table>";
-
+                                image = Get_string_img("no_image.png");
                             }
+
+                            string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                            string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+
+                            this_path = Save_code123(input, this_path, image_format);
+                            //Code128 c = new Code128(input);
+                            //Bitmap image_this = c.get_img();
+                            //Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
+                            //Bitmap strih2 = DrawWatermark(strih_t, input);
+                            //strih2.Save(this_path, image_format);
+                            //System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
+                            //System.Drawing.ImageConverter converter = new ImageConverter();
+                            //String imgString = Convert.ToBase64String((byte[])converter.ConvertTo(temp, typeof(byte[])));
+                            //imgString = "data:image/png;base64," + imgString;
+                            String imgString = Get_string_img(this_path);
+                            text += "<table align=\"center\" width=80% >";
+                            text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
+                            String[] prod_n = prod_name.Split('_');
+                            String all_text = "Скидка " + discount + "% На товар брэнда " + brand.Replace('-', ' ') + ": ";
+                            for(int i = 2;  i< prod_n.Length; i++)
+                            {
+                                all_text += prod_n[i].Replace('-', ' ') + " ";
+                            }
+                            //Cinzano-Spumante_Венгрия_Шампанское_Белое_Сухое_1л
+                            text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+
                             break;
                         }
                     case Group.Brand:
@@ -1242,5 +1237,24 @@ namespace АИСТ.Class.algoritms
             }
         }
 
+        private String Get_string_img(String this_path)
+        {
+            System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
+            System.Drawing.ImageConverter converter = new ImageConverter();
+            String imgString = Convert.ToBase64String((byte[])converter.ConvertTo(temp, typeof(byte[])));
+            imgString = "data:image/png;base64," + imgString;
+            return imgString;
+        }
+
+        private String Save_code123(String input, String this_path, System.Drawing.Imaging.ImageFormat image_format)
+        {
+            Code128 c = new Code128(input);
+            Bitmap image_this = c.get_img();
+            Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
+            Bitmap strih2 = DrawWatermark(strih_t, input);
+            strih2.Save(this_path, image_format);
+            return this_path;
+        }
     }
 }
+
