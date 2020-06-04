@@ -57,3 +57,8 @@ F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.csproj.Co
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Forms.BD_connect.resources
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Forms.Promo_types_Setings.resources
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Forms.Process.resources
+F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\itextsharp.dll
+F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\Select.HtmlToPdf.dll
+F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\itextsharp.xml
+F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\Select.HtmlToPdf.xml
+F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\Select.Html.dep

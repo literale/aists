@@ -20,6 +20,10 @@ using АИСТ.Class.Setttings;
 using АИСТ.Forms;
 using System.Drawing;
 using System.Text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using SelectPdf;
 
 namespace АИСТ.Class.algoritms
 {
@@ -79,7 +83,7 @@ namespace АИСТ.Class.algoritms
             Dictionary<string, List<Promo>> promos =  Generate(d, gs);
             rtb.Text += "-Начат процесс отправки предложений-\n ";
             myStopwatch.Start();
-            Generate_mails(promos);
+            Generate_mails(promos, gs);
             // Mail_it(promos);
             myStopwatch.Stop();
             myStopwatch.Reset();
@@ -1089,113 +1093,186 @@ namespace АИСТ.Class.algoritms
         }
         //--------------------------------отправка----------------------------------------------//
 
-        public void Generate_mails(Dictionary<string, List<Promo>> promos)
+        public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
         {
-            string client = promos.First().Key;
-            System.IO.StreamWriter wrt = new StreamWriter("output.html");
-            List<Promo> promo = promos.First().Value;
-            string text = "<h2 align=\"center\">Дорогой клиент, мы рады, что вы с нами!</h2>";
-            
-            string request = "SELECT FIO_customer, email_customer FROM customers WHERE ID_customer = '" + client + "';";
-            DataTable temp_dt = SQL_Helper.Just_do_it(request);
-            string mail = temp_dt.Rows[0].ItemArray[1].ToString();
-            string name = temp_dt.Rows[0].ItemArray[0].ToString();
-            text += "<p align=\"center\"> И специально для вас, <b>" + name +"</b>, мы подготовили эти уникальные предложения.</p>";
-            text += "<p align=\"center\"> Что бы воспользоваться ими - просто покажите на кассе эти <b>штрихкоды!</b></p>";
-            string path = Directory.GetCurrentDirectory();
-            string[] d = Directory.GetDirectories(path);
-            path += "\\promos" + DateTime.Now.ToString().Replace(':', '.');
-            Directory.CreateDirectory(path);
-            System.Drawing.Imaging.ImageFormat image_format = System.Drawing.Imaging.ImageFormat.Bmp;
-            foreach (Promo p in promo)
+            int border = promos.Count();
+            border = 3;
+            for (int i_p = 0; i_p < border; i_p++)
             {
-                int discount = (int)p.disc;
-                string prod_name = " ";
-                string image = "";
+                string client = promos.First().Key;
 
-                switch (p.group)
+                List<Promo> promo = promos.First().Value;
+                string text = "<h2 align=\"center\">Дорогой клиент, мы рады, что вы с нами!</h2>";
+                string request = "SELECT FIO_customer, email_customer FROM customers WHERE ID_customer = '" + client + "';";
+                DataTable temp_dt = SQL_Helper.Just_do_it(request);
+                string mail = temp_dt.Rows[0].ItemArray[1].ToString();
+                string name = temp_dt.Rows[0].ItemArray[0].ToString();
+                text += "<p align=\"center\"> И специально для вас, <b>" + name + "</b>, мы подготовили " + promo.Count + " уникальных предложений </p>";
+                text += "<p align=\"center\"> Что бы воспользоваться ими - просто покажите на кассе эти <b>штрихкоды!</b></p>";
+                text += "<p align=\"center\"> Если письмо не отображается целиком - скачайте полную версию <b>Во вложении</b> в удобном для вас формате</p>";
+                string path = Directory.GetCurrentDirectory();
+                string[] d = Directory.GetDirectories(path);
+                path += "\\promos" + DateTime.Now.ToString().Replace(':', '.');
+                Directory.CreateDirectory(path);
+                System.Drawing.Imaging.ImageFormat image_format = System.Drawing.Imaging.ImageFormat.Bmp;
+
+                foreach (Promo p in promo)
                 {
-                    case Group.Product:
-                        {
-                            request = "SELECT product_name, image_prod, type_little_name, brand_ID FROM products WHERE ID_product = '" + p.id_prod + "';";
-                            temp_dt = SQL_Helper.Just_do_it(request);
-                            prod_name = temp_dt.Rows[0].ItemArray[0].ToString();
-                            image = temp_dt.Rows[0].ItemArray[1].ToString();
-                            string little_type = temp_dt.Rows[0].ItemArray[2].ToString();
-                            string big_type = "";
-                            request = "SELECT Image_brand, brand_name FROM brands WHERE ID_brand = '" + temp_dt.Rows[0].ItemArray[3].ToString() + "';";
-                            temp_dt = SQL_Helper.Just_do_it(request);
-                            string brand = temp_dt.Rows[0].ItemArray[1].ToString();
-                            if (image.Length < 1)
-                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+                    int discount = (int)p.disc;
+                    string image = "";
 
-                            request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + little_type + "';";
-                            temp_dt = SQL_Helper.Just_do_it(request);
-                            if (image.Length < 1)
-                                image = temp_dt.Rows[0].ItemArray[0].ToString();
-                            request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
-                            temp_dt = SQL_Helper.Just_do_it(request);
-                            if (image.Length < 1)
-                                image = temp_dt.Rows[0].ItemArray[0].ToString();
-
-                            big_type = temp_dt.Rows[0].ItemArray[1].ToString();
-                            if (image.Length < 1)
+                    switch (p.group)
+                    {
+                        case Group.Product:
                             {
-                                image = Get_string_img("no_image.png");
+                                string prod_name = " ";
+                                request = "SELECT product_name, image_prod, type_little_name, brand_ID FROM products WHERE ID_product = '" + p.id_prod + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                prod_name = temp_dt.Rows[0].ItemArray[0].ToString();
+                                image = temp_dt.Rows[0].ItemArray[1].ToString();
+                                string little_type = temp_dt.Rows[0].ItemArray[2].ToString();
+                                string big_type = "";
+                                request = "SELECT Image_brand, brand_name FROM brands WHERE ID_brand = '" + temp_dt.Rows[0].ItemArray[3].ToString() + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                string brand = temp_dt.Rows[0].ItemArray[1].ToString();
+                                if (image.Length < 1)
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+
+                                request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + little_type + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                if (image.Length < 1)
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                if (image.Length < 1)
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+
+                                big_type = temp_dt.Rows[0].ItemArray[1].ToString();
+                                if (image.Length < 1)
+                                {
+                                    image = Get_string_img("no_image.png");
+                                }
+
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+
+                                this_path = Save_code123(input, this_path, image_format);
+
+                                String imgString = Get_string_img(this_path);
+                                text += "<table align=\"center\" width=80% >";
+                                text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
+                                String[] prod_n = prod_name.Split('_');
+                                String all_text = "Скидка " + discount + "% На товар брэнда " + brand.Replace('-', ' ') + ": ";
+                                for (int i = 2; i < prod_n.Length; i++)
+                                {
+                                    all_text += prod_n[i].Replace('-', ' ') + " ";
+                                }
+                                //Cinzano-Spumante_Венгрия_Шампанское_Белое_Сухое_1л
+                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+
+                                break;
                             }
-
-                            string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                            string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
-
-                            this_path = Save_code123(input, this_path, image_format);
-                            //Code128 c = new Code128(input);
-                            //Bitmap image_this = c.get_img();
-                            //Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
-                            //Bitmap strih2 = DrawWatermark(strih_t, input);
-                            //strih2.Save(this_path, image_format);
-                            //System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
-                            //System.Drawing.ImageConverter converter = new ImageConverter();
-                            //String imgString = Convert.ToBase64String((byte[])converter.ConvertTo(temp, typeof(byte[])));
-                            //imgString = "data:image/png;base64," + imgString;
-                            String imgString = Get_string_img(this_path);
-                            text += "<table align=\"center\" width=80% >";
-                            text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
-                            String[] prod_n = prod_name.Split('_');
-                            String all_text = "Скидка " + discount + "% На товар брэнда " + brand.Replace('-', ' ') + ": ";
-                            for(int i = 2;  i< prod_n.Length; i++)
+                        case Group.Brand:
                             {
-                                all_text += prod_n[i].Replace('-', ' ') + " ";
+                                request = "SELECT Image_brand, brand_name FROM brands WHERE ID_brand = '" + p.id_prod + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                string brand = temp_dt.Rows[0].ItemArray[1].ToString();
+                                image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                if (image.Length < 1)
+                                {
+                                    image = Get_string_img("no_image.png");
+                                }
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                this_path = Save_code123(input, this_path, image_format);
+                                String imgString = Get_string_img(this_path);
+                                text += "<table align=\"center\" width=80% >";
+                                text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
+                                String all_text = "Скидка " + discount + "% На весь товар брэнда " + brand.Replace('-', ' ');
+                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+                                break;
                             }
-                            //Cinzano-Spumante_Венгрия_Шампанское_Белое_Сухое_1л
-                            text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+                        case Group.Little_type:
+                            {
+                                request = "SELECT name_product_type_little, image_little_type, ID_product_type_bigger FROM product_type_little WHERE ID_product_type_little = '" + p.id_prod + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                string little_typ = temp_dt.Rows[0].ItemArray[0].ToString();
+                                image = temp_dt.Rows[0].ItemArray[1].ToString();
+                                string big_type = "";
+                                request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[2].ToString() + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                if (image.Length < 1)
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                big_type = temp_dt.Rows[0].ItemArray[1].ToString();
+                                if (image.Length < 1)
+                                {
+                                    image = Get_string_img("no_image.png");
+                                }
 
-                            break;
-                        }
-                    case Group.Brand:
-                        {
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
 
-                            break;
-                        }
-                    case Group.Little_type:
-                        {
+                                this_path = Save_code123(input, this_path, image_format);
 
-                            break;
-                        }
-                    case Group.Big_type:
-                        {
+                                String imgString = Get_string_img(this_path);
+                                text += "<table align=\"center\" width=80% >";
+                                text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
+                                String all_text = "Скидка " + discount + "% На все товары категории " + little_typ.Replace('-', ' ') + " из отдела " + big_type.Replace('-', ' ');
+                                //Cinzano-Spumante_Венгрия_Шампанское_Белое_Сухое_1л
+                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+                                break;
+                            }
+                        case Group.Big_type:
+                            {
+                                string big_type = "";
+                                request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + p.id_prod + "';";
+                                temp_dt = SQL_Helper.Just_do_it(request);
+                                if (image.Length < 1)
+                                    image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                big_type = temp_dt.Rows[0].ItemArray[1].ToString();
+                                if (image.Length < 1)
+                                {
+                                    image = Get_string_img("no_image.png");
+                                }
 
-                            break;
-                        }
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                this_path = Save_code123(input, this_path, image_format);
+                                String imgString = Get_string_img(this_path);
+                                text += "<table align=\"center\" width=80% >";
+                                text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
+                                String all_text = "Скидка " + discount + "% На все товары отдела " + big_type.Replace('-', ' ');
+                                //Cinzano-Spumante_Венгрия_Шампанское_Белое_Сухое_1л
+                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
+                                break;
+                            }
+                    }
+
                 }
+                string Shops = "";
+                foreach (String sh in gs.assortiments[0].Get_shops())
+                {
+                    string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + sh + "';";
+                    temp_dt = SQL_Helper.Just_do_it(re);
+                    Shops += "Город " + temp_dt.Rows[0].ItemArray[1].ToString() + " улица " + temp_dt.Rows[0].ItemArray[0].ToString() + ", ";
+                }
+                Shops = Shops.Substring(0, Shops.Length - 1);
+                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "Ждем вас в магазинах по адресам: " + Shops + "</p></td></tr></table>";
 
+
+                string attach = path + "\\" + client + " " + name;
+                string attach_html = attach + ".html";
+                System.IO.StreamWriter wrt = new StreamWriter(attach_html);
+                wrt.WriteLine(text);
+                wrt.Close();
+
+                //string name_f = client + " " + name + ".pdf";
+                string attach_pdf = Get_pdf(text, attach);
+                Mail_it(text, mail, attach_pdf, attach_html);
+                promos.Remove(client);
             }
-            wrt.WriteLine(text);
-            wrt.Close();
-            Mail_it(text, mail);
-
-
         }
-        public void Mail_it(string text, string mail)
+        public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
         {
             // отправитель - устанавливаем адрес и отображаемое в письме имя
             MailAddress from = new MailAddress("ESGdiplom2020shop@yandex.ru", "Торговая сеть N");
@@ -1211,6 +1288,8 @@ namespace АИСТ.Class.algoritms
             m.Body = text;
             // письмо представляет код html
             m.IsBodyHtml = true;
+            m.Attachments.Add(new Attachment(attach_html));
+            m.Attachments.Add(new Attachment(attach_pdf));
             // адрес smtp-сервера и порт, с которого будем отправлять письмо
             SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 587);
             // логин и пароль
@@ -1224,14 +1303,14 @@ namespace АИСТ.Class.algoritms
             Bitmap bitmap = new Bitmap(originalImage.Width, originalImage.Height);
             using (Graphics gr = Graphics.FromImage(bitmap))
             {
-                gr.DrawImage(originalImage, new Rectangle(0, 0, originalImage.Width, originalImage.Height));
+                gr.DrawImage(originalImage, new System.Drawing.Rectangle(0, 0, originalImage.Width, originalImage.Height));
 
                 float xText = originalImage.Width;
                 float yText = 20;
                 float fontSize = 11;
 
                 gr.FillRectangle(new SolidBrush(Color.White), 0, originalImage.Height-20, xText, yText);
-                gr.DrawString(text, new Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(Color.Black), 40, originalImage.Height-20);
+                gr.DrawString(text, new System.Drawing.Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(Color.Black), 40, originalImage.Height-20);
                // gr.DrawString(text, new Font("Segoe UI", fontSize, FontStyle.Bold), new SolidBrush(Color.DodgerBlue), xText, yText);
                 return bitmap;
             }
@@ -1254,6 +1333,31 @@ namespace АИСТ.Class.algoritms
             Bitmap strih2 = DrawWatermark(strih_t, input);
             strih2.Save(this_path, image_format);
             return this_path;
+        }
+
+        private string Get_pdf(string text, string attach)
+        {
+            //string AppPatch = Application.StartupPath;
+           // string HTMLName = attach + ".html";
+            string HTMLPatch = attach + ".html";   
+            string PDFPatch = attach + ".pdf";
+            string HTMLBody = text; // сам текст html храню в ресурсах, оттуда и пользую
+            //Write text to file
+            StreamWriter streamwriter = new StreamWriter(HTMLPatch);
+            streamwriter.WriteLine(HTMLBody);
+            streamwriter.Close();
+            //end write text
+            // instantiate the html to pdf converter
+            HtmlToPdf converter = new HtmlToPdf();
+            // convert the url to pdf
+            //SelectPdf.PdfDocument doc = converter.ConvertUrl(HTMLPatch);
+            SelectPdf.PdfDocument doc = converter.ConvertHtmlString(text);
+            // save pdf document
+            doc.Save(PDFPatch);
+            // close pdf document
+            doc.Close();
+
+            return PDFPatch;
         }
     }
 }
