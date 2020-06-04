@@ -19,6 +19,7 @@ using АИСТ.Class.essence;
 using АИСТ.Class.Setttings;
 using АИСТ.Forms;
 using System.Drawing;
+using System.Text;
 
 namespace АИСТ.Class.algoritms
 {
@@ -1091,20 +1092,21 @@ namespace АИСТ.Class.algoritms
         public void Generate_mails(Dictionary<string, List<Promo>> promos)
         {
             string client = promos.First().Key;
+            System.IO.StreamWriter wrt = new StreamWriter("output.html");
             List<Promo> promo = promos.First().Value;
-            string text = "<h2>Дорогой клиент, мы рады, что вы с нами!</h2>";
+            string text = "<h2 align=\"center\">Дорогой клиент, мы рады, что вы с нами!</h2>";
             
             string request = "SELECT FIO_customer, email_customer FROM customers WHERE ID_customer = '" + client + "';";
             DataTable temp_dt = SQL_Helper.Just_do_it(request);
             string mail = temp_dt.Rows[0].ItemArray[1].ToString();
-            string name = temp_dt.Rows[0].ItemArray[1].ToString();
-            text += "<br> И специально для вас, <b>" + name +"</b>, мы подготовили эти уникальные предложения.</br>";
-            text += "<br> Что бы воспользоваться ими - просто покажите на кассе эти штрихкоды </br>";
+            string name = temp_dt.Rows[0].ItemArray[0].ToString();
+            text += "<p align=\"center\"> И специально для вас, <b>" + name +"</b>, мы подготовили эти уникальные предложения.</p>";
+            text += "<p align=\"center\"> Что бы воспользоваться ими - просто покажите на кассе эти <b>штрихкоды!</b></p>";
             string path = Directory.GetCurrentDirectory();
             string[] d = Directory.GetDirectories(path);
             path += "\\promos" + DateTime.Now.ToString().Replace(':', '.');
             Directory.CreateDirectory(path);
-            System.Drawing.Imaging.ImageFormat imf = System.Drawing.Imaging.ImageFormat.Bmp;
+            System.Drawing.Imaging.ImageFormat image_format = System.Drawing.Imaging.ImageFormat.Bmp;
             foreach (Promo p in promo)
             {
                 int discount = (int)p.disc;
@@ -1119,6 +1121,8 @@ namespace АИСТ.Class.algoritms
                             temp_dt = SQL_Helper.Just_do_it(request);
                             prod_name = temp_dt.Rows[0].ItemArray[0].ToString();
                             image = temp_dt.Rows[0].ItemArray[1].ToString();
+                            string little_type = temp_dt.Rows[0].ItemArray[2].ToString();
+                            string big_type = "";
                             if (image.Length < 1)
                             {
                                 request = "SELECT image_little_type, ID_product_type_bigger FROM product_type_little WHERE name_product_type_little = '" + temp_dt.Rows[0].ItemArray[2].ToString() + "';";
@@ -1126,9 +1130,10 @@ namespace АИСТ.Class.algoritms
                                 image = temp_dt.Rows[0].ItemArray[0].ToString();
                                 if (image.Length < 1)
                                 {
-                                    request = "SELECT image_big_type FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
+                                    request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + temp_dt.Rows[0].ItemArray[1].ToString() + "';";
                                     temp_dt = SQL_Helper.Just_do_it(request);
                                     image = temp_dt.Rows[0].ItemArray[0].ToString();
+                                    big_type = temp_dt.Rows[0].ItemArray[1].ToString();
                                     if (image.Length < 1)
                                     {
                                         image = "no_image.png";
@@ -1142,13 +1147,32 @@ namespace АИСТ.Class.algoritms
                                 //Bitmap strih = new Bitmap(image_this, new Size(image_this.Width, 100));
                                 Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
                                 Bitmap strih2 = DrawWatermark(strih_t, input);
-                                strih2.Save(this_path, imf);
-                               // strih2.Save(this_path, imf);
-                            
+                                strih2.Save(this_path, image_format);
+                                // strih2.Save(this_path, imf);
+                                ///TODO: Красиво оформить текст  
+                                ///Ferplast_Россия_Амуниция-для-питомцев_Клетка-для-грызунов_1шт prod_name 
+                                ///little_type - Вино например
+                                ///image - картинка товара
+                                ///big_type - Алкогольл
+                                ///this_path -штрихкод в btm
+                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(strih2.ToString().ToCharArray()));
+                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(this_path.Replace('\\', '/')));
+                                //Image image_b = Image.FromFile(@"this_path");
+                                //System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+                                //image_b.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
+                                //byte[] b = memoryStream.ToArray();
+                                //this_path = Convert.ToBase64String(Encoding.UTF8.GetBytes(strih2.ToString().ToCharArray()));
+                                //this_path = this_path.Replace('\\', '/');
+                                //data:image/png;base64
+                                System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
+                                System.Drawing.ImageConverter converter = new ImageConverter();
+                                String imgString = Convert.ToBase64String((byte[])converter.ConvertTo(temp, typeof(byte[])));
+                                imgString = "data:image/png;base64," + imgString;
+                                text += "<table align=\"center\" width=80% border=\"1\">";
+                                text += "<tr><td><img src=\"" + image + "\" width=50% height=60%></td><td><img src=\"" + imgString + "\" width=50% height=60%></td></tr>";
+                                //text += "<tr><td><img src=\"" + image + "\" width=50% height=60%></td><td><img src=\"" + imgString + "\" width=50% height=60%></td></tr>";
+                                text += "<tr><td colspan=\"2\"><p align=\"center\">" + prod_name + "</p></td></tr></table>";
 
-
-                        
-                            text += "<br> Что бы воспользоваться ими - просто покажите на кассе эти штрихкоды </br>";
                             }
                             break;
                         }
@@ -1170,6 +1194,9 @@ namespace АИСТ.Class.algoritms
                 }
 
             }
+            wrt.WriteLine(text);
+            wrt.Close();
+            Mail_it(text, mail);
 
 
         }
