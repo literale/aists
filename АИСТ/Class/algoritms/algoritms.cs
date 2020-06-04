@@ -117,7 +117,7 @@ namespace АИСТ.Class.algoritms
                      customer_set.Get_active()[1].ToString("u").Substring(0, 10)
                 };
                 int[] av_sum = customer_set.Get_averrage_sum(); //границы средней суммы покупок для данного сета
-                Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>(); //ид клиента, сумма покупок киента + кол-во чеков
+                Dictionary<string, double[]> client_sum = new Dictionary<string, double[]>(); //ид клиента, сумма покупок киента + кол-во покупок
                 Dictionary<string, List<string>> client_checks = new Dictionary<string, List<string>>();//ид клиента, чеки клиента
                 Dictionary<string, double> cust = new Dictionary<string, double>(); // чистый словарь с клиентами и суммой покупок
                 //client_prod; //<Ид клиента, <ид товара - <кол-во товара - цена товара>>>
@@ -273,6 +273,10 @@ namespace АИСТ.Class.algoritms
             }
             return client_prod;
         }
+
+        /// Функция анализа покупок каждого клиента
+        /// <param name="client_tabs"></param> итоговая таблица с клиентам, редактируемая и возвращаемая в этой функции
+        /// <param name="client_prod"></param> //словарь подробных покупок клиента
         public List<Client_Tab> prod_analitic_abc_xyz(List<Client_Tab> client_tabs, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod)
         {
             foreach (Client_Tab ct in client_tabs)
@@ -371,11 +375,21 @@ namespace АИСТ.Class.algoritms
             {
                 if (kvp.Key.Item2 == Group.Product)
                 {
-                        if (!kvp.Value)
-                        {
-
+                    if (!kvp.Value)
+                    {
                         bool b = all_prods.Remove(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2));
-                        bool c = b;
+                    }
+                    else
+                    {
+                        string request = "SELECT product_amount FROM product_on_store WHERE ID_product_store = '" + kvp.Key.Item1 + "';";
+                        DataTable temp_dt = SQL_Helper.Just_do_it(request);
+                        double amount = 0;
+                        foreach(DataRow dt in temp_dt.Rows)
+                        {
+                            amount += Convert.ToDouble(dt.ItemArray[0].ToString());
+                        }
+                        if (!all_prods.ContainsKey(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)))
+                            all_prods.Add(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2), amount);
                     }
                 }
                 if (kvp.Key.Item2 == Group.Brand)
@@ -408,7 +422,6 @@ namespace АИСТ.Class.algoritms
                         else
                         {
                             bool b = all_prods.Remove(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product));//удалим так же все продукты этой группы
-                            bool c = b;
                         }
 
                     }
@@ -726,7 +739,12 @@ namespace АИСТ.Class.algoritms
 
 
         //--------------------------------ОБЩЕЕ---------------------------------------------//
-
+        /// <summary>
+        /// Функция определения типа объекта в разрезе ABC XYZ анализа
+        /// </summary>
+        /// <param name="param"></param> - словарь, содержащий в себе объекты для анализа и значение, по которому будет определяться тип
+        /// <param name="az"></param> пременная, которая определяет какой анализ мы используем - ABC или XYZ
+        /// <returns></returns> - Словарь, содержащий в себе объекты и их тип
         public Dictionary<string, Type_ABC_XYZ> obj_Types(Dictionary<string, double> param, string az )
         {
             Dictionary<string, Type_ABC_XYZ> clients_types = new Dictionary<string, Type_ABC_XYZ>();
@@ -1033,7 +1051,40 @@ namespace АИСТ.Class.algoritms
 
                 }
                 full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
+                Dictionary<Tuple<string, Group>, Tuple<double, double>> temp_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>(full_prior);
+                ///дополнительные плюшки
+                double di = 10;
+                Random r1 = new Random();
+                for (int l = 0; l < 5; l++)
+                {
+                    Tuple<string, Group> key = temp_prior.First().Key;
+                    temp_prior.Remove(key);
+                    if (key.Item2 == Group.Product)
+                    {
+                        if (r1.Next(0, 2) == 0)
+                        {
+                            full_prior.Remove(key);
+                            string request = "SELECT type_little_name FROM products WHERE ID_product = '" + key.Item1 + "';";
+                            DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
+                            request = "SELECT ID_product_type_little FROM product_type_little WHERE name_product_type_little = '" + temp_dt2.Rows[0].ItemArray[0].ToString() + "';";
+                            temp_dt2 = SQL_Helper.Just_do_it(request);
+                            temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Little_type, di));
+                            di--;
+                        }
+                        else
+                        {
+                            full_prior.Remove(key);
+                            string request = "SELECT brand_ID FROM products WHERE ID_product = '" + key.Item1 + "';";
+                            DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
+                            temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Brand, di));
+                            di--;
 
+                        }
+                    }
+                    if (temp_prior.Count < 1)
+                        break;
+
+                }
                 foreach (double prob in distribution_for_disc.Keys)//для кадой вероятносит
                 {
                     List<Tuple<string, Group>> prods = distribution_full[prob];//список товаров с этой вероятностью
@@ -1072,7 +1123,7 @@ namespace АИСТ.Class.algoritms
         public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
         {
             int border = promos.Count();
-            border = 3;
+            border = 5;
 
             prBar.Maximum = border;
             prBar.Value = 0;
@@ -1162,7 +1213,7 @@ namespace АИСТ.Class.algoritms
                                     image = Get_string_img("no_image.png");
                                 }
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString()+client + ".bmp";
                                 this_path = Save_code123(input, this_path, image_format);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
@@ -1189,7 +1240,7 @@ namespace АИСТ.Class.algoritms
                                 }
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + client + ".bmp";
 
                                 this_path = Save_code123(input, this_path, image_format);
 
@@ -1215,7 +1266,7 @@ namespace АИСТ.Class.algoritms
                                 }
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                string this_path = path + "\\" + p.id_prod + p.group.ToString()+ client + ".bmp";
                                 this_path = Save_code123(input, this_path, image_format);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
