@@ -26,5 +26,20 @@ namespace АИСТ.Forms
         {
 
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox11_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

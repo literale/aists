@@ -15,7 +15,23 @@ namespace АИСТ.Class
         public static void Temp_set_tabs()
         {
             all_tabs.Add("products", new Tabs("products"));
+            Dictionary<string, string> fields = new Dictionary<string, string>();
+            fields.Add("ID_product", "ID_product");
+            fields.Add("product_name", "product_name");
+            fields.Add("type_little_name", "type_little_name");
+            fields.Add("brand_ID", "brand_ID");
+            fields.Add("product_cost", "product_cost");
+            fields.Add("image_prod", "image_prod");
+            all_tabs["products"].Set_fields(fields);
+
             all_tabs.Add("brands", new Tabs("brands"));
+            fields = new Dictionary<string, string>();
+            fields.Add("ID_brand", "ID_brand");
+            fields.Add("brand_name", "brand_name");
+            fields.Add("brand_counrty", "brand_counrty");
+            fields.Add("Image_brand", "Image_brand");
+            all_tabs["brands"].Set_fields(fields);
+
             all_tabs.Add("big_type", new Tabs("product_type_big"));
             all_tabs.Add("little_type", new Tabs("product_type_little"));
             all_tabs.Add("shops", new Tabs("shops"));
@@ -27,6 +43,8 @@ namespace АИСТ.Class
             all_tabs.Add("promo_info", new Tabs("promo_info"));
             all_tabs.Add("promo_history", new Tabs("promo_history"));
             all_tabs.Add("groups", new Tabs("type_group"));
+
+            fields.Add("", "");
         }
         public static void temp_set_email()
         {

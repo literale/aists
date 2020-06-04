@@ -77,7 +77,7 @@ namespace АИСТ.Class.algoritms
 
             rtb.Text += "Начат процесс анализа товаров" + '\n';
             rtb.Refresh();
-            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
          //   List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
             rtb.Text += "Товары проанализированы\n ";
             rtb.Refresh();
@@ -85,7 +85,7 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "Начат процесс генерации предложений\n ";
             rtb.Refresh();
             myStopwatch.Start();
-            Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(prodTabs, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
+            Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(catalog_prods, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
             Object[] d = Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
             Dictionary<string, List<Promo>> promos =  Generate(d, gs);
             rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
@@ -325,10 +325,10 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "       Начат анализ товаров \n ";
             rtb.Refresh();
             //prod_Tabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
-            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
             rtb.Text += "   Анализ товар закончен \n ";
             rtb.Refresh();
-            return prodTabs;
+            return catalog_prods;
         }
         public Dictionary<Tuple<string, Group>, double> Get_All_simple_products(List<Assortiment> all_assortiment_sets)
         {
@@ -684,10 +684,10 @@ namespace АИСТ.Class.algoritms
                 else temp_abcxyz.Add(obj_Types(diction_sum_value[i], "x"));
             }
             //List<Prod_tab> prod_Tabs = Get_prod_tabs(temp_abcxyz);
-            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = new Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>>();
-            prodTabs = Get_prod_list(temp_abcxyz, prodTabs);
+          //  Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods = new Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>>();
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>>  catalog_prods = Get_prod_list(temp_abcxyz);
             myStopwatch2.Stop();
-            return prodTabs;
+            return catalog_prods;
         }
         public List<Prod_tab> Get_prod_tabs(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
         {
@@ -709,32 +709,35 @@ namespace АИСТ.Class.algoritms
             }
             return prod_Tabs;
         }
-        public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> Get_prod_list(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz, Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs)
+        /// <summary>
+        /// Функция сведения словарей в единый каталог
+        /// </summary>
+        /// <param name="temp_abcxyz"></param> Словари
+        /// <returns></returns>
+        public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> Get_prod_list(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
         {
-           // List<Prod_tab> prod_Tabs = new List<Prod_tab>();
+            Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods = new Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>>();
             List<Group> g = new List<Group>() { Group.Product, Group.Brand, Group.Little_type, Group.Big_type };
             int j = 0;
             for (int i = 0; i < 8; i += 2)
             {
                 foreach (string id in temp_abcxyz[i].Keys)
                 {
-                    //Tuple<Group, Type_ABC_XYZ[]> key = new Tuple<Group, Type_ABC_XYZ[]>(g[j], new Type_ABC_XYZ[2] { temp_abcxyz[i][id], temp_abcxyz[i+1][id] } );
                     Tuple < Type_ABC_XYZ, Type_ABC_XYZ > a = new Tuple < Type_ABC_XYZ, Type_ABC_XYZ >( temp_abcxyz[i][id], temp_abcxyz[i + 1][id] );
-                    if (prodTabs.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)))
+                    if (catalog_prods.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)))
                     {
-                        prodTabs[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)].Add(id);
+                        catalog_prods[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a)].Add(id);
                     }
                     else
                     {
-
                         List<string> tl = new List<string>();
                         tl.Add(id);
-                        prodTabs.Add(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a), tl);
+                        catalog_prods.Add(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[j], a), tl);
                     }
                 }
                 j++;
             }
-            return prodTabs;
+            return catalog_prods;
         }
 
 
@@ -810,13 +813,11 @@ namespace АИСТ.Class.algoritms
         }
 
         //--------------------------------Генерация----------------------------------------------//
-        public Dictionary<string, List<Final_product_group>> Get_summary_tables(Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs, List<Client_Tab> client_tabs, Generate_Setttings gs)
+        public Dictionary<string, List<Final_product_group>> Get_summary_tables(Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods, List<Client_Tab> client_tabs, Generate_Setttings gs)
         {
-           // string file = "";
-            Table_for_strategy[,] clients = gs.promo_type.Get_clients();//двумерный массив АВС-XYZ
-            Table_for_strategy[,] products = gs.promo_type.Get_products();
-            Dictionary<string, List<Final_product_group>> summary = new Dictionary<string, List<Final_product_group>>();
-            List<Client_Tab> client_tabs_clear = new List<Client_Tab>(client_tabs);
+            Table_for_strategy[,] clients = gs.promo_type.Get_clients();//двумерный массив АВС-XYZ клиентов
+            Table_for_strategy[,] products = gs.promo_type.Get_products();//двумерный массив АВС-XYZ товаров
+            Dictionary<string, List<Final_product_group>> summary = new Dictionary<string, List<Final_product_group>>(); //сводная коллекция, где для каджого клиента есть Несколько листов продуктов, с различающимися параметрами приоритета
             rtb.Text += "   Начат процесс создания сводных таблиц\n ";
             rtb.Refresh();
             foreach (Client_Tab client in client_tabs)
@@ -826,7 +827,6 @@ namespace АИСТ.Class.algoritms
                 Table_for_strategy table_strat_client = Get_client_or_prod(abc, xyz, clients); //строка из матрицы стратегий для этого клиента
                 if (table_strat_client.Get_prob_of_discount_for().Count == 0)   
                 {
-                    client_tabs_clear.Remove(client);
                     continue;//сбрасываем, если для этих клиентов не предусмотрена акция
                 }
                 Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> goods_for_this_client = table_strat_client.Get_prob_of_discount_for(); //если не пусто - собираем стратегии
@@ -841,9 +841,9 @@ namespace АИСТ.Class.algoritms
                     for (int i = 0; i < 4; i++)
                     {
                        
-                        if (prodTabs.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)))
+                        if (catalog_prods.ContainsKey(new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)))
                         {
-                            List<string> temp = prodTabs[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)];
+                            List<string> temp = catalog_prods[new Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>(g[i], type)];
                             List<string> temp2 = new List<string>();
                             foreach (string id in temp)
                             {
@@ -939,43 +939,29 @@ namespace АИСТ.Class.algoritms
             Random r = new Random();
             comparable_lists_clients = comparable_lists_clients.OrderByDescending(pair => pair.Value.Count).ToDictionary(pair => pair.Key, pair => pair.Value);
             List<string> s = new List<string>(comparable_lists_clients.Keys);
-            Dictionary<string, List<Product_for_list_client>> temp = new Dictionary<string, List<Product_for_list_client>>();
-            Dictionary<string, List<Product_for_list_client>> temp2 = new Dictionary<string, List<Product_for_list_client>>();
-
-            for (int i = 0; i< 5; i++)
-            {
-                //t k = r.Next(0, s.Count);
-                temp.Add(s[i], comparable_lists_clients[s[i]]);
-                int j = s.Count - i-1;
-                temp.Add(s[j], comparable_lists_clients[s[j]]);
-                int k = s.Count / 2 - i;
-                temp.Add(s[k], comparable_lists_clients[s[k]]);
-            }
-             int[] discount = new int[2] { gs.min_discount, gs.max_discount };
+            int[] discount = new int[2] { gs.min_discount, gs.max_discount };
             Dictionary<string, List<Promo>> promos = new Dictionary<string, List<Promo>>();
 
 
             foreach (string client in comparable_lists_clients.Keys)
             {
                 Dictionary<Tuple<string, Group>, Product_for_list_shop> temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
+                //для каждого товара в списке клиента ищем соотвтсвие в списке товаров
                 foreach (Product_for_list_client pc in comparable_lists_clients[client])
                 {
                     temp_goods.Add(new Tuple<string, Group>(pc.prod_id, pc.g), comparable_lists_goods[new Tuple<string, Group>(pc.prod_id, pc.g)]);
                 }
 
-                temp_goods = temp_goods.OrderByDescending(pair => pair.Value.sum).ToDictionary(pair => pair.Key, pair => pair.Value);
+                if (temp_goods.Count == 0 || comparable_lists_clients[client].Count == 0) continue;
 
-                //temp[client] = client.OrderByDescending(pair => pair).ToDictionary(pair => pair.Key, pair => pair.Value);
                 List<Product_for_list_client> temp_client_goods = comparable_lists_clients[client].OrderByDescending(pair => pair.sum).ToList();
-                ///напоминалка
-                ///temp = new Dictionary<string, List<Product_for_list_client>>(); - проды клиента
-                ///temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>(); - проды магазинв
-                if (temp_goods.Count == 0 || temp_client_goods.Count == 0) continue;
+                temp_goods = temp_goods.OrderByDescending(pair => pair.Value.sum).ToDictionary(pair => pair.Key, pair => pair.Value);
+                
                 List<Promo> temp_p = new List<Promo>();
                 promos.Add(client, temp_p);
                 double disc_spread = discount[1] - discount[0];
                 double disc_step = disc_spread / 3;
-                disc_step = Math.Round(disc_step, 1);
+
                 Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
                 Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
                 Dictionary<double, List <Tuple<string, Group>>>  distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
@@ -992,15 +978,6 @@ namespace АИСТ.Class.algoritms
                         
                     }
                     prods_c.Add(new Tuple<string, Group>(k.prod_id, k.g), k.disc_size_by_client);
-                   // if (prods_c.ContainsKey(new Tuple<string, Group>(k.prod_id, k.g)))
-                   // {
-                   //     prods_c[new Tuple<string, Group>(k.prod_id, k.g)].Add(k.disc_size_by_client);
-                   // }
-                   //else
-                   // {
-                   //     prods_c[k.disc_size_by_client] = new List<string>();
-                   //     prods_c[k.disc_size_by_client].Add(k.disc_size_by_client);
-                   // }
                     if (prods_s.ContainsKey(k.prior_by_good))
                     {
                         prods_s[k.prior_by_good].Add(new Tuple<string, Group>(k.prod_id, k.g));
@@ -1012,9 +989,8 @@ namespace АИСТ.Class.algoritms
                     }
 
                 }
+
                 Dictionary<double, int> distribution_for_disc = new Dictionary<double, int>();
-                //List<Product_for_list_client> temp_client_goods Напоминалка. сортированый список по честному приоритету
-                ///temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>(); - проды магазинв
                 foreach (double prob in distribution_full.Keys)//получаем сколько скидок каждого типа получим
                 {
                     int h = 0;
@@ -1022,16 +998,15 @@ namespace АИСТ.Class.algoritms
                     {
                         h = 5;
                     }
-                    int hh = 0;
-                    foreach (Tuple<string, Group> t in distribution_full[prob])
+                    else
                     {
-                        hh++;
+                        int hh = distribution_full[prob].Count();
+                        h = Convert.ToInt32(hh * (prob / 100));
+                        if (h < 5) h = 5;
                     }
-                    h = Convert.ToInt32(hh * (prob / 100));
-                    if (h < 5) h = 5;
-
                     distribution_for_disc.Add(prob, h);
                 }
+
                 //соберем список по совместному приоритету (например сумма и приоритет)
                 Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
                 foreach (double prob in prods_s.Keys)
@@ -1050,6 +1025,8 @@ namespace АИСТ.Class.algoritms
                     }
 
                 }
+
+
                 full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
                 Dictionary<Tuple<string, Group>, Tuple<double, double>> temp_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>(full_prior);
                 ///дополнительные плюшки
@@ -1085,12 +1062,12 @@ namespace АИСТ.Class.algoritms
                         break;
 
                 }
+
                 foreach (double prob in distribution_for_disc.Keys)//для кадой вероятносит
                 {
                     List<Tuple<string, Group>> prods = distribution_full[prob];//список товаров с этой вероятностью
                     for (int i = 0; i < distribution_for_disc[prob]; i++) //кол-во товаров с этой вероятностью
                     {
-                        int f = distribution_for_disc[prob];
                         Tuple<string, Group> delete_this = new Tuple<string, Group>("", Group.Product);
                         foreach(Tuple<string, Group> prod in full_prior.Keys)
                         {
@@ -1118,6 +1095,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             return promos;
         }
+    
         //--------------------------------отправка----------------------------------------------//
 
         public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
@@ -1184,7 +1162,7 @@ namespace АИСТ.Class.algoritms
                                 }
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + ".bmp";
+                                string this_path = path + "\\" + input + ".bmp";
 
                                 this_path = Save_code123(input, this_path, image_format);
 

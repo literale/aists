@@ -28,7 +28,7 @@ namespace АИСТ.Class.AutoSet
             Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 20000, new string[] { "1", "2" }, "c1");
             Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2"}, "a1");
 
-            Customers c1 = new Customers(DateTime.Now.AddDays(-30), DateTime.Now, 5000, 40000, new string[] { "1", "3" }, "c2");
+            Customers c1 = new Customers(DateTime.Now.AddDays(-180), DateTime.Now, 5000, 60000, new string[] { "1", "3" }, "c2");
             Assortiment a1 = new Assortiment(0, 150, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "3" }, "a2");
             List<Assortiment> la = new List<Assortiment>();
             la.Add(a);
@@ -36,7 +36,7 @@ namespace АИСТ.Class.AutoSet
             List<Customers> lc = new List<Customers>();
             lc.Add(c);
             lc.Add(c1);
-            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-90));
+            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-360));
 
             return gs;
         }
