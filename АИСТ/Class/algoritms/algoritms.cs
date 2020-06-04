@@ -30,7 +30,8 @@ namespace АИСТ.Class.algoritms
     class algoritms
     {
         System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
-        RichTextBox rtb = new RichTextBox();
+        Label rtb = new Label();
+        ProgressBar prBar = new ProgressBar();
         Group[] g = new Group[4] { Group.Product, Group.Brand, Group.Little_type, Group.Big_type, };
         List<Dictionary<string, double>> diction_sum_value;//продажи товаров, 8 словарей товар-брэнд-подтим-тип каждый сумма и объем продаж
         Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов кол-вл сумма
@@ -43,16 +44,21 @@ namespace АИСТ.Class.algoritms
            
             foreach (Control ctrl in f2.Controls)
             {
-                if (ctrl is RichTextBox)
+                if (ctrl is Label)
                 {
-                    rtb = (RichTextBox)ctrl;
+                    rtb = (Label)ctrl;
                 }
+                if (ctrl is ProgressBar)
+                {
+                    prBar = (ProgressBar)ctrl;
+                }
+
             }
             rtb.Text = "";
             rtb.Refresh();
 
             
-            rtb.Text += "-Начат импорт настроек-" + '\n';
+            rtb.Text += "Начат импорт настроек" + '\n';
             rtb.Refresh();
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
@@ -60,30 +66,34 @@ namespace АИСТ.Class.algoritms
             List<Customers> all_customres_sets = gs.customers;
             List<Assortiment> all_assortiment_sets = gs.assortiments;
             listProductOverRules rules = gs.rules;
-            rtb.Text += "-Импортированы настройки-" + '\n';
+            rtb.Text += "Импортированы настройки" + '\n';
             rtb.Refresh();
 
-            rtb.Text += "-Начат процесс анализа клиентов-" + '\n';
+            rtb.Text += "Начат процесс анализа клиентов" + '\n';
             rtb.Refresh();
             List<Client_Tab> client_tabs = Get_Clients_analyze(all_customres_sets);
-            rtb.Text += "-Клиенты проанализированы- \n ";
+            rtb.Text += "Клиенты проанализированы \n ";
             rtb.Refresh();
 
-            rtb.Text += "-Начат процесс анализа товаров-" + '\n';
+            rtb.Text += "Начат процесс анализа товаров" + '\n';
             rtb.Refresh();
             Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
          //   List<Prod_tab> prod_tabs = Get_Prod_analyze(all_assortiment_sets, rules, analiz_border);
-            rtb.Text += "-Товары проанализированы-\n ";
+            rtb.Text += "Товары проанализированы\n ";
             rtb.Refresh();
 
-            rtb.Text += "-Начат процесс генерации предложений-\n ";
+            rtb.Text += "Начат процесс генерации предложений\n ";
+            rtb.Refresh();
             myStopwatch.Start();
             Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(prodTabs, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
             Object[] d = Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
             Dictionary<string, List<Promo>> promos =  Generate(d, gs);
-            rtb.Text += "-Начат процесс отправки предложений-\n ";
+            rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
+            rtb.Refresh();
             myStopwatch.Start();
             Generate_mails(promos, gs);
+            rtb.Text += "Закончен процесс отправки предложений\n ";
+            rtb.Refresh();
             // Mail_it(promos);
             myStopwatch.Stop();
             myStopwatch.Reset();
@@ -312,7 +322,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             //prod_Tabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
             Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prodTabs = prod_Analitic_ABC_XYZ(all_prods, analiz_border);
-            rtb.Text += "   анализ товар закончен \n ";
+            rtb.Text += "   Анализ товар закончен \n ";
             rtb.Refresh();
             return prodTabs;
         }
@@ -344,7 +354,11 @@ namespace АИСТ.Class.algoritms
                 foreach (DataRow row in temp_dt.Rows)
                 {
                     object[] temp = row.ItemArray;
-                    temp_diction_prod.Add(new Tuple<string, Group>(temp[0].ToString(), Group.Product), Convert.ToDouble(temp[1].ToString()));
+                    if (!temp_diction_prod.ContainsKey(new Tuple<string, Group>(temp[0].ToString(), Group.Product)))
+                        {
+                        temp_diction_prod.Add(new Tuple<string, Group>(temp[0].ToString(), Group.Product), Convert.ToDouble(temp[1].ToString()));
+                    }
+                    
                 }
                 rtb.Text += "   Закончена сборка из сета товаров " + assortiment.Get_name() + "\n ";
             }
@@ -641,7 +655,6 @@ namespace АИСТ.Class.algoritms
             for (int i = 0; i < 8; i++)
             {
                 diction_sum_value[i] = diction_sum_value[i].OrderBy(pair => Convert.ToDouble(pair.Value)).ToDictionary(pair => pair.Key, pair => pair.Value);
-                int y = 9;
             }
 
             rtb.Text += "   Анализируем товары \n ";
@@ -828,7 +841,6 @@ namespace АИСТ.Class.algoritms
 
                 if (s.Count > 0)
                     summary.Add(client.Get_id(),s);
-                int gffguyik = 0;
             }
             rtb.Text += "   Сводные таблицы собраны \n ";
             rtb.Refresh();
@@ -903,19 +915,13 @@ namespace АИСТ.Class.algoritms
         public Dictionary<string, List<Promo>> Generate(Object[] d, Generate_Setttings gs)
         {
             rtb.Text += "   Начато наложение пространтв \n ";
-            rtb.Refresh();
-           // Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> comparable_lists_clients = (Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>)d[0];
+            rtb.Refresh();   
             Dictionary<Tuple<string, Group>, Product_for_list_shop> comparable_lists_goods = (Dictionary<Tuple<string, Group>, Product_for_list_shop>)d[1];
             Dictionary<string, List<Product_for_list_client>> comparable_lists_clients = (Dictionary<string, List<Product_for_list_client>>)d[0];
-
             Random r = new Random();
             comparable_lists_clients = comparable_lists_clients.OrderByDescending(pair => pair.Value.Count).ToDictionary(pair => pair.Key, pair => pair.Value);
-            // comparable_lists_clients = comparable_lists_clients.OrderByDescending(pair => pair.Value.First().Value.Count).ToDictionary(pair => pair.Key, pair => pair.Value);//сортирует клиентов по кол-ву доступных покупок
             List<string> s = new List<string>(comparable_lists_clients.Keys);
-
-            // Dictionary<string, Dictionary<Group, List<Product_for_list_client>>> temp = new Dictionary<string, Dictionary<Group, List<Product_for_list_client>>>();
             Dictionary<string, List<Product_for_list_client>> temp = new Dictionary<string, List<Product_for_list_client>>();
-            // Dictionary<string, List<Product_for_list_client>> temp2 = new Dictionary<string, List<Product_for_list_client>>();
             Dictionary<string, List<Product_for_list_client>> temp2 = new Dictionary<string, List<Product_for_list_client>>();
 
             for (int i = 0; i< 5; i++)
@@ -933,7 +939,6 @@ namespace АИСТ.Class.algoritms
 
             foreach (string client in comparable_lists_clients.Keys)
             {
-                // promos.Add(client, new List<Promo>());
                 Dictionary<Tuple<string, Group>, Product_for_list_shop> temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
                 foreach (Product_for_list_client pc in comparable_lists_clients[client])
                 {
@@ -953,25 +958,9 @@ namespace АИСТ.Class.algoritms
                 double disc_spread = discount[1] - discount[0];
                 double disc_step = disc_spread / 3;
                 disc_step = Math.Round(disc_step, 1);
-
-                //if (temp_goods.Count == temp_client_goods.Count || temp_client_goods.Count < temp_goods.Count)
-                //{
-                //    foreach (Product_for_list_client k in temp_client_goods)
-                //    {
-                //        double disc = k.disc_size_by_client * disc_step + discount[1];
-                //        temp_p.Add(new Promo(k.prod_id, k.g, disc));
-                //    }
-                //}
-
-                //else
-                //{
-
                 Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
                 Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
                 Dictionary<double, List <Tuple<string, Group>>>  distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
-                //Dictionary<double, List<string>> prods_c = new Dictionary<double, List<string>>();
-                //Dictionary<double, List<string>> prods_s = new Dictionary<double, List<string>>();
-                //Dictionary<double, int> distribution_full = new Dictionary<double, int>();
                 foreach (Product_for_list_client k in temp_client_goods)
                 {
                     if (distribution_full.ContainsKey(k.prob_by_client))
@@ -1027,7 +1016,6 @@ namespace АИСТ.Class.algoritms
                 }
                 //соберем список по совместному приоритету (например сумма и приоритет)
                 Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
-
                 foreach (double prob in prods_s.Keys)
                 {
                     foreach (Tuple<string, Group> t_prod in prods_s[prob])
@@ -1044,12 +1032,6 @@ namespace АИСТ.Class.algoritms
                     }
 
                 }
-
-
-                //Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
-                //Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
-                //Dictionary<double, List<Tuple<string, Group>>> distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
-                //Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
                 full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
 
                 foreach (double prob in distribution_for_disc.Keys)//для кадой вероятносит
@@ -1058,20 +1040,16 @@ namespace АИСТ.Class.algoritms
                     for (int i = 0; i < distribution_for_disc[prob]; i++) //кол-во товаров с этой вероятностью
                     {
                         int f = distribution_for_disc[prob];
-                        bool brk = false;
                         Tuple<string, Group> delete_this = new Tuple<string, Group>("", Group.Product);
                         foreach(Tuple<string, Group> prod in full_prior.Keys)
                         {
                             if (prods.Contains(prod))
                             {
-                                //double disc = k.disc_size_by_client * disc_step + discount[1];
-                                //temp_p.Add(new Promo(k.prod_id, k.g, disc));
                                 double disc = discount[0] + disc_step * prods_c[prod];
                                 double spesial_step = 10*((double)i / distribution_for_disc[prob]);
                                 disc = Convert.ToInt32(disc - spesial_step);
                                 if (disc < discount[0]) disc = discount[0];
                                 temp_p.Add(new Promo(prod.Item1, prod.Item2, disc));
-                                brk = true;
                                 delete_this = prod;
                                 break;
                             }
@@ -1085,8 +1063,6 @@ namespace АИСТ.Class.algoritms
             }
 
 
-                int gy = 8;
-            //}
             rtb.Text += "   Закончено наложение пространтв \n ";
             rtb.Refresh();
             return promos;
@@ -1097,6 +1073,9 @@ namespace АИСТ.Class.algoritms
         {
             int border = promos.Count();
             border = 3;
+
+            prBar.Maximum = border;
+            prBar.Value = 0;
             for (int i_p = 0; i_p < border; i_p++)
             {
                 string client = promos.First().Key;
@@ -1270,6 +1249,7 @@ namespace АИСТ.Class.algoritms
                 string attach_pdf = Get_pdf(text, attach);
                 Mail_it(text, mail, attach_pdf, attach_html);
                 promos.Remove(client);
+                prBar.Value++;
             }
         }
         public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
@@ -1307,8 +1287,6 @@ namespace АИСТ.Class.algoritms
 
                 float xText = originalImage.Width;
                 float yText = 20;
-                float fontSize = 11;
-
                 gr.FillRectangle(new SolidBrush(Color.White), 0, originalImage.Height-20, xText, yText);
                 gr.DrawString(text, new System.Drawing.Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(Color.Black), 40, originalImage.Height-20);
                // gr.DrawString(text, new Font("Segoe UI", fontSize, FontStyle.Bold), new SolidBrush(Color.DodgerBlue), xText, yText);

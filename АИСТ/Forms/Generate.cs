@@ -78,11 +78,11 @@ namespace АИСТ
         private void button2_Click(object sender, EventArgs e)
         {
             
-            checkedListBox2.Items.Add(textBox5.Text);
-            int i = checkedListBox2.Items.Count;
-            checkedListBox2.SetItemChecked(i - 1, true);
-            n++;
-            textBox5.Text = "Клиенты " + n;
+            //checkedListBox2.Items.Add(textBox5.Text);
+            //int i = checkedListBox2.Items.Count;
+            //checkedListBox2.SetItemChecked(i - 1, true);
+            //n++;
+            //textBox5.Text = "Клиенты " + n;
 
         }
 
@@ -100,9 +100,9 @@ namespace АИСТ
 
         private void button6_Click(object sender, EventArgs e)
         {
-            checkedListBox4.Items.Add(textBox6.Text);
-            int i = checkedListBox4.Items.Count;
-            checkedListBox4.SetItemChecked(i - 1, true);
+            //checkedListBox4.Items.Add(textBox6.Text);
+            //int i = checkedListBox4.Items.Count;
+            //checkedListBox4.SetItemChecked(i - 1, true);
             //listBox4.Items.Add(textBox6.Text);
             //listBox4.SetSelected(0, true);
             listBox3.SetSelected(0, true);

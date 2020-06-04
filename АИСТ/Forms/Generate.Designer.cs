@@ -46,8 +46,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkedListBox4 = new System.Windows.Forms.CheckedListBox();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
+            this.label21 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.button5 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -59,8 +59,6 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.checkedListBox5 = new System.Windows.Forms.CheckedListBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
@@ -76,16 +74,20 @@
             this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.checkedListBox5 = new System.Windows.Forms.CheckedListBox();
             this.listBox7 = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
-            this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
-            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
             this.button7 = new System.Windows.Forms.Button();
-            this.label21 = new System.Windows.Forms.Label();
-            this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
+            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
+            this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
+            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.listBox4 = new System.Windows.Forms.ListBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -97,9 +99,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(3, 495);
+            this.button1.Location = new System.Drawing.Point(6, 389);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(258, 23);
+            this.button1.Size = new System.Drawing.Size(247, 23);
             this.button1.TabIndex = 16;
             this.button1.Text = "сгенерировать";
             this.button1.UseVisualStyleBackColor = true;
@@ -270,10 +272,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button8);
+            this.groupBox1.Controls.Add(this.listBox4);
+            this.groupBox1.Controls.Add(this.listBox2);
+            this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Controls.Add(this.dateTimePicker7);
             this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.checkedListBox4);
-            this.groupBox1.Controls.Add(this.checkedListBox2);
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.numericUpDown2);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.numericUpDown1);
@@ -291,21 +296,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Основная информация";
             // 
-            // checkedListBox4
+            // dateTimePicker7
             // 
-            this.checkedListBox4.FormattingEnabled = true;
-            this.checkedListBox4.Location = new System.Drawing.Point(6, 253);
-            this.checkedListBox4.Name = "checkedListBox4";
-            this.checkedListBox4.Size = new System.Drawing.Size(122, 94);
-            this.checkedListBox4.TabIndex = 18;
+            this.dateTimePicker7.Location = new System.Drawing.Point(134, 354);
+            this.dateTimePicker7.Name = "dateTimePicker7";
+            this.dateTimePicker7.Size = new System.Drawing.Size(121, 20);
+            this.dateTimePicker7.TabIndex = 38;
             // 
-            // checkedListBox2
+            // label21
             // 
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(6, 153);
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(122, 94);
-            this.checkedListBox2.TabIndex = 17;
+            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label21.Location = new System.Drawing.Point(6, 355);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(122, 19);
+            this.label21.TabIndex = 37;
+            this.label21.Text = "Анализ с";
             // 
             // numericUpDown2
             // 
@@ -322,9 +327,9 @@
             // button5
             // 
             this.button5.Cursor = System.Windows.Forms.Cursors.SizeNESW;
-            this.button5.Location = new System.Drawing.Point(134, 188);
+            this.button5.Location = new System.Drawing.Point(221, 153);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(35, 29);
+            this.button5.Size = new System.Drawing.Size(34, 30);
             this.button5.TabIndex = 35;
             this.button5.Text = "OK";
             this.button5.UseVisualStyleBackColor = true;
@@ -350,7 +355,7 @@
             "Удалить"});
             this.listBox3.Location = new System.Drawing.Point(134, 153);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(96, 30);
+            this.listBox3.Size = new System.Drawing.Size(85, 30);
             this.listBox3.TabIndex = 36;
             // 
             // label1
@@ -426,26 +431,6 @@
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ассортимент отдельных товаров";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(6, 97);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(89, 28);
-            this.button3.TabIndex = 39;
-            this.button3.Text = "Подгрузить";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // checkedListBox5
-            // 
-            this.checkedListBox5.FormattingEnabled = true;
-            this.checkedListBox5.Items.AddRange(new object[] {
-            "Все",
-            "(инф из бд)"});
-            this.checkedListBox5.Location = new System.Drawing.Point(102, 16);
-            this.checkedListBox5.Name = "checkedListBox5";
-            this.checkedListBox5.Size = new System.Drawing.Size(146, 109);
-            this.checkedListBox5.TabIndex = 19;
             // 
             // label20
             // 
@@ -582,6 +567,26 @@
             this.label18.TabIndex = 15;
             this.label18.Text = "На складе";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 97);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(89, 28);
+            this.button3.TabIndex = 39;
+            this.button3.Text = "Подгрузить";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBox5
+            // 
+            this.checkedListBox5.FormattingEnabled = true;
+            this.checkedListBox5.Items.AddRange(new object[] {
+            "Все",
+            "(инф из бд)"});
+            this.checkedListBox5.Location = new System.Drawing.Point(102, 16);
+            this.checkedListBox5.Name = "checkedListBox5";
+            this.checkedListBox5.Size = new System.Drawing.Size(146, 109);
+            this.checkedListBox5.TabIndex = 19;
+            // 
             // listBox7
             // 
             this.listBox7.FormattingEnabled = true;
@@ -592,7 +597,7 @@
             "Поддержание интереса"});
             this.listBox7.Location = new System.Drawing.Point(7, 22);
             this.listBox7.Name = "listBox7";
-            this.listBox7.Size = new System.Drawing.Size(242, 82);
+            this.listBox7.Size = new System.Drawing.Size(242, 108);
             this.listBox7.TabIndex = 31;
             // 
             // groupBox4
@@ -602,14 +607,14 @@
             this.groupBox4.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.groupBox4.Location = new System.Drawing.Point(541, 265);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(258, 139);
+            this.groupBox4.Size = new System.Drawing.Size(258, 167);
             this.groupBox4.TabIndex = 32;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "пресет";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(6, 109);
+            this.button4.Location = new System.Drawing.Point(7, 138);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(242, 23);
             this.button4.TabIndex = 32;
@@ -631,6 +636,34 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Обязательно добавить/исключить";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(6, 133);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(247, 23);
+            this.button7.TabIndex = 34;
+            this.button7.Text = "добавить в настройки";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // domainUpDown3
+            // 
+            this.domainUpDown3.Items.Add("Исключить");
+            this.domainUpDown3.Items.Add("Добавить");
+            this.domainUpDown3.Location = new System.Drawing.Point(6, 19);
+            this.domainUpDown3.Name = "domainUpDown3";
+            this.domainUpDown3.Size = new System.Drawing.Size(89, 20);
+            this.domainUpDown3.TabIndex = 22;
+            this.domainUpDown3.Text = "Исключить";
+            // 
+            // domainUpDown2
+            // 
+            this.domainUpDown2.Items.Add("id: 1-50");
+            this.domainUpDown2.Location = new System.Drawing.Point(7, 71);
+            this.domainUpDown2.Name = "domainUpDown2";
+            this.domainUpDown2.Size = new System.Drawing.Size(89, 20);
+            this.domainUpDown2.TabIndex = 21;
+            this.domainUpDown2.Text = "id: 1-50";
+            // 
             // domainUpDown1
             // 
             this.domainUpDown1.Items.Add("Большой тип");
@@ -643,59 +676,56 @@
             this.domainUpDown1.TabIndex = 20;
             this.domainUpDown1.Text = "Большой тип";
             // 
-            // domainUpDown2
+            // listBox1
             // 
-            this.domainUpDown2.Items.Add("id: 1-50");
-            this.domainUpDown2.Location = new System.Drawing.Point(7, 71);
-            this.domainUpDown2.Name = "domainUpDown2";
-            this.domainUpDown2.Size = new System.Drawing.Size(89, 20);
-            this.domainUpDown2.TabIndex = 21;
-            this.domainUpDown2.Text = "id: 1-50";
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Items.AddRange(new object[] {
+            "Ассортимент 1"});
+            this.listBox1.Location = new System.Drawing.Point(6, 153);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(122, 82);
+            this.listBox1.TabIndex = 33;
             // 
-            // domainUpDown3
+            // listBox2
             // 
-            this.domainUpDown3.Items.Add("Исключить");
-            this.domainUpDown3.Items.Add("Добавить");
-            this.domainUpDown3.Location = new System.Drawing.Point(6, 19);
-            this.domainUpDown3.Name = "domainUpDown3";
-            this.domainUpDown3.Size = new System.Drawing.Size(89, 20);
-            this.domainUpDown3.TabIndex = 22;
-            this.domainUpDown3.Text = "Исключить";
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Items.AddRange(new object[] {
+            "Клиенты 1",
+            ""});
+            this.listBox2.Location = new System.Drawing.Point(6, 248);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(122, 95);
+            this.listBox2.TabIndex = 39;
             // 
-            // button7
+            // button8
             // 
-            this.button7.Location = new System.Drawing.Point(5, 131);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(247, 23);
-            this.button7.TabIndex = 34;
-            this.button7.Text = "добавить в настройки";
-            this.button7.UseVisualStyleBackColor = true;
+            this.button8.Cursor = System.Windows.Forms.Cursors.SizeNESW;
+            this.button8.Location = new System.Drawing.Point(221, 248);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(34, 30);
+            this.button8.TabIndex = 40;
+            this.button8.Text = "OK";
+            this.button8.UseVisualStyleBackColor = true;
             // 
-            // label21
+            // listBox4
             // 
-            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label21.Location = new System.Drawing.Point(6, 355);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(79, 19);
-            this.label21.TabIndex = 37;
-            this.label21.Text = "анализ с";
-            // 
-            // dateTimePicker7
-            // 
-            this.dateTimePicker7.Location = new System.Drawing.Point(113, 357);
-            this.dateTimePicker7.Name = "dateTimePicker7";
-            this.dateTimePicker7.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePicker7.TabIndex = 38;
+            this.listBox4.FormattingEnabled = true;
+            this.listBox4.Items.AddRange(new object[] {
+            "Редактировать",
+            "Удалить"});
+            this.listBox4.Location = new System.Drawing.Point(134, 248);
+            this.listBox4.Name = "listBox4";
+            this.listBox4.Size = new System.Drawing.Size(85, 30);
+            this.listBox4.TabIndex = 41;
             // 
             // Generate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 530);
+            this.ClientSize = new System.Drawing.Size(834, 443);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Generate";
@@ -741,7 +771,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckedListBox checkedListBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckedListBox checkedListBox3;
         private System.Windows.Forms.TextBox textBox3;
@@ -762,7 +791,6 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.CheckedListBox checkedListBox4;
         private System.Windows.Forms.CheckedListBox checkedListBox5;
         private System.Windows.Forms.ListBox listBox7;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -775,5 +803,9 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.DateTimePicker dateTimePicker7;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.ListBox listBox4;
+        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }

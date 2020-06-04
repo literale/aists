@@ -37,7 +37,7 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-            //Encrypt_File("info.xml", desCrypto);
+            Encrypt_File("info.xml", desCrypto);
             Decrypt_File("info.xml", desCrypto);
             List<string> bd = new List<string>();
             string[] temp_info = File.ReadAllLines("info.xml");

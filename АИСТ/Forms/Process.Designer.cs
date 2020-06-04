@@ -28,31 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.RichTextBox richTextBox1;
-            richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // label1
             // 
-            richTextBox1.Location = new System.Drawing.Point(13, 13);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new System.Drawing.Size(490, 425);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "\n";
-            richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(107, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Процесс генерации";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(12, 640);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(488, 23);
+            this.progressBar1.TabIndex = 1;
             // 
             // Process
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(richTextBox1);
+            this.ClientSize = new System.Drawing.Size(512, 675);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label1);
             this.Name = "Process";
             this.Text = "Process";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
