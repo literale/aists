@@ -13,11 +13,10 @@ namespace АИСТ.Class.essence
 {
     class Code128
     {
-        public string input;
         public string output;
         List<string> lst;
         Hashtable htb;
-        public void ComputeSum()
+        public string ComputeSum(string input)
         {
             int sum = 104;
             for (int i = 0; i < input.Length; i++)
@@ -33,6 +32,7 @@ namespace АИСТ.Class.essence
             input = newe;
             input += "[";
             input += lst[sum];
+            return input;
         }
         public void Set_Hash()
         {
@@ -257,23 +257,16 @@ namespace АИСТ.Class.essence
             lst.Add("Start C");
             lst.Add("Stop");
         }
-        public Code128(string inp)
+        public Code128(string input)
         {
-            input = inp;
             Set_List();
             Set_Hash();
-            ComputeSum();
+            input = ComputeSum(input);
             input = string.Format("[Start B{0}", input);
             input += "[Stop";
             string[] arr = input.Split('[');
             output += "00000";
             for (int i = 0; i < arr.Length; i++) output += htb[arr[i]];
-        }
-
-        public byte[] Hash_to_byte()
-        {
-            byte[] bt = new byte[output.Length / 8].Select((b, index) => Convert.ToByte(output.Substring(index * 8, 8), 2)).ToArray();
-            return bt;
         }
         public Bitmap get_img()
         {
@@ -286,9 +279,6 @@ namespace АИСТ.Class.essence
             int s2 = Convert.ToInt32(s1 / 25.4);
             int res = (int)x * s2;
             image = new Bitmap(output.Length, 1);
-
-            //byte[] b = Hash_to_byte();
-            //Stream ms = new MemoryStream(b);
             int i = 0;
             Color color = new Color();
             int y = output.Length;

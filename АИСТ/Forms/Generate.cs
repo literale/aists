@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using АИСТ.Class;
 using АИСТ.Class.algoritms;
 
 namespace АИСТ
@@ -18,7 +19,7 @@ namespace АИСТ
         public Generate()
         {
             InitializeComponent();
-            button5.Enabled = false;
+            //button5.Enabled = false;
            
             checkedListBox5.SetItemChecked(0, true);
 
@@ -105,10 +106,10 @@ namespace АИСТ
             //checkedListBox4.SetItemChecked(i - 1, true);
             //listBox4.Items.Add(textBox6.Text);
             //listBox4.SetSelected(0, true);
-            listBox3.SetSelected(0, true);
-            n2++;
-            textBox6.Text = "Ассортимент " + n2;
-            button5.Enabled = true;
+            //listBox3.SetSelected(0, true);
+            //n2++;
+            //textBox6.Text = "Ассортимент " + n2;
+            //button5.Enabled = true;
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -140,6 +141,17 @@ namespace АИСТ
         private void label17_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void запуститьВТестовомРежимеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string connection_string = "server=localhost; " +
+                   "user=" + "admin" + "; " +
+                   "database=" + "bd_shop" + "; " +
+                   "password=" + "diplom2020";
+            SQL_Helper.setConnection(connection_string);
+            algoritms a = new algoritms();
+            a.Auto();
         }
     }
 }

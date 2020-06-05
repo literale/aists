@@ -24,6 +24,7 @@ using iTextSharp.text.html.simpleparser;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using SelectPdf;
+using System.Runtime.InteropServices;
 
 namespace АИСТ.Class.algoritms
 {
@@ -178,11 +179,11 @@ namespace АИСТ.Class.algoritms
                 rtb.Text += "       Начат анализ клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
                 client_prod = get_checks_2(client_checks); //<Ид клиента, <ид товара - <кол-во товара - цена товара>>> меньше памяти есть в прпоцессе
-                clients_volumes = Get_dictionary_volume(client_prod);// объемы закупок клиента
+                clients_volumes = Get_dictionary_volume(client_prod, client_checks);// объемы закупок клиента
                 client_tabs = client_Analitic_ABC_XYZ(cust, clients_volumes); //фнализ клиентов
                 rtb.Text += "       Начат анализ покупок клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
-                client_tabs = prod_analitic_abc_xyz(client_tabs, client_prod);
+                client_tabs = prod_analitic_abc_xyz(client_tabs, client_prod, client_checks);
                 //определяем типы закупок для клиента
                 rtb.Text += "   Закончен процесс анализ сета клиентов " + customer_set.Get_name() + "\n ";
                 rtb.Refresh();
@@ -208,7 +209,7 @@ namespace АИСТ.Class.algoritms
             }
             return clients_volumes;
         }//создания словаря оюъемов закупок
-        public Dictionary<string, double> Get_dictionary_volume(Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod)
+        public Dictionary<string, double> Get_dictionary_volume(Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod, Dictionary<string, List<string>> client_checks)
         {
             Dictionary<string, double> clients_volumes = new Dictionary<string, double>();
 
@@ -220,7 +221,7 @@ namespace АИСТ.Class.algoritms
                     double count = client_prod[client_id][prod].Item1;
                     sum += count;
                 }
-                clients_volumes.Add(client_id, sum);
+                clients_volumes.Add(client_id, sum/client_checks[client_id].Count());
 
             }
             return clients_volumes;
@@ -277,7 +278,7 @@ namespace АИСТ.Class.algoritms
         /// Функция анализа покупок каждого клиента
         /// <param name="client_tabs"></param> итоговая таблица с клиентам, редактируемая и возвращаемая в этой функции
         /// <param name="client_prod"></param> //словарь подробных покупок клиента
-        public List<Client_Tab> prod_analitic_abc_xyz(List<Client_Tab> client_tabs, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod)
+        public List<Client_Tab> prod_analitic_abc_xyz(List<Client_Tab> client_tabs, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod, Dictionary<string, List<string>> client_checks)
         {
             foreach (Client_Tab ct in client_tabs)
             {
@@ -292,7 +293,7 @@ namespace АИСТ.Class.algoritms
                 foreach (string id_prod in prods.Keys)
                 {
                     Tuple<double, double> one_prod = prods[id_prod]; //кол-во товара - цена товара (суммарная)
-                    volume.Add(id_prod, one_prod.Item1);
+                    volume.Add(id_prod, one_prod.Item1/ client_checks[client_id].Count);
                     sum.Add(id_prod, one_prod.Item2);
                 }
                 Dictionary<string, Type_ABC_XYZ> abc = obj_Types(sum, "a");
@@ -549,7 +550,7 @@ namespace АИСТ.Class.algoritms
                     }
                     else
                     {
-                        all_sells.Add(id, new double[] { amount, sum });
+                        all_sells.Add(id, new double[] { amount/prods.Rows.Count, sum });
                     }
                 }
             }
@@ -751,25 +752,30 @@ namespace АИСТ.Class.algoritms
         public Dictionary<string, Type_ABC_XYZ> obj_Types(Dictionary<string, double> param, string az )
         {
             Dictionary<string, Type_ABC_XYZ> clients_types = new Dictionary<string, Type_ABC_XYZ>();
-            int count = param.Count;
-            int i = 0;
             double s1;
             double s2;
             Type_ABC_XYZ t3;
             Type_ABC_XYZ t2;
             Type_ABC_XYZ t1;
+
+            double General = 0;
+            foreach (string id in param.Keys)//считаем общее
+            {
+                General += param[id];
+            } 
+
             if (az.Equals("a".ToLower()))
             {
-                s1 = count * 0.05;
-                s2 = count * 0.15;
+                s1 = General * 0.05;
+                s2 = General * 0.15;
                 t1 = Type_ABC_XYZ.C;
                 t2 = Type_ABC_XYZ.B;
                 t3 = Type_ABC_XYZ.A;
             }
             else
             {
-                s1 = count * 0.05;
-                s2 = count * 0.20;
+                s1 = General * 0.05;
+                s2 = General * 0.20;
                 t1 = Type_ABC_XYZ.Z;
                 t2 = Type_ABC_XYZ.Y;
                 t3 = Type_ABC_XYZ.X;
@@ -790,22 +796,25 @@ namespace АИСТ.Class.algoritms
             }
             else
             {
+                double temp = 0;
                 foreach (string id in param.Keys)
                 {
+                    temp += param[id];
 
-                    if (0 <= i && i <= s1)
+                    if (0 <= temp && temp <= s1)
                     {
                         clients_types.Add(id, t1);
+                        
                     }
-                    if (s1 < i && i <= s2)
+                    if (s1 < temp && temp <= s2)
                     {
                         clients_types.Add(id, t2);
                     }
-                    if (s2 < i)
+                    if (s2 < temp)
                     {
                         clients_types.Add(id, t3);
                     }
-                    i++;
+
                 }
             }
 
@@ -963,7 +972,7 @@ namespace АИСТ.Class.algoritms
                 double disc_step = disc_spread / 3;
 
                 Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка
-                Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар
+                Dictionary<double, List<Tuple<string, Group>>> prods_s = new Dictionary<double, List<Tuple<string, Group>>>();//приоритет - товар (только товары для клиента)
                 Dictionary<double, List <Tuple<string, Group>>>  distribution_full = new Dictionary<double, List<Tuple<string, Group>>>();//вероятность - товар
                 foreach (Product_for_list_client k in temp_client_goods)
                 {
@@ -1102,7 +1111,18 @@ namespace АИСТ.Class.algoritms
         {
             int border = promos.Count();
             border = 5;
-
+            int id_promo = SQL_Helper.HowMuchRows("promo_info", "ID_promo") + 1;
+            Dictionary<string, string> value = new Dictionary<string, string>();
+            value.Add("ID_promo", id_promo.ToString());
+            value.Add("discount_date_start", gs.start.ToString("u").Replace("Z", ""));
+            value.Add("discount_date_finish", gs.end.ToString("u").Replace("Z", ""));
+            string s = "";
+            foreach(String sp in gs.assortiments[0].Get_shops())
+            {
+                s+=sp+" ";
+            }
+            value.Add("IDs_shops_list_promo", s);
+            SQL_Helper.WriteInTable("promo_info", value);
             prBar.Maximum = border;
             prBar.Value = 0;
             for (int i_p = 0; i_p < border; i_p++)
@@ -1161,7 +1181,7 @@ namespace АИСТ.Class.algoritms
                                     image = Get_string_img("no_image.png");
                                 }
 
-                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client +"  "+ id_promo ;
                                 string this_path = path + "\\" + input + ".bmp";
 
                                 this_path = Save_code123(input, this_path, image_format);
@@ -1182,7 +1202,7 @@ namespace АИСТ.Class.algoritms
                             }
                         case Group.Brand:
                             {
-                                request = "SELECT Image_brand, brand_name FROM brands WHERE ID_brand = '" + p.id_prod + "';";
+                                request = "SELECT Image_brand, brand_name, brand_counrty FROM brands WHERE ID_brand = '" + p.id_prod + "';";
                                 temp_dt = SQL_Helper.Just_do_it(request);
                                 string brand = temp_dt.Rows[0].ItemArray[1].ToString();
                                 image = temp_dt.Rows[0].ItemArray[0].ToString();
@@ -1191,12 +1211,12 @@ namespace АИСТ.Class.algoritms
                                     image = Get_string_img("no_image.png");
                                 }
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString()+client + ".bmp";
+                                string this_path = path + "\\" + input + ".bmp";
                                 this_path = Save_code123(input, this_path, image_format);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
                                 text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
-                                String all_text = "Скидка " + discount + "% На весь товар брэнда " + brand.Replace('-', ' ');
+                                String all_text = "Скидка " + discount + "% На весь товар брэнда " + brand.Replace('-', ' ') +" производства "+ temp_dt.Rows[0].ItemArray[2].ToString().Replace('-', ' ');
                                 text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
                                 break;
                             }
@@ -1218,7 +1238,7 @@ namespace АИСТ.Class.algoritms
                                 }
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString() + client + ".bmp";
+                                string this_path = path + "\\" + input + ".bmp";
 
                                 this_path = Save_code123(input, this_path, image_format);
 
@@ -1244,7 +1264,7 @@ namespace АИСТ.Class.algoritms
                                 }
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
-                                string this_path = path + "\\" + p.id_prod + p.group.ToString()+ client + ".bmp";
+                                string this_path = path + "\\" + input + ".bmp";
                                 this_path = Save_code123(input, this_path, image_format);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
@@ -1266,6 +1286,7 @@ namespace АИСТ.Class.algoritms
                 }
                 Shops = Shops.Substring(0, Shops.Length - 1);
                 text += "<tr><td colspan=\"2\"><p align=\"center\">" + "Ждем вас в магазинах по адресам: " + Shops + "</p></td></tr></table>";
+                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "C " + gs.start.ToString("d") +"по" + gs.end.ToString("d") + "</p></td></tr></table>";
 
 
                 string attach = path + "\\" + client + " " + name;
@@ -1338,6 +1359,8 @@ namespace АИСТ.Class.algoritms
             Bitmap image_this = c.get_img();
             Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
             Bitmap strih2 = DrawWatermark(strih_t, input);
+            float f = 0.013f;
+            strih2.SetResolution(f, f);
             strih2.Save(this_path, image_format);
             return this_path;
         }
