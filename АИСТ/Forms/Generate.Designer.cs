@@ -92,8 +92,11 @@
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пресетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.исмортироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запуститьВТестовомРежимеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.работаСБдToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.расшифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зашифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -699,7 +702,8 @@
             // 
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.пресетыToolStripMenuItem,
-            this.запуститьВТестовомРежимеToolStripMenuItem});
+            this.запуститьВТестовомРежимеToolStripMenuItem,
+            this.работаСБдToolStripMenuItem});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
             this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.настройкиToolStripMenuItem.Text = "Настройки";
@@ -708,7 +712,7 @@
             // 
             this.пресетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.исмортироватьToolStripMenuItem,
-            this.экспортToolStripMenuItem});
+            this.создатьToolStripMenuItem});
             this.пресетыToolStripMenuItem.Name = "пресетыToolStripMenuItem";
             this.пресетыToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.пресетыToolStripMenuItem.Text = "Пресеты";
@@ -719,18 +723,42 @@
             this.исмортироватьToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.исмортироватьToolStripMenuItem.Text = "Импорт";
             // 
-            // экспортToolStripMenuItem
-            // 
-            this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.экспортToolStripMenuItem.Text = "Экспорт";
-            // 
             // запуститьВТестовомРежимеToolStripMenuItem
             // 
             this.запуститьВТестовомРежимеToolStripMenuItem.Name = "запуститьВТестовомРежимеToolStripMenuItem";
             this.запуститьВТестовомРежимеToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.запуститьВТестовомРежимеToolStripMenuItem.Text = "Запустить в тестовом режиме";
             this.запуститьВТестовомРежимеToolStripMenuItem.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem_Click);
+            // 
+            // работаСБдToolStripMenuItem
+            // 
+            this.работаСБдToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.расшифроватьФайлToolStripMenuItem,
+            this.зашифроватьФайлToolStripMenuItem});
+            this.работаСБдToolStripMenuItem.Name = "работаСБдToolStripMenuItem";
+            this.работаСБдToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.работаСБдToolStripMenuItem.Text = "Работа с бд";
+            // 
+            // расшифроватьФайлToolStripMenuItem
+            // 
+            this.расшифроватьФайлToolStripMenuItem.Name = "расшифроватьФайлToolStripMenuItem";
+            this.расшифроватьФайлToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.расшифроватьФайлToolStripMenuItem.Text = "Расшифровать файл";
+            this.расшифроватьФайлToolStripMenuItem.Click += new System.EventHandler(this.расшифроватьФайлToolStripMenuItem_Click);
+            // 
+            // зашифроватьФайлToolStripMenuItem
+            // 
+            this.зашифроватьФайлToolStripMenuItem.Name = "зашифроватьФайлToolStripMenuItem";
+            this.зашифроватьФайлToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.зашифроватьФайлToolStripMenuItem.Text = "Зашифровать файл";
+            this.зашифроватьФайлToolStripMenuItem.Click += new System.EventHandler(this.зашифроватьФайлToolStripMenuItem_Click);
+            // 
+            // создатьToolStripMenuItem
+            // 
+            this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.создатьToolStripMenuItem.Text = "Создать";
+            this.создатьToolStripMenuItem.Click += new System.EventHandler(this.создатьToolStripMenuItem_Click_1);
             // 
             // Generate
             // 
@@ -821,7 +849,6 @@
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пресетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исмортироватьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запуститьВТестовомРежимеToolStripMenuItem;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
@@ -831,5 +858,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem работаСБдToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem расшифроватьФайлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зашифроватьФайлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem создатьToolStripMenuItem;
     }
 }

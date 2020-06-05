@@ -20,8 +20,8 @@ namespace АИСТ.Forms
         {
             InitializeComponent();
             List<string> temp = Info.get_bd();
-            tb_server.Text = temp[0].Split(' ')[2];
-            tb_name.Text = temp[1].Split(' ')[2];
+            tb_server.Text = temp[1].Split(' ')[2];
+            tb_name.Text = temp[2].Split(' ')[2];
             lk = true;
             bn = true;
         }
@@ -58,6 +58,7 @@ namespace АИСТ.Forms
                 ifrm.Enabled = true;
                 ifrm.Update();
                 ifrm.Text = "Подключено";
+                Tab_Settings.Load_info();
                 BD_connect.ActiveForm.Close();
 
             }

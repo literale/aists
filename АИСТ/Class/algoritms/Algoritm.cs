@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 
 namespace АИСТ.Class.algoritms
 {
-    class algoritms
+    class Algoritm
     {
         System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
         Label rtb = new Label();
@@ -37,8 +37,7 @@ namespace АИСТ.Class.algoritms
         List<Dictionary<string, double>> diction_sum_value;//продажи товаров, 8 словарей товар-брэнд-подтим-тип каждый сумма и объем продаж
         Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов кол-вл сумма
         Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store;//товар на складе (в том числе по группам)
-
-        public void Auto()
+        public Dictionary<string, List<Promo>> Auto()
         {
             Form f2 = new Process();
             f2.Show(); // отображаем Form2
@@ -63,7 +62,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             Generate_Setttings gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
-          //  File.Create("test.xml");
+            File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
             List<Assortiment> all_assortiment_sets = gs.assortiments;
             listProductOverRules rules = gs.rules;
@@ -89,17 +88,22 @@ namespace АИСТ.Class.algoritms
             Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(catalog_prods, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
             Object[] d = Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
             Dictionary<string, List<Promo>> promos =  Generate(d, gs);
-            rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
-            rtb.Refresh();
-            myStopwatch.Start();
-            Generate_mails(promos, gs);
-            rtb.Text += "Закончен процесс отправки предложений\n ";
-            rtb.Refresh();
-            // Mail_it(promos);
-            myStopwatch.Stop();
-            myStopwatch.Reset();
+            return promos;
+           
         }
 
+        //public void Send_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
+        //{
+        //    rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
+        //    rtb.Refresh();
+        //    myStopwatch.Start();
+        //    Generate_mails(promos, gs);
+        //    rtb.Text += "Закончен процесс отправки предложений\n ";
+        //    rtb.Refresh();
+        //    // Mail_it(promos);
+        //    myStopwatch.Stop();
+        //    myStopwatch.Reset();
+        //}
 
         //--------------------------------КЛИЕНТЫ----------------------------------------------//
 
@@ -1107,10 +1111,12 @@ namespace АИСТ.Class.algoritms
 
         //--------------------------------отправка----------------------------------------------//
 
-        public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
+        public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs, bool test)
         {
+            rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
+            rtb.Refresh();
             int border = promos.Count();
-            border = 5;
+            if (test) border = 5;
             int id_promo = SQL_Helper.HowMuchRows("promo_info", "ID_promo") + 1;
             Dictionary<string, string> value = new Dictionary<string, string>();
             value.Add("ID_promo", id_promo.ToString());
@@ -1289,22 +1295,26 @@ namespace АИСТ.Class.algoritms
                                 break;
                             }
                     }
-                    string write = "INSERT INTO promo_full (ID_promo_full,ID_customer_dis,ID_type_group,ID_product_dis,ID_product_dis,CODE) " +
-                        "VALUES('" + id_promo + "','" + client + "','" + id_type + "','" + p.id_prod + "','" + p.disc + "','" + code + "');";
+                    string write = "INSERT INTO promo_full (ID_promo_full,ID_customer_dis,ID_type_group,ID_product_dis, discount , CODE, used) " +
+                        "VALUES('" + id_promo + "','" + client + "','" + id_type + "','" + p.id_prod + "','" + p.disc + "','" + id_promo+client+code.ToString() + "','" + 0 + "');";
                     SQL_Helper.Just_do_it(write);
-                    string attach = path + "\\" + client + " " + name;
-                    string attach_html = attach + ".html";
-                    System.IO.StreamWriter wrt = new StreamWriter(attach_html);
-                    wrt.WriteLine(text);
-                    wrt.Close();
-
-                    //string name_f = client + " " + name + ".pdf";
-                    string attach_pdf = Get_pdf(text, attach);
-                    Mail_it(text, mail, attach_pdf, attach_html);
-                    promos.Remove(client);
-                    prBar.Value++;
+                  
                 }
+                string attach = path + "\\" + client + " " + name;
+                string attach_html = attach + ".html";
+                System.IO.StreamWriter wrt = new StreamWriter(attach_html);
+                wrt.WriteLine(text);
+                wrt.Close();
+
+                //string name_f = client + " " + name + ".pdf";
+                string attach_pdf = Get_pdf(text, attach);
+                Mail_it(text, mail, attach_pdf, attach_html);
+                promos.Remove(client);
+                prBar.Value++;
             }
+            
+            rtb.Text += "Закончен процесс отправки предложений\n ";
+            rtb.Refresh();
         }
         public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
         {

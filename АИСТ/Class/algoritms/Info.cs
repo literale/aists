@@ -7,6 +7,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using АИСТ.Class.algoritms;
 using АИСТ.Forms;
 
 namespace АИСТ.Class
@@ -20,8 +21,49 @@ namespace АИСТ.Class
         private static DESCryptoServiceProvider desCrypto = new DESCryptoServiceProvider();
         private static string bd_con = "Не подключено";
         private static bool admin = false;
+        private static Algoritm a = new Algoritm();
+        private static Dictionary<string, List<Promo>> promos;
+        private static Generate_Setttings gs;
+        private static bool test = false;
+        private static Dictionary<string, Tabs> tabs = new Dictionary<string, Tabs>();
+        public static Algoritm Get_alg()
+        {
+            return a;
+        }
+        public static Dictionary<string, List<Promo>> Get_prom()
+        {
+            return promos;
+        }
+        public static Dictionary<string, Tabs> Get_tabs()
+            {
+            return tabs;
+        }
 
+        public static void Set_tabs(Dictionary<string, Tabs> t)
+        {
+            tabs = t;
+        }
 
+        public static bool Is_test()
+        {
+            return test;
+        }
+        public static void Set_test(bool tests)
+        {
+            test = tests;
+        }
+
+        public static Generate_Setttings Get_settings()
+        {
+            return gs;
+        }
+        public static void Set_promo(Dictionary<string, List<Promo>> promo, Algoritm alg, Generate_Setttings settings)
+        {
+            a = alg;
+            promos = promo;
+            gs = settings;
+
+        }
         public static bool Is_admin()
         {
             return admin;
@@ -40,7 +82,19 @@ namespace АИСТ.Class
             return bd_name;
         }
 
+        public static void Give_me_file()
+        {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            Decrypt_File("info.txt", desCrypto);
+        }
 
+        public static void Give_you_file()
+        {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            Encrypt_File("info.txt", desCrypto);
+        }
         /// <summary>
         /// автозаполнение форм
         /// </summary>
@@ -49,18 +103,17 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-            //Encrypt_File("info.xml", desCrypto);
-            Decrypt_File("info.xml", desCrypto);
+           //Encrypt_File("info.txt", desCrypto);
+            Decrypt_File("info.txt", desCrypto);
             List<string> bd = new List<string>();
-            string[] temp_info = File.ReadAllLines("info.xml");
+            string[] temp_info = File.ReadAllLines("info.txt");
             foreach (string s in temp_info)
             {
                 bd.Add(s);
             }
-            Encrypt_File("info.xml", desCrypto);
+            Encrypt_File("info.txt", desCrypto);
             return bd;
         }
-
 
         /// <summary>
         /// сохранения форм
@@ -71,9 +124,9 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-            Decrypt_File("info.xml", desCrypto);
+            Decrypt_File("info.txt", desCrypto);
             List<string> bd = new List<string>();
-            string[] temp_info = File.ReadAllLines("info.xml");
+            string[] temp_info = File.ReadAllLines("info.txt");
             bd_name = name;
             foreach (string s in temp_info)
             {
@@ -82,15 +135,17 @@ namespace АИСТ.Class
                     string tmp = "server = " + host;
                     bd.Add(tmp);
                 }
-                if (s.Contains("database"))
+                else if (s.Contains("database"))
                 {
                     string tmp = "database = " + name;
                     bd.Add(tmp);
                 }
+                else bd.Add(s);
+
             }
-            File.Delete("info.xml");
-            File.WriteAllLines("info.xml", bd.ToArray());
-            Encrypt_File("info.xml", desCrypto);
+            File.Delete("info.txt");
+            File.WriteAllLines("info.txt", bd.ToArray());
+            Encrypt_File("info.txt", desCrypto);
         }
 
 

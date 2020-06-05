@@ -9,7 +9,7 @@ namespace АИСТ.Class
 {
    class Tabs
     {
-        private string Tab_name;
+        private string Tab_name;    
         private Dictionary<string, string> fields = new Dictionary<string, string>();
        
         public Tabs (string name)
@@ -24,10 +24,14 @@ namespace АИСТ.Class
         {
             return fields;
         }
-
-        public void Set_fields(Dictionary<string, string> fields)
+        public string Get_field(string k)
         {
-            this.fields = fields;
+            return fields[k];
+        }
+
+        public void Add_fields(string k, string v)
+        {
+            fields.Add(k, v);
         }
         
     }

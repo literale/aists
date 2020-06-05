@@ -11,11 +11,14 @@ using System.Windows.Forms;
 using АИСТ.Class;
 using АИСТ.Class.algoritms;
 using АИСТ.Forms;
+using АИСТ.Properties;
 
 namespace АИСТ
 {
     public partial class mainForm : Form
     {
+        public object Tab_settings { get; private set; }
+
         public mainForm()
         {
             InitializeComponent();
@@ -45,21 +48,28 @@ namespace АИСТ
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             //SQL_Helper.Get_columns("promo_full");
             string login = textBox1.Text;
             string pass = tb_password.Text;
-            string req = "SELECT * FROM bd_shop.users WHERE login = '" + login+ "' AND password ='"+pass+"';";
+         //   Tab_Settings.Load_info();
+            Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
+
+            string req = "SELECT "+ tabs["users"].Get_field("settings") +" FROM "+ tabs["users"].Get_name()+" WHERE "+ tabs["users"].Get_field("login") + " = '" + login+ "' AND "+tabs["users"].Get_field("password")  +" ='" + pass+"';";
             DataTable dt = SQL_Helper.Just_do_it(req);
-            if (dt.Rows.Count > 0)
+            if (dt != null)
             {
-                if (dt.Rows[0].ItemArray[5].ToString().Equals("1")) Info.Set_admin(true);
-                Form f2 = new menu();
-                f2.Show(); // отображаем Form2
-                this.Hide(); // скрываем Form1 (this - текущая форма)
-            }
-            else
-            {
-                MessageBox.Show("Неверный логин или пароль");
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0].ItemArray[0].ToString().Equals("1") || dt.Rows[0].ItemArray[0].ToString().Equals("2")) Info.Set_admin(true);
+                    Form f2 = new Generate();
+                    f2.Show(); // отображаем Form2
+                    this.Hide(); // скрываем Form1 (this - текущая форма)
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин или пароль");
+                }
             }
            
         }
@@ -88,7 +98,7 @@ namespace АИСТ
                    "database=" + "bd_shop" + "; " +
                    "password=" + "diplom2020";
             SQL_Helper.setConnection(connection_string);
-            algoritms a = new algoritms();
+            Algoritm a = new Algoritm();
             a.Auto();
         }
     }

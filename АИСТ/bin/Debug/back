@@ -1,0 +1,24 @@
+
+server = localhost
+database = bd_shop
+
+Tstart
+product = products
+id = ID_product
+name = product_name 
+type = type_little_name
+brand_id = brand_ID
+cost = product_cost
+image = image_prod
+Tend
+
+Tstart
+users = users
+id = ID_user
+FIO = FIO_user
+login = login
+password = password
+email = email
+settings = ID_users_settings
+Tend
+

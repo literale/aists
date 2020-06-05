@@ -40,17 +40,14 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
-            this.comboBox10 = new System.Windows.Forms.ComboBox();
             this.label28 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox13 = new System.Windows.Forms.ComboBox();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
             this.comboBox12 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -61,13 +58,23 @@
             this.label8 = new System.Windows.Forms.Label();
             this.comboBox15 = new System.Windows.Forms.ComboBox();
             this.comboBox16 = new System.Windows.Forms.ComboBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBox10 = new System.Windows.Forms.ComboBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox10);
             this.groupBox1.Controls.Add(this.comboBox8);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.comboBox14);
@@ -79,8 +86,7 @@
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label29);
-            this.groupBox1.Controls.Add(this.comboBox10);
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
+            this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(251, 133);
             this.groupBox1.TabIndex = 0;
@@ -146,9 +152,9 @@
             // 
             this.comboBox5.FormattingEnabled = true;
             this.comboBox5.Items.AddRange(new object[] {
-            "X",
-            "Y",
-            "Z"});
+            "A",
+            "B",
+            "C"});
             this.comboBox5.Location = new System.Drawing.Point(10, 19);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(38, 21);
@@ -214,23 +220,10 @@
             this.label29.TabIndex = 19;
             this.label29.Text = "Тип товара";
             // 
-            // comboBox10
-            // 
-            this.comboBox10.FormattingEnabled = true;
-            this.comboBox10.Items.AddRange(new object[] {
-            "X",
-            "Y",
-            "Z"});
-            this.comboBox10.Location = new System.Drawing.Point(10, 59);
-            this.comboBox10.Name = "comboBox10";
-            this.comboBox10.Size = new System.Drawing.Size(38, 21);
-            this.comboBox10.TabIndex = 18;
-            this.comboBox10.Text = "А";
-            // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(12, 149);
+            this.label28.Location = new System.Drawing.Point(11, 163);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(301, 13);
             this.label28.TabIndex = 19;
@@ -238,17 +231,17 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.comboBox7);
+            this.groupBox4.Controls.Add(this.comboBox3);
             this.groupBox4.Controls.Add(this.comboBox6);
             this.groupBox4.Controls.Add(this.comboBox2);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.comboBox13);
-            this.groupBox4.Controls.Add(this.comboBox7);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.button1);
-            this.groupBox4.Controls.Add(this.comboBox3);
             this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.comboBox12);
-            this.groupBox4.Location = new System.Drawing.Point(283, 16);
+            this.groupBox4.Location = new System.Drawing.Point(282, 30);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(237, 130);
             this.groupBox4.TabIndex = 18;
@@ -301,19 +294,6 @@
             this.comboBox13.TabIndex = 23;
             this.comboBox13.Text = "Сет 1";
             // 
-            // comboBox7
-            // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Items.AddRange(new object[] {
-            "X",
-            "Y",
-            "Z"});
-            this.comboBox7.Location = new System.Drawing.Point(7, 56);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(38, 21);
-            this.comboBox7.TabIndex = 28;
-            this.comboBox7.Text = "А";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -331,19 +311,6 @@
             this.button1.TabIndex = 22;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "X",
-            "Y",
-            "Z"});
-            this.comboBox3.Location = new System.Drawing.Point(7, 19);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(38, 21);
-            this.comboBox3.TabIndex = 28;
-            this.comboBox3.Text = "А";
             // 
             // label31
             // 
@@ -371,7 +338,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 171);
+            this.label5.Location = new System.Drawing.Point(9, 185);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(126, 13);
             this.label5.TabIndex = 20;
@@ -381,7 +348,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 199);
+            this.label6.Location = new System.Drawing.Point(11, 213);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(120, 13);
             this.label6.TabIndex = 21;
@@ -393,7 +360,7 @@
             this.comboBox9.Items.AddRange(new object[] {
             "Объем закупок",
             "Затраченная сумма"});
-            this.comboBox9.Location = new System.Drawing.Point(142, 168);
+            this.comboBox9.Location = new System.Drawing.Point(141, 182);
             this.comboBox9.Name = "comboBox9";
             this.comboBox9.Size = new System.Drawing.Size(171, 21);
             this.comboBox9.TabIndex = 31;
@@ -407,7 +374,7 @@
             "Популярность",
             "Доходность",
             "Остаток на складе"});
-            this.comboBox11.Location = new System.Drawing.Point(142, 195);
+            this.comboBox11.Location = new System.Drawing.Point(141, 209);
             this.comboBox11.Name = "comboBox11";
             this.comboBox11.Size = new System.Drawing.Size(171, 21);
             this.comboBox11.TabIndex = 32;
@@ -417,7 +384,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(320, 171);
+            this.label7.Location = new System.Drawing.Point(319, 185);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 13);
             this.label7.TabIndex = 33;
@@ -426,7 +393,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(321, 199);
+            this.label8.Location = new System.Drawing.Point(320, 213);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(51, 13);
             this.label8.TabIndex = 34;
@@ -438,7 +405,7 @@
             this.comboBox15.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.comboBox15.Location = new System.Drawing.Point(377, 168);
+            this.comboBox15.Location = new System.Drawing.Point(376, 182);
             this.comboBox15.Name = "comboBox15";
             this.comboBox15.Size = new System.Drawing.Size(143, 21);
             this.comboBox15.TabIndex = 35;
@@ -450,17 +417,94 @@
             this.comboBox16.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.comboBox16.Location = new System.Drawing.Point(377, 195);
+            this.comboBox16.Location = new System.Drawing.Point(376, 209);
             this.comboBox16.Name = "comboBox16";
             this.comboBox16.Size = new System.Drawing.Size(143, 21);
             this.comboBox16.TabIndex = 36;
             this.comboBox16.Text = "Сначала не интересные";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.экспортToolStripMenuItem1,
+            this.импортToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(532, 24);
+            this.menuStrip1.TabIndex = 37;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // импортToolStripMenuItem
+            // 
+            this.импортToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.экспортToolStripMenuItem});
+            this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
+            this.импортToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.импортToolStripMenuItem.Text = "Импорт";
+            // 
+            // экспортToolStripMenuItem
+            // 
+            this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
+            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.экспортToolStripMenuItem.Text = "Экспорт";
+            // 
+            // экспортToolStripMenuItem1
+            // 
+            this.экспортToolStripMenuItem1.Name = "экспортToolStripMenuItem1";
+            this.экспортToolStripMenuItem1.Size = new System.Drawing.Size(64, 20);
+            this.экспортToolStripMenuItem1.Text = "Экспорт";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            // 
+            // comboBox10
+            // 
+            this.comboBox10.FormattingEnabled = true;
+            this.comboBox10.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C"});
+            this.comboBox10.Location = new System.Drawing.Point(11, 59);
+            this.comboBox10.Name = "comboBox10";
+            this.comboBox10.Size = new System.Drawing.Size(38, 21);
+            this.comboBox10.TabIndex = 33;
+            this.comboBox10.Text = "А";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C"});
+            this.comboBox3.Location = new System.Drawing.Point(7, 19);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(38, 21);
+            this.comboBox3.TabIndex = 31;
+            this.comboBox3.Text = "А";
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C"});
+            this.comboBox7.Location = new System.Drawing.Point(7, 56);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(38, 21);
+            this.comboBox7.TabIndex = 32;
+            this.comboBox7.Text = "А";
+            // 
             // Promo_types_Setings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 221);
+            this.ClientSize = new System.Drawing.Size(532, 247);
             this.Controls.Add(this.comboBox16);
             this.Controls.Add(this.comboBox15);
             this.Controls.Add(this.label8);
@@ -472,6 +516,7 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "Promo_types_Setings";
             this.Text = "Promo_types_Setings";
             this.groupBox1.ResumeLayout(false);
@@ -479,6 +524,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -494,7 +541,6 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.ComboBox comboBox12;
         public System.Windows.Forms.Label label29;
-        public System.Windows.Forms.ComboBox comboBox10;
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.ComboBox comboBox13;
         public System.Windows.Forms.ComboBox comboBox14;
@@ -506,9 +552,7 @@
         public System.Windows.Forms.ComboBox comboBox6;
         public System.Windows.Forms.ComboBox comboBox2;
         public System.Windows.Forms.Label label4;
-        public System.Windows.Forms.ComboBox comboBox7;
         public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.ComboBox comboBox3;
         public System.Windows.Forms.ComboBox comboBox8;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
@@ -519,5 +563,13 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox15;
         private System.Windows.Forms.ComboBox comboBox16;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem импортToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
+        public System.Windows.Forms.ComboBox comboBox10;
+        public System.Windows.Forms.ComboBox comboBox7;
+        public System.Windows.Forms.ComboBox comboBox3;
     }
 }

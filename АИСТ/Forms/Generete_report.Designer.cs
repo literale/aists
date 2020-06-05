@@ -28,39 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.start_date = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.stop_date = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.min_dis = new System.Windows.Forms.Label();
+            this.max_dis = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.prods_all = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.clients_all = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.shops_all = new System.Windows.Forms.ListBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 255);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(192, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Отредактировать список";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -71,13 +60,13 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Начало акции";
             // 
-            // label2
+            // start_date
             // 
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(110, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 20);
-            this.label2.TabIndex = 2;
+            this.start_date.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.start_date.Location = new System.Drawing.Point(110, 9);
+            this.start_date.Name = "start_date";
+            this.start_date.Size = new System.Drawing.Size(94, 20);
+            this.start_date.TabIndex = 2;
             // 
             // label3
             // 
@@ -88,13 +77,13 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Конец акции";
             // 
-            // label4
+            // stop_date
             // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(110, 28);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 20);
-            this.label4.TabIndex = 4;
+            this.stop_date.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.stop_date.Location = new System.Drawing.Point(110, 28);
+            this.stop_date.Name = "stop_date";
+            this.stop_date.Size = new System.Drawing.Size(94, 20);
+            this.stop_date.TabIndex = 4;
             // 
             // label5
             // 
@@ -114,21 +103,21 @@
             this.label6.TabIndex = 9;
             this.label6.Text = "Min скидка";
             // 
-            // label7
+            // min_dis
             // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(110, 48);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(94, 20);
-            this.label7.TabIndex = 11;
+            this.min_dis.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.min_dis.Location = new System.Drawing.Point(110, 48);
+            this.min_dis.Name = "min_dis";
+            this.min_dis.Size = new System.Drawing.Size(94, 20);
+            this.min_dis.TabIndex = 11;
             // 
-            // label8
+            // max_dis
             // 
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label8.Location = new System.Drawing.Point(110, 67);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(94, 20);
-            this.label8.TabIndex = 12;
+            this.max_dis.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.max_dis.Location = new System.Drawing.Point(110, 67);
+            this.max_dis.Name = "max_dis";
+            this.max_dis.Size = new System.Drawing.Size(94, 20);
+            this.max_dis.TabIndex = 12;
             // 
             // label9
             // 
@@ -139,13 +128,13 @@
             this.label9.TabIndex = 13;
             this.label9.Text = "Товаров всего";
             // 
-            // label10
+            // prods_all
             // 
-            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label10.Location = new System.Drawing.Point(110, 87);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(94, 20);
-            this.label10.TabIndex = 14;
+            this.prods_all.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.prods_all.Location = new System.Drawing.Point(110, 87);
+            this.prods_all.Name = "prods_all";
+            this.prods_all.Size = new System.Drawing.Size(94, 20);
+            this.prods_all.TabIndex = 14;
             // 
             // label11
             // 
@@ -156,13 +145,13 @@
             this.label11.TabIndex = 15;
             this.label11.Text = "Клиентов всего";
             // 
-            // label12
+            // clients_all
             // 
-            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Location = new System.Drawing.Point(110, 106);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(94, 20);
-            this.label12.TabIndex = 16;
+            this.clients_all.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.clients_all.Location = new System.Drawing.Point(110, 106);
+            this.clients_all.Name = "clients_all";
+            this.clients_all.Size = new System.Drawing.Size(94, 20);
+            this.clients_all.TabIndex = 16;
             // 
             // label13
             // 
@@ -173,21 +162,13 @@
             this.label13.TabIndex = 17;
             this.label13.Text = "Магазины:";
             // 
-            // listBox2
+            // shops_all
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7"});
-            this.listBox2.Location = new System.Drawing.Point(12, 167);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(192, 82);
-            this.listBox2.TabIndex = 31;
+            this.shops_all.FormattingEnabled = true;
+            this.shops_all.Location = new System.Drawing.Point(12, 167);
+            this.shops_all.Name = "shops_all";
+            this.shops_all.Size = new System.Drawing.Size(192, 82);
+            this.shops_all.TabIndex = 31;
             // 
             // label14
             // 
@@ -201,7 +182,7 @@
             // label15
             // 
             this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Location = new System.Drawing.Point(237, 145);
+            this.label15.Location = new System.Drawing.Point(687, 10);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(192, 19);
             this.label15.TabIndex = 33;
@@ -212,64 +193,55 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(237, 32);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(443, 93);
+            this.dataGridView1.Size = new System.Drawing.Size(443, 486);
             this.dataGridView1.TabIndex = 35;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(237, 167);
+            this.dataGridView2.Location = new System.Drawing.Point(686, 32);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(443, 82);
+            this.dataGridView2.Size = new System.Drawing.Size(443, 486);
             this.dataGridView2.TabIndex = 36;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(237, 255);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 23);
-            this.button2.TabIndex = 60;
-            this.button2.Text = "Открыть в EXCEL";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(563, 255);
+            this.button3.Location = new System.Drawing.Point(12, 255);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(117, 23);
+            this.button3.Size = new System.Drawing.Size(192, 23);
             this.button3.TabIndex = 61;
             this.button3.Text = "Отправить промо";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Generete_report
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 287);
+            this.ClientSize = new System.Drawing.Size(1141, 530);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.listBox2);
+            this.Controls.Add(this.shops_all);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
+            this.Controls.Add(this.clients_all);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.prods_all);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.max_dis);
+            this.Controls.Add(this.min_dis);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.stop_date);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.start_date);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
             this.Name = "Generete_report";
             this.Text = "Generete_report";
+            this.Load += new System.EventHandler(this.Generete_report_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
@@ -277,27 +249,24 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label start_date;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label stop_date;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label min_dis;
+        private System.Windows.Forms.Label max_dis;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label prods_all;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label clients_all;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox shops_all;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
     }
 }

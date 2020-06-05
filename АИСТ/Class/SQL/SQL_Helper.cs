@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace АИСТ.Class
 {
@@ -27,7 +28,7 @@ namespace АИСТ.Class
 
         public static void Set_Connection_String(string server, string bd_name, string login, string password)
         {
-            connection_string = "server=" + server +"; " +
+            connection_string = "server=" + server + "; " +
                 "user=" + login + "; " +
                 "database=" + bd_name + "; " +
                 "password=" + password;
@@ -58,7 +59,7 @@ namespace АИСТ.Class
         {
             connection.Open();
             //SELECT COLUMN_NAME FROM all_tab_columns WHERE TABLE_NAME='Н_КВАЛИФИКАЦИИ';
-            string request = "SHOW COLUMNS FROM `"+table+"`;";
+            string request = "SHOW COLUMNS FROM `" + table + "`;";
             //string request = "SELECT * FROM " + table + ";";
             MySqlCommand new_command = new MySqlCommand(request, connection);
             MySqlDataReader data_reader = new_command.ExecuteReader();
@@ -271,16 +272,34 @@ namespace АИСТ.Class
 
         public static DataTable Just_do_it(string request)
         {
-            connection.Open();
-            MySqlCommand new_command = new MySqlCommand(request, connection);
-            MySqlDataReader data_reader = new_command.ExecuteReader();
-            DataTable temp_dtable = new DataTable();
-            temp_dtable.Load(data_reader);
-            connection.Close();
-            return temp_dtable;
+            if (connection != null)
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand new_command = new MySqlCommand(request, connection);
+                    MySqlDataReader data_reader = new_command.ExecuteReader();
+                    DataTable temp_dtable = new DataTable();
+                    temp_dtable.Load(data_reader);
+                    connection.Close();
+                    return temp_dtable;
+                }
+                catch (System.NullReferenceException e)
+                {
+                    MessageBox.Show("Ошибка доступа к базе данных");
+                    return null;
+                }
+            }
+            else
+
+            {
+                MessageBox.Show("Ошибка доступа к базе данных");
+                return null;
+            }
         }
+    }
 
 
     }
 
-}
+

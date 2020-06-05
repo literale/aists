@@ -1,0 +1,26 @@
+
+server = localhost
+database = bd_shop
+
+Начало таблицы
+product = products
+Поля
+id = ID_product
+name = product_name 
+type = type_little_name
+brand_id = brand_ID
+cost = product_cost
+image = image_prod
+Конец таблицы
+
+Начало таблицы	
+users = users
+Поля
+id = ID_user
+FIO = FIO_user
+login = login
+password = password
+email = email
+settings = ID_users_settings
+Конец таблицы
+

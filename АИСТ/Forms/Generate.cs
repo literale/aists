@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using АИСТ.Class;
 using АИСТ.Class.algoritms;
+using АИСТ.Class.AutoSet;
+using АИСТ.Forms;
 
 namespace АИСТ
 {
@@ -16,11 +18,24 @@ namespace АИСТ
     {
         int n = 1;
         int n2 = 1;
+        bool open = false;
         public Generate()
         {
             InitializeComponent();
             //button5.Enabled = false;
-           
+           if (Info.Is_admin())
+            {
+                запуститьВТестовомРежимеToolStripMenuItem.Enabled = true;
+                расшифроватьФайлToolStripMenuItem.Enabled = true;
+                зашифроватьФайлToolStripMenuItem.Enabled = false;
+
+            }
+           else
+            {
+                запуститьВТестовомРежимеToolStripMenuItem.Enabled = false;
+                расшифроватьФайлToolStripMenuItem.Enabled = false;
+                зашифроватьФайлToolStripMenuItem.Enabled = false;
+            }
             checkedListBox5.SetItemChecked(0, true);
 
         }
@@ -119,16 +134,23 @@ namespace АИСТ
 
         private void checkedListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            algoritms a = new algoritms();
-            a.Auto();
-            Form f2 = new Generete_report();
-            f2.Show(); // отображаем Form2
-            this.Hide(); // скрываем Form1 (this - текущая форма)
+            if (!open)
+            {
+                Algoritm a = new Algoritm();
+                a.Auto();
+                Form f2 = new Generete_report();
+                f2.Show(); // отображаем Form2
+                this.Hide(); // скрываем Form1 (this - текущая форма)
+            }
+            else
+            {
+                MessageBox.Show("Зашифруйте файл");
+            }
         }
 
 
@@ -145,13 +167,64 @@ namespace АИСТ
 
         private void запуститьВТестовомРежимеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string connection_string = "server=localhost; " +
-                   "user=" + "admin" + "; " +
-                   "database=" + "bd_shop" + "; " +
-                   "password=" + "diplom2020";
-            SQL_Helper.setConnection(connection_string);
-            algoritms a = new algoritms();
-            a.Auto();
+            if (!open)
+            {
+                string connection_string = "server=localhost; " +
+                       "user=" + "admin" + "; " +
+                       "database=" + "bd_shop" + "; " +
+                       "password=" + "diplom2020";
+                SQL_Helper.setConnection(connection_string);
+                Algoritm a = new Algoritm();
+                Dictionary<string, List<Promo>> promos = a.Auto();
+                Generate_Setttings gs = AutoSetGenerate.AutoSettings();
+                Info.Set_test(true);
+                Info.Set_promo(promos, a, gs);
+                Form gr = new Generete_report();
+                gr.Show(); // отображаем Form2
+                this.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Зашифруйте файл");
+            }
+
+        }
+
+        private void расшифроватьФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Info.Give_me_file();
+            System.Diagnostics.Process.Start("info.txt");
+            bool open = true;
+            зашифроватьФайлToolStripMenuItem.Enabled = true;
+            расшифроватьФайлToolStripMenuItem.Enabled = false;
+        }
+
+        private void зашифроватьФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Info.Give_you_file();
+                расшифроватьФайлToolStripMenuItem.Enabled = true;
+                зашифроватьФайлToolStripMenuItem.Enabled = false;
+                open = false;
+            }
+            catch (Exception)
+            {
+
+                    MessageBox.Show("Невозможно сохранить файл");
+
+            }
+        }
+
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void создатьToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Form f = new Promo_types_Setings();
+            f.Show();
         }
     }
 }
