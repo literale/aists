@@ -7,6 +7,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using АИСТ.Forms;
 
 namespace АИСТ.Class
 {
@@ -17,7 +18,18 @@ namespace АИСТ.Class
         private static byte[] key = new byte[] { 7, 45, 146, 89, 255, 38, 95, 17 };
         private static byte[] IV = new byte[] { 17, 58, 246, 93, 235, 83, 129, 175 };
         private static DESCryptoServiceProvider desCrypto = new DESCryptoServiceProvider();
+        private static string bd_con = "Не подключено";
+        private static bool admin = false;
 
+
+        public static bool Is_admin()
+        {
+            return admin;
+        }
+        public static void Set_admin(bool admin_v)
+        {
+            admin = admin_v;
+        }
 
         /// <summary>
         /// просто возвращаем имя бд, косметика
@@ -37,7 +49,7 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-            Encrypt_File("info.xml", desCrypto);
+            //Encrypt_File("info.xml", desCrypto);
             Decrypt_File("info.xml", desCrypto);
             List<string> bd = new List<string>();
             string[] temp_info = File.ReadAllLines("info.xml");

@@ -1104,7 +1104,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             return promos;
         }
-    
+
         //--------------------------------отправка----------------------------------------------//
 
         public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
@@ -1117,10 +1117,13 @@ namespace АИСТ.Class.algoritms
             value.Add("discount_date_start", gs.start.ToString("u").Replace("Z", ""));
             value.Add("discount_date_finish", gs.end.ToString("u").Replace("Z", ""));
             string s = "";
-            foreach(String sp in gs.assortiments[0].Get_shops())
+            foreach (String sp in gs.assortiments[0].Get_shops())
             {
-                s+=sp+" ";
+                s += sp + " ";
             }
+            string path = Directory.GetCurrentDirectory();
+            string[] d = Directory.GetDirectories(path);
+            path += "\\promos\\promo" + DateTime.Now.ToString().Replace(':', '.');
             value.Add("IDs_shops_list_promo", s);
             SQL_Helper.WriteInTable("promo_info", value);
             prBar.Maximum = border;
@@ -1137,18 +1140,26 @@ namespace АИСТ.Class.algoritms
                 string name = temp_dt.Rows[0].ItemArray[0].ToString();
                 text += "<p align=\"center\"> И специально для вас, <b>" + name + "</b>, мы подготовили " + promo.Count + " уникальных предложений </p>";
                 text += "<p align=\"center\"> Что бы воспользоваться ими - просто покажите на кассе эти <b>штрихкоды!</b></p>";
+                string Shops = "";
+                foreach (String sh in gs.assortiments[0].Get_shops())
+                {
+                    string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + sh + "';";
+                    temp_dt = SQL_Helper.Just_do_it(re);
+                    Shops += "Город " + temp_dt.Rows[0].ItemArray[1].ToString() + " улица " + temp_dt.Rows[0].ItemArray[0].ToString() + ", ";
+                }
+                Shops = Shops.Substring(0, Shops.Length - 1);
+                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "Ждем вас в магазинах по адресам: " + Shops + "</p></td></tr></table>";
+                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "C " + gs.start.ToString("d") + "по" + gs.end.ToString("d") + "</p></td></tr></table>";
                 text += "<p align=\"center\"> Если письмо не отображается целиком - скачайте полную версию <b>Во вложении</b> в удобном для вас формате</p>";
-                string path = Directory.GetCurrentDirectory();
-                string[] d = Directory.GetDirectories(path);
-                path += "\\promos" + DateTime.Now.ToString().Replace(':', '.');
                 Directory.CreateDirectory(path);
                 System.Drawing.Imaging.ImageFormat image_format = System.Drawing.Imaging.ImageFormat.Bmp;
-
+                int code = 0;
                 foreach (Promo p in promo)
                 {
+                    code++;
                     int discount = (int)p.disc;
                     string image = "";
-
+                    string id_type = "4";
                     switch (p.group)
                     {
                         case Group.Product:
@@ -1181,7 +1192,7 @@ namespace АИСТ.Class.algoritms
                                     image = Get_string_img("no_image.png");
                                 }
 
-                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client +"  "+ id_promo ;
+                                string input = p.group + " " + p.id_prod + " " + discount + "% " + client + "  " + id_promo;
                                 string this_path = path + "\\" + input + ".bmp";
 
                                 this_path = Save_code123(input, this_path, image_format);
@@ -1202,6 +1213,7 @@ namespace АИСТ.Class.algoritms
                             }
                         case Group.Brand:
                             {
+                                id_type = "3";
                                 request = "SELECT Image_brand, brand_name, brand_counrty FROM brands WHERE ID_brand = '" + p.id_prod + "';";
                                 temp_dt = SQL_Helper.Just_do_it(request);
                                 string brand = temp_dt.Rows[0].ItemArray[1].ToString();
@@ -1216,12 +1228,13 @@ namespace АИСТ.Class.algoritms
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
                                 text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
-                                String all_text = "Скидка " + discount + "% На весь товар брэнда " + brand.Replace('-', ' ') +" производства "+ temp_dt.Rows[0].ItemArray[2].ToString().Replace('-', ' ');
+                                String all_text = "Скидка " + discount + "% На весь товар брэнда " + brand.Replace('-', ' ') + " производства " + temp_dt.Rows[0].ItemArray[2].ToString().Replace('-', ' ');
                                 text += "<tr><td colspan=\"2\"><p align=\"center\">" + all_text + "</p></td></tr></table>";
                                 break;
                             }
                         case Group.Little_type:
                             {
+                                id_type = "3";
                                 request = "SELECT name_product_type_little, image_little_type, ID_product_type_bigger FROM product_type_little WHERE ID_product_type_little = '" + p.id_prod + "';";
                                 temp_dt = SQL_Helper.Just_do_it(request);
                                 string little_typ = temp_dt.Rows[0].ItemArray[0].ToString();
@@ -1252,6 +1265,7 @@ namespace АИСТ.Class.algoritms
                             }
                         case Group.Big_type:
                             {
+                                id_type = "1";
                                 string big_type = "";
                                 request = "SELECT image_big_type, name_product_type_big FROM product_type_big WHERE ID_product_type_big = '" + p.id_prod + "';";
                                 temp_dt = SQL_Helper.Just_do_it(request);
@@ -1275,31 +1289,21 @@ namespace АИСТ.Class.algoritms
                                 break;
                             }
                     }
+                    string write = "INSERT INTO promo_full (ID_promo_full,ID_customer_dis,ID_type_group,ID_product_dis,ID_product_dis,CODE) " +
+                        "VALUES('" + id_promo + "','" + client + "','" + id_type + "','" + p.id_prod + "','" + p.disc + "','" + code + "');";
+                    SQL_Helper.Just_do_it(write);
+                    string attach = path + "\\" + client + " " + name;
+                    string attach_html = attach + ".html";
+                    System.IO.StreamWriter wrt = new StreamWriter(attach_html);
+                    wrt.WriteLine(text);
+                    wrt.Close();
 
+                    //string name_f = client + " " + name + ".pdf";
+                    string attach_pdf = Get_pdf(text, attach);
+                    Mail_it(text, mail, attach_pdf, attach_html);
+                    promos.Remove(client);
+                    prBar.Value++;
                 }
-                string Shops = "";
-                foreach (String sh in gs.assortiments[0].Get_shops())
-                {
-                    string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + sh + "';";
-                    temp_dt = SQL_Helper.Just_do_it(re);
-                    Shops += "Город " + temp_dt.Rows[0].ItemArray[1].ToString() + " улица " + temp_dt.Rows[0].ItemArray[0].ToString() + ", ";
-                }
-                Shops = Shops.Substring(0, Shops.Length - 1);
-                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "Ждем вас в магазинах по адресам: " + Shops + "</p></td></tr></table>";
-                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "C " + gs.start.ToString("d") +"по" + gs.end.ToString("d") + "</p></td></tr></table>";
-
-
-                string attach = path + "\\" + client + " " + name;
-                string attach_html = attach + ".html";
-                System.IO.StreamWriter wrt = new StreamWriter(attach_html);
-                wrt.WriteLine(text);
-                wrt.Close();
-
-                //string name_f = client + " " + name + ".pdf";
-                string attach_pdf = Get_pdf(text, attach);
-                Mail_it(text, mail, attach_pdf, attach_html);
-                promos.Remove(client);
-                prBar.Value++;
             }
         }
         public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
