@@ -12,15 +12,13 @@ namespace АИСТ.Class
         private DateTime activ2;
         private int min_sum;
         private int max_sum;
-        private string[] Shops;
         private string name;
-        public Customers(DateTime activ1, DateTime activ2, int min_sum, int max_sum, string[] Shops, string name)
+        public Customers(DateTime activ1, DateTime activ2, int min_sum, int max_sum, string name)
         {
             this.activ1 = activ1;
             this.activ2 = activ2;
             this.min_sum = min_sum;
             this.max_sum = max_sum;
-            this.Shops = Shops;
             this.name = name;
 
         }
@@ -37,11 +35,6 @@ namespace АИСТ.Class
             return sum;
         }
 
-        public string[] Get_shops()
-        {
-            string[] shops = Shops;
-            return shops;
-        }
 
         public string Get_name()
         {

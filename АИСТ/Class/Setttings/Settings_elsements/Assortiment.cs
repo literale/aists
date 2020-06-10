@@ -13,16 +13,14 @@ namespace АИСТ.Class
        private int max_count; 
        private DateTime deliver1;
        private DateTime deliver2;
-       private string[] Shops;
        private string name;
        //private listProductOverRules rules;
-       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string[] Shops, string name)
+       public Assortiment(int min_count, int max_count, DateTime deliver1, DateTime deliver2, string name)
         {
             this.min_count = min_count;
             this.max_count = max_count;
             this.deliver1 = deliver1;
             this.deliver2 = deliver2;
-            this.Shops = Shops;
             this.name = name;
         }
         
@@ -36,12 +34,6 @@ namespace АИСТ.Class
         {
             DateTime[] dt = { deliver1, deliver2 };
             return dt;
-        }
-
-        public string[] Get_shops()
-        {
-            string[] shops = Shops;
-            return shops;
         }
 
         public string Get_name()

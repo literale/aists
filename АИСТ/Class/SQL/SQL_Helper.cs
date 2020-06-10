@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace АИСТ.Class
 {
-    class SQL_Helper
+    class  SQL_Helper
     {
         //public static string connection_string = "server=localhost; " +
         //           "user=" + "admin" + "; " +
@@ -37,6 +37,10 @@ namespace АИСТ.Class
         public static void CloseConnection()
         {
             connection.Close();
+        }
+        public static void OpenConnection()
+        {
+            connection.Open();
         }
         public static void setConnection(string connection_string)
         {

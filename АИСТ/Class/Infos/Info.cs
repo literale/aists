@@ -26,6 +26,12 @@ namespace АИСТ.Class
         private static Generate_Setttings gs;
         private static bool test = false;
         private static Dictionary<string, Tabs> tabs = new Dictionary<string, Tabs>();
+        private static string email = "ESGdiplom2020shop@yandex.ru";
+        private static string test_email = "ESGdiplom2020@yandex.ru";
+        public static void set_email()
+        {
+            email = "ESGdiplom2020shop@yandex.ru";
+        }
         public static Algoritm Get_alg()
         {
             return a;
@@ -89,7 +95,7 @@ namespace АИСТ.Class
             Decrypt_File("info.txt", desCrypto);
         }
 
-        public static void Give_you_file()
+        public static void Take_you_file()
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
@@ -103,7 +109,7 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-           //Encrypt_File("info.txt", desCrypto);
+          // Encrypt_File("info.txt", desCrypto);
             Decrypt_File("info.txt", desCrypto);
             List<string> bd = new List<string>();
             string[] temp_info = File.ReadAllLines("info.txt");

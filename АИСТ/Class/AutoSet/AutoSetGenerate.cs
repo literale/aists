@@ -24,19 +24,21 @@ namespace АИСТ.Class.AutoSet
             over_rules = AddRandomRules(Group.Big_type, over_rules, 3);
             over_rules = AddRandomRules(Group.Little_type, over_rules, 10);
             over_rules = AddRandomRules(Group.Product, over_rules, 1000);
+            List<string> shops = new List<string>();
+            shops.Add("1");
+            shops.Add("2");
+            Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 20000,  "c1");
+            Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, "a1");
 
-            Customers c = new Customers(DateTime.Now.AddDays(-90), DateTime.Now, 1000, 20000, new string[] { "1", "2" }, "c1");
-            Assortiment a = new Assortiment(0, 50, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "2"}, "a1");
-
-            Customers c1 = new Customers(DateTime.Now.AddDays(-180), DateTime.Now, 5000, 60000, new string[] { "1", "3" }, "c2");
-            Assortiment a1 = new Assortiment(0, 150, DateTime.Now.AddDays(-90), DateTime.Now, new string[] { "1", "3" }, "a2");
+            Customers c1 = new Customers(DateTime.Now.AddDays(-180), DateTime.Now, 5000, 60000, "c2");
+            Assortiment a1 = new Assortiment(0, 150, DateTime.Now.AddDays(-90), DateTime.Now, "a2");
             List<Assortiment> la = new List<Assortiment>();
             la.Add(a);
             la.Add(a1);
             List<Customers> lc = new List<Customers>();
             lc.Add(c);
             lc.Add(c1);
-            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-360));
+            Generate_Setttings gs = new Generate_Setttings(DateTime.Now, DateTime.Now.AddDays(15), 5, 15, la,lc, pt, over_rules, DateTime.Now.AddDays(-360), shops);
 
             return gs;
         }

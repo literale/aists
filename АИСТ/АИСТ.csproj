@@ -101,26 +101,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\algoritms\Algoritm.cs" />
-    <Compile Include="Class\algoritms\Final_product_group.cs" />
-    <Compile Include="Class\algoritms\Product_for_list.cs" />
-    <Compile Include="Class\algoritms\Promo.cs" />
+    <Compile Include="Class\essence\Final_product_group.cs" />
+    <Compile Include="Class\essence\Product_for_list.cs" />
+    <Compile Include="Class\essence\Promo.cs" />
     <Compile Include="Class\essence\Client_Tab.cs" />
-    <Compile Include="Class\essence\Code128.cs" />
+    <Compile Include="Class\algoritms\Code128.cs" />
     <Compile Include="Class\essence\Prod_for_report.cs" />
     <Compile Include="Class\essence\Prod_tab.cs" />
-    <Compile Include="Class\enums\enums.cs" />
-    <Compile Include="Class\essence\Assortiment.cs" />
+    <Compile Include="Class\Infos\enums.cs" />
+    <Compile Include="Class\Setttings\Settings_elsements\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
-    <Compile Include="Class\essence\Customers.cs" />
-    <Compile Include="Class\essence\Table_for_strategy.cs" />
-    <Compile Include="Class\Setttings\listProductOverRules.cs" />
+    <Compile Include="Class\Setttings\Settings_elsements\Customers.cs" />
+    <Compile Include="Class\Setttings\Settings_elsements\Table_for_strategy.cs" />
+    <Compile Include="Class\Setttings\Settings_elsements\listProductOverRules.cs" />
     <Compile Include="Class\Setttings\Generate_Setttings.cs" />
-    <Compile Include="Class\essence\Promo_strategy.cs" />
-    <Compile Include="Class\Setttings\Types.cs" />
+    <Compile Include="Class\Setttings\Settings_elsements\Promo_types.cs" />
     <Compile Include="Class\SQL\SQL_Helper.cs" />
-    <Compile Include="Class\algoritms\Info.cs" />
-    <Compile Include="Class\Setttings\Tabs.cs" />
-    <Compile Include="Class\Setttings\Tab_Settings.cs" />
+    <Compile Include="Class\Infos\Info.cs" />
+    <Compile Include="Class\SQL\Tab\Tabs.cs" />
+    <Compile Include="Class\SQL\Tab\Tab_Settings.cs" />
     <Compile Include="Forms\BD_connect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +221,8 @@
     <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlX.XDevAPI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,9 +38,26 @@ namespace АИСТ
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
             }
             checkedListBox5.SetItemChecked(0, true);
+            Load_on_exept_fоrm();
+
 
         }
 
+        public void Load_on_exept_fоrm()
+        {
+            checkedListBox5.MultiColumn = true;
+            checkedListBox5.Items.Clear();
+            string table = "";
+            if (domainUpDown1.SelectedIndex == 0)
+                table = "product_type_big";
+            string request = "SELECT * FROM product_type_big;";
+            DataTable dt = SQL_Helper.Just_do_it(request);
+            foreach(DataRow dr in dt.Rows)
+            {
+                checkedListBox5.Items.Add(dr.ItemArray[1].ToString());
+
+            }
+        }
         private void Form2_Load(object sender, EventArgs e)
         {
 
@@ -193,17 +211,24 @@ namespace АИСТ
         private void расшифроватьФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Info.Give_me_file();
-            System.Diagnostics.Process.Start("info.txt");
+            System.Diagnostics.Process p = System.Diagnostics.Process.Start("info.txt");
             bool open = true;
             зашифроватьФайлToolStripMenuItem.Enabled = true;
             расшифроватьФайлToolStripMenuItem.Enabled = false;
+            if (p.HasExited)
+            {
+                Info.Take_you_file();
+                расшифроватьФайлToolStripMenuItem.Enabled = true;
+                зашифроватьФайлToolStripMenuItem.Enabled = false;
+                open = false;
+            }
         }
 
         private void зашифроватьФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                Info.Give_you_file();
+                Info.Take_you_file();
                 расшифроватьФайлToolStripMenuItem.Enabled = true;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
                 open = false;
@@ -225,6 +250,16 @@ namespace АИСТ
         {
             Form f = new Promo_types_Setings();
             f.Show();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void пресетыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

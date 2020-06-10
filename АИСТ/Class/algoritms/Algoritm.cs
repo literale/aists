@@ -37,6 +37,7 @@ namespace АИСТ.Class.algoritms
         List<Dictionary<string, double>> diction_sum_value;//продажи товаров, 8 словарей товар-брэнд-подтим-тип каждый сумма и объем продаж
         Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов кол-вл сумма
         Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store;//товар на складе (в том числе по группам)
+        Generate_Setttings gs;
         public Dictionary<string, List<Promo>> Auto()
         {
             Form f2 = new Process();
@@ -60,7 +61,7 @@ namespace АИСТ.Class.algoritms
             
             rtb.Text += "Начат импорт настроек" + '\n';
             rtb.Refresh();
-            Generate_Setttings gs = AutoSetGenerate.AutoSettings();
+            gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
             File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
@@ -85,28 +86,20 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "Начат процесс генерации предложений\n ";
             rtb.Refresh();
             myStopwatch.Start();
-            Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(catalog_prods, client_tabs, gs); //получаем сводную таблицу для клиентов (только доступные им товары)
+            Dictionary<string, List<Final_product_group>> summary = Get_summary_tables(catalog_prods, client_tabs); //получаем сводную таблицу для клиентов (только доступные им товары)
             Object[] d = Get_comparable_lists(summary, diction_sum_value, client_prod, all_prods_and_group_amount_on_store);
-            Dictionary<string, List<Promo>> promos =  Generate(d, gs);
+            Dictionary<string, List<Promo>> promos =  Generate(d);
             return promos;
            
         }
 
-        //public void Send_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs)
-        //{
-        //    rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
-        //    rtb.Refresh();
-        //    myStopwatch.Start();
-        //    Generate_mails(promos, gs);
-        //    rtb.Text += "Закончен процесс отправки предложений\n ";
-        //    rtb.Refresh();
-        //    // Mail_it(promos);
-        //    myStopwatch.Stop();
-        //    myStopwatch.Reset();
-        //}
 
         //--------------------------------КЛИЕНТЫ----------------------------------------------//
-
+        /// <summary>
+        /// Анализ клиентов
+        /// </summary>
+        /// <param name="all_customres_sets"></param>
+        /// <returns></returns>
         public List<Client_Tab> Get_Clients_analyze(List<Customers> all_customres_sets)
         {
             List<Client_Tab> client_tabs = new List<Client_Tab>();
@@ -134,7 +127,7 @@ namespace АИСТ.Class.algoritms
                 rtb.Refresh();
                 //Реквест с временем и магазинами
                 request = "SELECT * FROM checks WHERE check_date > \"" + active[0] + "\" AND check_date < \"" + active[1] + "\" AND (";
-                foreach (string shop in customer_set.Get_shops())
+                foreach (string shop in gs.shops)
                 {
                     request += "ID_shop_check = '" + shop + "' OR ";
                 }
@@ -196,23 +189,12 @@ namespace АИСТ.Class.algoritms
 
             return client_tabs;
         }
-        public Dictionary<string, double> Get_dictionary_volume(Dictionary<string, Dictionary<string, double[]>> client_prod)
-        {
-            Dictionary<string, double> clients_volumes = new Dictionary<string, double>();
-
-            foreach (string client_id in client_prod.Keys)
-            {
-                double sum = 0;
-                foreach (string prod in client_prod[client_id].Keys)
-                {
-                    double count = client_prod[client_id][prod][0];
-                    sum += count;
-                }
-                clients_volumes.Add(client_id, sum);
-
-            }
-            return clients_volumes;
-        }//создания словаря оюъемов закупок
+        /// <summary>
+        /// Определяет объемы закупок клиента
+        /// </summary>
+        /// <param name="client_prod"></param>
+        /// <param name="client_checks"></param>
+        /// <returns></returns>
         public Dictionary<string, double> Get_dictionary_volume(Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod, Dictionary<string, List<string>> client_checks)
         {
             Dictionary<string, double> clients_volumes = new Dictionary<string, double>();
@@ -230,6 +212,13 @@ namespace АИСТ.Class.algoritms
             }
             return clients_volumes;
         }//создания словаря оюъемам и суммам закупок
+    
+        /// <summary>
+        /// Функцция проведения анализа
+        /// </summary>
+        /// <param name="cl_sum"></param>
+        /// <param name="clients_volumes"></param>
+        /// <returns></returns>
         public List<Client_Tab> client_Analitic_ABC_XYZ(Dictionary<string, double> cl_sum, Dictionary<string, double> clients_volumes)//анализ по объемам закупок И суммам
         {
             List<Client_Tab> ct = new List<Client_Tab>();
@@ -248,6 +237,12 @@ namespace АИСТ.Class.algoritms
 
             return ct;
         }
+        
+        /// <summary>
+        /// Функция составления спика чеков клиента
+        /// </summary>
+        /// <param name="client_checks"></param>
+        /// <returns></returns>
         public Dictionary<string, Dictionary<string, Tuple<double, double>>> get_checks_2(Dictionary<string, List<string>> client_checks)
 
         {
@@ -313,7 +308,13 @@ namespace АИСТ.Class.algoritms
         }
 
         //--------------------------------ПРОДУКТЫ---------------------------------------------//
-
+        /// <summary>
+        /// Функция общего анализа товаров
+        /// </summary>
+        /// <param name="all_assortiment_sets"></param>
+        /// <param name="rules"></param>
+        /// <param name="analiz_border"></param>
+        /// <returns></returns>
         public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> Get_Prod_analyze(List<Assortiment> all_assortiment_sets, listProductOverRules rules, DateTime analiz_border)
         {
             List<Prod_tab> prod_Tabs = new List<Prod_tab>(); //таблица отдельных товаров и группировок     
@@ -335,6 +336,11 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             return catalog_prods;
         }
+        /// <summary>
+        /// Функция получения всех товаров из всех сетов
+        /// </summary>
+        /// <param name="all_assortiment_sets"></param>
+        /// <returns></returns>
         public Dictionary<Tuple<string, Group>, double> Get_All_simple_products(List<Assortiment> all_assortiment_sets)
         {
             Dictionary<Tuple<string, Group>, double> temp_diction_prod = new Dictionary<Tuple<string, Group>, double>(); //хранит рабочие значения, что б удобно удалять
@@ -348,7 +354,7 @@ namespace АИСТ.Class.algoritms
                      assortiment.Get_deliver()[0].ToString("u").Substring(0, 10) ,
                      assortiment.Get_deliver()[1].ToString("u").Substring(0, 10)
                 };
-                string[] shops = assortiment.Get_shops();
+                string[] shops = gs.shops.ToArray();
                 ///сначала получаем скписок продуктов по ассортименту, потом удаляем/добавляем все овергруппы
                 string request = "SELECT ID_product_store, product_amount FROM product_on_store WHERE " +
                     "( last_shipment > \"" + deliver[0] + "\" AND last_shipment < \"" + deliver[1] + "\") " +
@@ -373,6 +379,13 @@ namespace АИСТ.Class.algoritms
             }
             return temp_diction_prod;
         }
+       
+       /// <summary>
+       /// Функция наложения особых правил
+       /// </summary>
+       /// <param name="rules"></param>
+       /// <param name="all_prods"></param>
+       /// <returns></returns>
         public Dictionary<Tuple<string, Group>, double> Set_over_rules_prod(listProductOverRules rules, Dictionary<Tuple<string, Group>, double> all_prods)
         {
             
@@ -525,6 +538,12 @@ namespace АИСТ.Class.algoritms
 
             return all_prods;
         }
+        /// <summary>
+        /// Функция проведения самого анализа
+        /// </summary>
+        /// <param name="all_prods"></param>
+        /// <param name="analiz_border"></param>
+        /// <returns></returns>
         public Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> prod_Analitic_ABC_XYZ(Dictionary<Tuple<string, Group>, double> all_prods, DateTime analiz_border)
         {
 
@@ -694,6 +713,11 @@ namespace АИСТ.Class.algoritms
             myStopwatch2.Stop();
             return catalog_prods;
         }
+        /// <summary>
+        /// функция составления таблиц товаров
+        /// </summary>
+        /// <param name="temp_abcxyz"></param>
+        /// <returns></returns>
         public List<Prod_tab> Get_prod_tabs(List<Dictionary<string, Type_ABC_XYZ>> temp_abcxyz)
         {
             List<Prod_tab> prod_Tabs = new List<Prod_tab>();
@@ -826,7 +850,14 @@ namespace АИСТ.Class.algoritms
         }
 
         //--------------------------------Генерация----------------------------------------------//
-        public Dictionary<string, List<Final_product_group>> Get_summary_tables(Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods, List<Client_Tab> client_tabs, Generate_Setttings gs)
+        /// <summary>
+        /// Функция сведения таблиц
+        /// </summary>
+        /// <param name="catalog_prods"></param>
+        /// <param name="client_tabs"></param>
+        /// <param name="gs"></param>
+        /// <returns></returns>
+        public Dictionary<string, List<Final_product_group>> Get_summary_tables(Dictionary<Tuple<Group, Tuple<Type_ABC_XYZ, Type_ABC_XYZ>>, List<string>> catalog_prods, List<Client_Tab> client_tabs)
         {
             Table_for_strategy[,] clients = gs.promo_type.Get_clients();//двумерный массив АВС-XYZ клиентов
             Table_for_strategy[,] products = gs.promo_type.Get_products();//двумерный массив АВС-XYZ товаров
@@ -877,12 +908,32 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             return summary;
         }
+      
+        
+        
+        /// <summary>
+       /// функция получения таблиц стратегии
+       /// </summary>
+       /// <param name="abc"></param>
+       /// <param name="xyz"></param>
+       /// <param name="custOrProd"></param>
+       /// <returns></returns>
         public Table_for_strategy Get_client_or_prod(Type_ABC_XYZ abc, Type_ABC_XYZ xyz, Table_for_strategy[,] custOrProd)
         {
             int i = (abc == Type_ABC_XYZ.A) ? 0 : ((abc == Type_ABC_XYZ.B) ? 1 : 2);
             int j = (xyz == Type_ABC_XYZ.X) ? 0 : ((xyz == Type_ABC_XYZ.Y) ? 1 : 2);
             return custOrProd[i, j];
         }
+
+
+        /// <summary>
+        /// Функуия получения сравниваемых листов
+        /// </summary>
+        /// <param name="summary"></param>
+        /// <param name="diction_sum_value"></param>
+        /// <param name="client_sells"></param>
+        /// <param name="all_prods_and_group_amount_on_store"></param>
+        /// <returns></returns>
         public Object[] Get_comparable_lists(Dictionary<string, List<Final_product_group>> summary, List<Dictionary<string, double>> diction_sum_value, Dictionary<string, Dictionary<string, Tuple<double, double>>> client_sells, Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store)
         {
             Object[] d;//Массив, который вернет эта функция
@@ -906,6 +957,7 @@ namespace АИСТ.Class.algoritms
                     temp_list.sell_value = value[id];
                     temp_list.sum = sum[id];
                     temp_list.amount_on_store = all_prods_and_group_amount_on_store[new Tuple<string, Group>(id, gr)];
+                    temp_list.compType = gs.promo_type.comp_prod;
                     comparable_lists_goods.Add(new Tuple<string, Group>(id, gr), temp_list);
                 }
                 
@@ -932,6 +984,7 @@ namespace АИСТ.Class.algoritms
                         temp_list.prob_by_client = prod.prob_by_client;
                         temp_list.prior_by_good = prod.prior_by_good;
                         temp_list.g = prod.group;
+                        temp_list.compType = gs.promo_type.comp_client;
                         temp_d.Add(temp_list);
                     }
 
@@ -943,7 +996,16 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
             return d;
         }   
-        public Dictionary<string, List<Promo>> Generate(Object[] d, Generate_Setttings gs)
+        
+
+
+        /// <summary>
+        /// Функция генерации предложений
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="gs"></param>
+        /// <returns></returns>
+        public Dictionary<string, List<Promo>> Generate(Object[] d)
         {
             rtb.Text += "   Начато наложение пространтв \n ";
             rtb.Refresh();   
@@ -958,17 +1020,23 @@ namespace АИСТ.Class.algoritms
 
             foreach (string client in comparable_lists_clients.Keys)
             {
-                Dictionary<Tuple<string, Group>, Product_for_list_shop> temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
+              //  Dictionary<Tuple<string, Group>, Product_for_list_shop> temp_goods = new Dictionary<Tuple<string, Group>, Product_for_list_shop>();
                 //для каждого товара в списке клиента ищем соотвтсвие в списке товаров
+                int count  = 0;
                 foreach (Product_for_list_client pc in comparable_lists_clients[client])
                 {
-                    temp_goods.Add(new Tuple<string, Group>(pc.prod_id, pc.g), comparable_lists_goods[new Tuple<string, Group>(pc.prod_id, pc.g)]);
+                   count++;
                 }
 
-                if (temp_goods.Count == 0 || comparable_lists_clients[client].Count == 0) continue;
+                if (count == 0 || comparable_lists_clients[client].Count == 0) continue;
 
-                List<Product_for_list_client> temp_client_goods = comparable_lists_clients[client].OrderByDescending(pair => pair.sum).ToList();
-                temp_goods = temp_goods.OrderByDescending(pair => pair.Value.sum).ToDictionary(pair => pair.Key, pair => pair.Value);
+                // List<Product_for_list_client> temp_client_goods = comparable_lists_clients[client].OrderByDescending(pair => pair.sum).ToList();
+                List<Product_for_list_client> temp_client_goods = comparable_lists_clients[client];
+                temp_client_goods.Sort();
+                if (gs.promo_type.intresting_cl)
+                    temp_client_goods.Reverse();
+                //temp_goods.OrderByDescending()
+               //  temp_goods = temp_goods.OrderByDescending(pair => pair.Value.sum).ToDictionary(pair => pair.Key, pair => pair.Value);
                 
                 List<Promo> temp_p = new List<Promo>();
                 promos.Add(client, temp_p);
@@ -1022,25 +1090,50 @@ namespace АИСТ.Class.algoritms
 
                 //соберем список по совместному приоритету (например сумма и приоритет)
                 Dictionary<Tuple<string, Group>, Tuple<double, double>> full_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>();
-                foreach (double prob in prods_s.Keys)
+                
+                foreach(Tuple<string, Group> list_p in comparable_lists_goods.Keys)
                 {
-                    foreach (Tuple<string, Group> t_prod in prods_s[prob])
+                    foreach (Product_for_list_client k in temp_client_goods)
                     {
-                        foreach (Product_for_list_client k in temp_client_goods)
                         {
-                            if ((t_prod.Item1.Equals(k.prod_id))&&(t_prod.Item2.Equals(k.g)))
-                            {
-                                full_prior.Add(t_prod, new Tuple<double, double>(prob, k.sum));
+                            if ((list_p.Item1.Equals(k.prod_id)) && (list_p.Item2.Equals(k.g)))
+                                {
+                                double field_p = 0;
+                                if (gs.promo_type.comp_prod == CompareType.cost)
+                                {
+                                    field_p = comparable_lists_goods[list_p].sum;
+                                }
+                                else if (gs.promo_type.comp_prod == CompareType.amount)
+                                {
+                                    field_p = comparable_lists_goods[list_p].amount_on_store;
+                                }
+                                else
+                                {
+                                    field_p = comparable_lists_goods[list_p].sell_value;
+                                }
+                                double field_c = 0;
+                                if (gs.promo_type.comp_client == CompareType.cost)
+                                {
+                                    field_c = k.sum;
+                                }
+                                else if (gs.promo_type.comp_client == CompareType.purchase_value)
+                                {
+                                    field_c = k.purchase_value;
+                                }
+
+                                full_prior.Add(list_p, new Tuple<double, double>(field_p, field_c));
                                 continue;
                             }
                         }
-
                     }
+                    }
+                
+               
 
-                }
-
-
-                full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
+                if (gs.promo_type.intresting_pr)
+                     full_prior = full_prior.OrderByDescending(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
+                else
+                    full_prior = full_prior.OrderBy(pair => pair.Value.ToValueTuple()).ToDictionary(pair => pair.Key, pair => pair.Value);
                 Dictionary<Tuple<string, Group>, Tuple<double, double>> temp_prior = new Dictionary<Tuple<string, Group>, Tuple<double, double>>(full_prior);
                 ///дополнительные плюшки
                 double di = 10;
@@ -1111,7 +1204,13 @@ namespace АИСТ.Class.algoritms
 
         //--------------------------------отправка----------------------------------------------//
 
-        public void Generate_mails(Dictionary<string, List<Promo>> promos, Generate_Setttings gs, bool test)
+            /// <summary>
+            /// Функция генерации писем
+            /// </summary>
+            /// <param name="promos"></param>
+            /// <param name="gs"></param>
+            /// <param name="test"></param>
+        public void Generate_mails(Dictionary<string, List<Promo>> promos, bool test)
         {
             rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
             rtb.Refresh();
@@ -1123,7 +1222,7 @@ namespace АИСТ.Class.algoritms
             value.Add("discount_date_start", gs.start.ToString("u").Replace("Z", ""));
             value.Add("discount_date_finish", gs.end.ToString("u").Replace("Z", ""));
             string s = "";
-            foreach (String sp in gs.assortiments[0].Get_shops())
+            foreach (String sp in gs.shops)
             {
                 s += sp + " ";
             }
@@ -1147,7 +1246,7 @@ namespace АИСТ.Class.algoritms
                 text += "<p align=\"center\"> И специально для вас, <b>" + name + "</b>, мы подготовили " + promo.Count + " уникальных предложений </p>";
                 text += "<p align=\"center\"> Что бы воспользоваться ими - просто покажите на кассе эти <b>штрихкоды!</b></p>";
                 string Shops = "";
-                foreach (String sh in gs.assortiments[0].Get_shops())
+                foreach (String sh in gs.shops)
                 {
                     string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + sh + "';";
                     temp_dt = SQL_Helper.Just_do_it(re);
@@ -1316,6 +1415,16 @@ namespace АИСТ.Class.algoritms
             rtb.Text += "Закончен процесс отправки предложений\n ";
             rtb.Refresh();
         }
+
+
+        
+        /// <summary>
+        /// Функция отсылки писем
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="mail"></param>
+        /// <param name="attach_pdf"></param>
+        /// <param name="attach_html"></param>
         public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
         {
             // отправитель - устанавливаем адрес и отображаемое в письме имя
@@ -1342,6 +1451,15 @@ namespace АИСТ.Class.algoritms
             smtp.Send(m);
             Console.Read();
         }
+
+
+
+        /// <summary>
+        /// Функция наложения подписи на штрихкод
+        /// </summary>
+        /// <param name="originalImage"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         private Bitmap DrawWatermark(Bitmap originalImage, string text)
         {
             Bitmap bitmap = new Bitmap(originalImage.Width, originalImage.Height);
@@ -1358,6 +1476,13 @@ namespace АИСТ.Class.algoritms
             }
         }
 
+
+
+        /// <summary>
+        /// Функция превращения локального изображения в массив байтов
+        /// </summary>
+        /// <param name="this_path"></param>
+        /// <returns></returns>
         private String Get_string_img(String this_path)
         {
             System.Drawing.Image temp = System.Drawing.Image.FromFile(this_path);
@@ -1367,6 +1492,15 @@ namespace АИСТ.Class.algoritms
             return imgString;
         }
 
+
+
+        /// <summary>
+        /// функция сохранения штрих-кода
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="this_path"></param>
+        /// <param name="image_format"></param>
+        /// <returns></returns>
         private String Save_code123(String input, String this_path, System.Drawing.Imaging.ImageFormat image_format)
         {
             Code128 c = new Code128(input);
@@ -1379,6 +1513,13 @@ namespace АИСТ.Class.algoritms
             return this_path;
         }
 
+
+        /// <summary>
+        /// функция генерации пдф
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="attach"></param>
+        /// <returns></returns>
         private string Get_pdf(string text, string attach)
         {
             //string AppPatch = Application.StartupPath;

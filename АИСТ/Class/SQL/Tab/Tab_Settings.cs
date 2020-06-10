@@ -14,7 +14,7 @@ namespace АИСТ.Class
     {
         private static string email;
         private static Dictionary<string, Tabs> all_tabs = new Dictionary<string, Tabs>();
-        public static void temp_set_email()
+        public static void set_email()
         {
             email = "ESGdiplom2020shop@yandex.ru";
         }
@@ -43,6 +43,10 @@ namespace АИСТ.Class
         public static Dictionary<string, Tabs> Get_tabs()
         {
             return all_tabs;
+        }
+        public static Tabs Get_tab(string tab)
+        {
+            return all_tabs[tab];
         }
 
     }

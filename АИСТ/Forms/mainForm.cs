@@ -48,29 +48,8 @@ namespace АИСТ
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            //SQL_Helper.Get_columns("promo_full");
-            string login = textBox1.Text;
-            string pass = tb_password.Text;
-         //   Tab_Settings.Load_info();
-            Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
 
-            string req = "SELECT "+ tabs["users"].Get_field("settings") +" FROM "+ tabs["users"].Get_name()+" WHERE "+ tabs["users"].Get_field("login") + " = '" + login+ "' AND "+tabs["users"].Get_field("password")  +" ='" + pass+"';";
-            DataTable dt = SQL_Helper.Just_do_it(req);
-            if (dt != null)
-            {
-                if (dt.Rows.Count > 0)
-                {
-                    if (dt.Rows[0].ItemArray[0].ToString().Equals("1") || dt.Rows[0].ItemArray[0].ToString().Equals("2")) Info.Set_admin(true);
-                    Form f2 = new Generate();
-                    f2.Show(); // отображаем Form2
-                    this.Hide(); // скрываем Form1 (this - текущая форма)
-                }
-                else
-                {
-                    MessageBox.Show("Неверный логин или пароль");
-                }
-            }
+            login();
            
         }
 
@@ -88,7 +67,7 @@ namespace АИСТ
 
         private void mainForm_EnabledChanged(object sender, EventArgs e)
         {
-           lb_bd.Text = Info.Get_bd_name();
+          // lb_bd.Text = Info.Get_bd_name();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -100,6 +79,83 @@ namespace АИСТ
             SQL_Helper.setConnection(connection_string);
             Algoritm a = new Algoritm();
             a.Auto();
+        }
+
+        private void mainForm_MouseEnter(object sender, EventArgs e)
+        {
+          //  login();
+        }
+
+        private void login()
+        {
+            //SQL_Helper.Get_columns("promo_full");
+            string login = textBox1.Text;
+            string pass = tb_password.Text;
+            //   Tab_Settings.Load_info();
+            Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
+
+            string req = "SELECT " + tabs["users"].Get_field("settings") + " FROM " + tabs["users"].Get_name() + " WHERE " + tabs["users"].Get_field("login") + " = '" + login + "' AND " + tabs["users"].Get_field("password") + " ='" + pass + "';";
+            DataTable dt = SQL_Helper.Just_do_it(req);
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0].ItemArray[0].ToString().Equals("1") || dt.Rows[0].ItemArray[0].ToString().Equals("2")) Info.Set_admin(true);
+                    Form f2 = new Generate();
+                    // Form f2 = new menu();
+                    f2.Show(); // отображаем Form2
+                    this.Hide(); // скрываем Form1 (this - текущая форма)
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин или пароль");
+                }
+            }
+        }
+
+        private void mainForm_Click(object sender, EventArgs e)
+        {
+           // login();
+        }
+
+        private void tb_password_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void tb_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            
+        }
+
+        private void tb_password_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+
+        private void mainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
         }
     }
 }

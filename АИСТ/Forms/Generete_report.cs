@@ -40,7 +40,7 @@ namespace АИСТ
             bool admin = Info.Is_test();
             Generate_Setttings gs = Info.Get_settings();
             Dictionary<string, List<Promo>> promos = Info.Get_prom();
-            a.Generate_mails(promos, gs, admin);
+            a.Generate_mails(promos, admin);
 
         }
 

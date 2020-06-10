@@ -20,12 +20,8 @@ namespace АИСТ.Class
         public Promo_types promo_type;
         public listProductOverRules rules;
         public DateTime analiz_border;
-        public CompareType clinent_sort = CompareType.purchase_value;
-        public bool toMaxClientSort = false;
-
-        public CompareType prod_sort = CompareType.cost;
-        public bool toMaxProdSort = false;
-        public Generate_Setttings(DateTime start, DateTime end, int min_disc, int max_disc, List<Assortiment> assortiments, List<Customers> customers, Promo_types promo_type, listProductOverRules rules, DateTime analiz_border)
+        public List<string> shops;
+        public Generate_Setttings(DateTime start, DateTime end, int min_disc, int max_disc, List<Assortiment> assortiments, List<Customers> customers, Promo_types promo_type, listProductOverRules rules, DateTime analiz_border, List<string> shops)
         {
             this.start = start;
             this.end = end;
@@ -36,6 +32,7 @@ namespace АИСТ.Class
             this.promo_type = promo_type;
             this.rules = rules;
             this.analiz_border = analiz_border;
+            this.shops = shops;
     }
 
     }

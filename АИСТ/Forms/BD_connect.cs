@@ -46,26 +46,7 @@ namespace АИСТ.Forms
         private void button1_Click(object sender, EventArgs e)
         {
 
-            //пытаемся установить соединение
-            SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
-            //DataTable dt = SQL_Helper.TryToConnect_Full("users");
-            try
-            {
-                DataTable dt = SQL_Helper.Try_To_Connect_Full("users");
-                Info.Set_bd(tb_server.Text, tb_name.Text);
-                Form ifrm = Application.OpenForms[0];
-                ifrm.Show();
-                ifrm.Enabled = true;
-                ifrm.Update();
-                ifrm.Text = "Подключено";
-                Tab_Settings.Load_info();
-                BD_connect.ActiveForm.Close();
-
-            }
-            catch (MySql.Data.MySqlClient.MySqlException)
-            {
-                MessageBox.Show("Ошибка доступа к базе данных");
-            }
+            login();
         }
 
         private void tb_name_TextChanged(object sender, EventArgs e)
@@ -79,20 +60,20 @@ namespace АИСТ.Forms
 
         private void tb_server_TextChanged(object sender, EventArgs e)
         {
-            if (!lk)
-            {
-                tb_server.Text = "";
-                lk = true;
-            }
+            //if (!lk)
+            //{
+            //    tb_server.Text = "";
+            //    lk = true;
+            //}
         }
 
         private void tb_login_TextChanged(object sender, EventArgs e)
         {
-            if (!lg)
-            {
-                tb_login.Text = "";
-                lg = true;
-            }
+            //if (!lg)
+            //{
+            //    tb_login.Text = "";
+            //    lg = true;
+            //}
         }
 
         private void tb_password_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
@@ -101,6 +82,95 @@ namespace АИСТ.Forms
             {
                 tb_password.Text = "";
                 ps = true;
+            }
+        }
+
+        private void tb_login_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!lg)
+            {
+                tb_login.Text = "";
+                lg = true;
+            }
+        }
+
+        private void tb_name_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!bn)
+            {
+                tb_name.Text = "";
+                bn = true;
+            }
+        }
+
+        private void tb_server_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!lk)
+            {
+                tb_server.Text = "";
+                lk = true;
+            }
+        }
+
+        private void tb_server_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+        private void login()
+        {
+            //пытаемся установить соединение
+            SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
+            //DataTable dt = SQL_Helper.TryToConnect_Full("users");
+            try
+            {
+                DataTable dt = SQL_Helper.Try_To_Connect_Full("users");
+                Info.Set_bd(tb_server.Text, tb_name.Text);
+                Form ifrm = new mainForm();
+                ifrm.Show();
+                ifrm.Enabled = true;
+                ifrm.Update();
+                Tab_Settings.Load_info();
+                this.Hide();
+
+            }
+            catch (MySql.Data.MySqlClient.MySqlException)
+            {
+                MessageBox.Show("Ошибка доступа к базе данных");
+            }
+        }
+
+        private void tb_name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+
+        private void tb_login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+
+        private void tb_password_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
+            }
+        }
+
+        private void BD_connect_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                login();
             }
         }
     }

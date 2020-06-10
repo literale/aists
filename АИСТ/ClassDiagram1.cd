@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="АИСТ.Class.algoritms.Algoritm" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMiAAgAAFAQAAAAAAAAAAAQBAgIAAlAIECCIQGBIiAg=</HashCode>
+      <FileName>Class\algoritms\Algoritm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Final_product_group" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAACAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Final_product_group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Product_for_list" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAQAAAQAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Product_for_list.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Product_for_list_client" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABAgAAAQEAAQAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Product_for_list.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Product_for_list_shop" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAQAQAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Product_for_list.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Promo" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Class\Setttings\Settings_elsements\Promo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Client_Tab" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAACAAACIAIAAAAQAAAAAAAAAACAAAgBAABAAAiA=</HashCode>
+      <FileName>Class\essence\Client_Tab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.algoritms.Prod_tab" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAACIAIAAAAQAAAAABEABACAAAgBAAAAAAgA=</HashCode>
+      <FileName>Class\essence\Prod_tab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Info" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAQADAADAgAEIEAgUQQQEQACEoAAhJAAAAEQA=</HashCode>
+      <FileName>Class\Infos\Info.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Assortiment" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAEAIAAAIAAgAEAAACgEAAAAAAACA=</HashCode>
+      <FileName>Class\Setttings\Settings_elsements\Assortiment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Customers" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAGAAAAAAAEAAAAAJAAAAEAAAAgAAAIAAAAAA=</HashCode>
+      <FileName>Class\Setttings\Settings_elsements\Customers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Generate_Setttings" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAEAAJDIAAAAAAgAAEAAAAAAAAABAAAAAAAAAEAACA=</HashCode>
+      <FileName>Class\Setttings\Generate_Setttings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Tab_Settings" Collapsed="true">
+    <Position X="12.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAgBAAAAAQAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Class\SQL\Tab\Tab_Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Tabs" Collapsed="true">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAQAAAAAQAAAAAAAAAAAAAgAAAEAAABAA=</HashCode>
+      <FileName>Class\SQL\Tab\Tabs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.SQL_Helper" Collapsed="true">
+    <Position X="10.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAACQAAAAQAhABBAAAAAAAIAAAGAAAAAAQA=</HashCode>
+      <FileName>Class\SQL\SQL_Helper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.AutoSet.AutoSetGenerate" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Class\AutoSet\AutoSetGenerate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.enums.enums" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\Infos\enums.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.essence.Code128" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAAAAAAAAAAACAAAAABCAAIEAAAAAAA=</HashCode>
+      <FileName>Class\algoritms\Code128.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.essence.Prod_for_report" Collapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Prod_for_report.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.essence.Table_for_strategy" Collapsed="true">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAJGAACAgQAAAAAAAAA=</HashCode>
+      <FileName>Class\essence\Table_for_strategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.essence.listProductOverRules" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\Setttings\Settings_elsements\listProductOverRules.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Class.Setttings.Promo_types" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIACIAAAAAAAAAAIAAAAACgACAAAgACAAAIBAAAAgA=</HashCode>
+      <FileName>Class\Setttings\Settings_elsements\Promo_types.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Forms.BD_connect" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAAAMARAACAAgMgAUACAAAAOAAAMABAgAEEgAAAQEgA=</HashCode>
+      <FileName>Forms\BD_connect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Forms.Process" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAABEAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Forms\Process.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Forms.Promo_types_Setings" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MUAAAAQACCAgAPcQAACIAAACICQYAECAACAAEAAEADA=</HashCode>
+      <FileName>Forms\Promo_types_Setings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Generate" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/yAACMUBCSCQAFGCgDCLgKBCIMC+AAKSMGAGsIEEAHA=</HashCode>
+      <FileName>Forms\Generate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Generete_report" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>owMAAAQAACIAABAAAACAAAECABg4AAAAAhAAAAABAAA=</HashCode>
+      <FileName>Forms\Generete_report.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.mainForm" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAEAAQACCIAABAACACAAgATAABIAAgAEHwAABAAEAA=</HashCode>
+      <FileName>Forms\mainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.menu" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAACAAAAAAAACAAAACAAAoAAAAAHAAAAAAAAA=</HashCode>
+      <FileName>Forms\menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.report" Collapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/wAAAAQAACAAABAAAACAAAACADgoAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Forms\report.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Settings" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAIhAiAQCYAAKCIAQSAIICiBEQwQAEKUXRIAmAEQSI=</HashCode>
+      <FileName>Forms\Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Program" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Properties.Table_settings" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAACAAABAAAACAAIACAAQxAAAgACAAAAAAAAA=</HashCode>
+      <FileName>Forms\Table_settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Properties.Resources" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="АИСТ.Properties.Settings" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="АИСТ.Class.enums.Group" Collapsed="true">
+    <Position X="8.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Class\Infos\enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="АИСТ.Class.enums.Type_ABC_XYZ" Collapsed="true">
+    <Position X="10.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoBEAYAE=</HashCode>
+      <FileName>Class\Infos\enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="АИСТ.Class.enums.CustProd" Collapsed="true">
+    <Position X="7" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\Infos\enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="АИСТ.Class.enums.CompareType" Collapsed="true">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAYgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\Infos\enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

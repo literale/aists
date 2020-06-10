@@ -13,12 +13,15 @@ namespace АИСТ.Class.Setttings
     {
         public Table_for_strategy[,] clients = new Table_for_strategy[3, 3];
         public Table_for_strategy[,] products = new Table_for_strategy[3, 3];
-
-        private void Save()
+        public enums.CompareType comp_client = CompareType.cost;
+        public enums.CompareType comp_prod = CompareType.sell_value;
+        public bool intresting_cl = true;
+        public bool intresting_pr = false;
+        private void Save(string file)
         {
            
         }
-        public void Import()
+        public void Import(string file)
         {
 
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using АИСТ.Forms;
 
 namespace АИСТ
 {
@@ -16,7 +17,7 @@ namespace АИСТ
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new mainForm());
+            Application.Run(new BD_connect());
         }
     }
 }

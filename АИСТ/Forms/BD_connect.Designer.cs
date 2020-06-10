@@ -43,7 +43,9 @@
             this.tb_server.TabIndex = 0;
             this.tb_server.TabStop = false;
             this.tb_server.Text = "localhost";
+            this.tb_server.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_server_MouseClick);
             this.tb_server.TextChanged += new System.EventHandler(this.tb_server_TextChanged);
+            this.tb_server.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_server_KeyDown);
             // 
             // tb_name
             // 
@@ -53,7 +55,9 @@
             this.tb_name.TabIndex = 1;
             this.tb_name.TabStop = false;
             this.tb_name.Text = "bd_name";
+            this.tb_name.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_name_MouseClick);
             this.tb_name.TextChanged += new System.EventHandler(this.tb_name_TextChanged);
+            this.tb_name.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_name_KeyDown);
             // 
             // tb_login
             // 
@@ -62,7 +66,9 @@
             this.tb_login.Size = new System.Drawing.Size(185, 20);
             this.tb_login.TabIndex = 2;
             this.tb_login.Text = "login";
+            this.tb_login.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_login_MouseClick);
             this.tb_login.TextChanged += new System.EventHandler(this.tb_login_TextChanged);
+            this.tb_login.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_login_KeyDown);
             // 
             // tb_password
             // 
@@ -72,6 +78,7 @@
             this.tb_password.Size = new System.Drawing.Size(185, 20);
             this.tb_password.TabIndex = 3;
             this.tb_password.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.tb_password_MaskInputRejected);
+            this.tb_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_password_KeyDown);
             // 
             // button1
             // 
@@ -92,6 +99,7 @@
             this.Controls.Add(this.tb_name);
             this.Controls.Add(this.tb_server);
             this.Name = "BD_connect";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BD_connect_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

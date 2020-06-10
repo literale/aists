@@ -24,14 +24,14 @@ namespace АИСТ.Class
         {
             return fields;
         }
-        public string Get_field(string k)
+        public string Get_field(string field)
         {
-            return fields[k];
+            return fields[field];
         }
 
-        public void Add_fields(string k, string v)
+        public void Add_fields(string name_field, string field)
         {
-            fields.Add(k, v);
+            fields.Add(name_field, field);
         }
         
     }

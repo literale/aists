@@ -16,6 +16,12 @@ namespace АИСТ.Class.essence
         public string output;
         List<string> lst;
         Hashtable htb;
+
+        /// <summary>
+        /// Подстчет контрольной суммы
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public string ComputeSum(string input)
         {
             int sum = 104;
@@ -34,6 +40,11 @@ namespace АИСТ.Class.essence
             input += lst[sum];
             return input;
         }
+
+
+        /// <summary>
+        /// Заполнения хэштаблици кодов
+        /// </summary>
         public void Set_Hash()
         {
             htb = new Hashtable();
@@ -146,6 +157,11 @@ namespace АИСТ.Class.essence
             htb.Add("Stop", "1100011101011");
         }
 
+
+        /// <summary>
+        /// Заполнение листа символов
+        /// </summary>
+        /// 
         public void Set_List()
         {
             lst = new List<string>();
@@ -257,6 +273,11 @@ namespace АИСТ.Class.essence
             lst.Add("Start C");
             lst.Add("Stop");
         }
+
+        /// <summary>
+        /// Конструктор и генератор
+        /// </summary>
+        /// <param name="input"></param>
         public Code128(string input)
         {
             Set_List();
@@ -268,6 +289,11 @@ namespace АИСТ.Class.essence
             output += "00000";
             for (int i = 0; i < arr.Length; i++) output += htb[arr[i]];
         }
+
+        /// <summary>
+        /// Генератор изображения кода
+        /// </summary>
+        /// <returns></returns>
         public Bitmap get_img()
         {
 
