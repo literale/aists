@@ -1041,6 +1041,7 @@ namespace АИСТ.Class.algoritms
                 List<Promo> temp_p = new List<Promo>();
                 promos.Add(client, temp_p);
                 double disc_spread = discount[1] - discount[0];
+
                 double disc_step = disc_spread / 3;
 
                 Dictionary<Tuple<string, Group>, double> prods_c = new Dictionary<Tuple<string, Group>, double>();//товары - скидка

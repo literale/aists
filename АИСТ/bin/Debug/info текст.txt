@@ -1,0 +1,149 @@
+
+server = localhost
+database = bd_shop
+
+Tstart
+product = products
+FieldStart
+id = ID_product
+name = product_name 
+type = type_little_name
+brand_id = brand_ID
+cost = product_cost
+image = image_prod
+Tend
+
+Tstart
+users = users
+FieldStart
+id = ID_user
+FIO = FIO_user
+login = login
+password = password
+email = email
+settings = ID_users_settings
+Tend
+
+Tstart
+brands = brands
+FieldStart
+ID_brand = ID_brand
+brand_name = brand_name
+brand_counrty = brand_counrty
+Image_brand = Image_brand
+Tend
+
+Tstart
+checks = checks
+FieldStart
+ID_check = ID_check
+ID_shop_check = ID_shop_check
+check_date = check_date
+ID_customer_check = ID_customer_check
+check_total_sum = check_total_sum
+Tend
+
+Tstart
+customers = customers
+FieldStart
+ID_customer = ID_customer
+FIO_customer = FIO_customer
+email_customer = email_customer
+Tend
+
+Tstart
+history = history
+FieldStart
+ID_check_history = ID_check_history
+produc_ID_history = produc_ID_history
+product_amount = product_amount
+product_price = product_price
+Tend
+
+Tstart
+key = key
+FieldStart
+ID_key = ID_key
+key = key
+IV = IV
+Tend
+
+Tstart
+product_on_store = product_on_store
+FieldStart
+ID_product_store = ID_product_store
+ID_shop_store = ID_shop_store
+product_amount = product_amount
+product_price = product_price
+last_shipment = last_shipment
+Tend
+
+Tstart
+product_type_big = product_type_big
+FieldStart
+ID_product_type_big = ID_product_type_big
+name_product_type_big = name_product_type_big
+image_big_type = image_big_type
+Tend
+
+Tstart
+product_type_little = product_type_little
+FieldStart
+ID_product_type_little = ID_product_type_little
+ID_product_type_bigger = ID_product_type_bigger
+name_product_type_little = name_product_type_little
+image_little_type = image_little_type
+Tend
+
+Tstart
+promo_full = promo_full
+FieldStart
+ID_promo_full = ID_promo_full
+ID_customer_dis = ID_customer_dis
+ID_type_group = ID_type_group
+ID_product_dis = ID_product_dis
+CODE = CODE
+discount = discount
+used = used
+image_pomo = image_pomo
+IDs_shops_list = IDs_shops_list
+Tend
+
+Tstart
+promo_history = promo_history
+FieldStart
+CODE_promo_hist = CODE_promo_hist
+product_count_promo_his = product_count_promo_his
+ID_shop_promo_his = ID_shop_promo_his
+Tend
+
+Tstart
+promo_info = promo_info;
+FieldStart
+ID_promo = ID_promo
+discount_date_start = discount_date_start
+discount_date_finish = discount_date_finish
+IDs_shops_list_promo  = IDs_shops_list_promo
+Tend
+
+Tstart
+settings = settings
+FieldStart
+ID_settings = ID_settings
+host = host
+Tend
+
+Tstart
+shops = shops
+FieldStart
+ID_shop = ID_shop
+shop_address = shop_address
+shop_city = shop_city
+Tend
+
+Tstart
+type_group = type_group
+FieldStart
+id_type_group = id_type_group
+name_type_group = name_type_group
+Tend

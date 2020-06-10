@@ -20,19 +20,11 @@ namespace АИСТ.Forms
         {
             InitializeComponent();
             List<string> temp = Info.get_bd();
+            Info.Get_tabs();
             tb_server.Text = temp[1].Split(' ')[2];
             tb_name.Text = temp[2].Split(' ')[2];
             lk = true;
             bn = true;
-        }
-
-        /// <summary>
-        /// Пытаемся залогиниться в БД
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btn_OK_Click(object sender, EventArgs e)
-        {
         }
 
         private void BD_connect_FormClosed(object sender, FormClosedEventArgs e)
@@ -45,7 +37,7 @@ namespace АИСТ.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+           
             login();
         }
 
@@ -121,25 +113,31 @@ namespace АИСТ.Forms
         }
         private void login()
         {
-            //пытаемся установить соединение
+            Tab_Settings.Put_in_class();
             SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
-            //DataTable dt = SQL_Helper.TryToConnect_Full("users");
-            try
-            {
-                DataTable dt = SQL_Helper.Try_To_Connect_Full("users");
-                Info.Set_bd(tb_server.Text, tb_name.Text);
-                Form ifrm = new mainForm();
-                ifrm.Show();
-                ifrm.Enabled = true;
-                ifrm.Update();
-                Tab_Settings.Load_info();
-                this.Hide();
+            Info.Set_bd(tb_server.Text, tb_name.Text);
+            Form set = new Settings();
+            set.Show();
 
-            }
-            catch (MySql.Data.MySqlClient.MySqlException)
-            {
-                MessageBox.Show("Ошибка доступа к базе данных");
-            }
+            ////пытаемся установить соединение
+            //SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
+            ////DataTable dt = SQL_Helper.TryToConnect_Full("users");
+            //try
+            //{
+            //    DataTable dt = SQL_Helper.Try_To_Connect_Full("users");
+            //    Info.Set_bd(tb_server.Text, tb_name.Text);
+            //    Form ifrm = new mainForm();
+            //    ifrm.Show();
+            //    ifrm.Enabled = true;
+            //    ifrm.Update();
+            //    Tab_Settings.Load_info();
+            //    this.Hide();
+
+            //}
+            //catch (MySql.Data.MySqlClient.MySqlException)
+            //{
+            //    MessageBox.Show("Ошибка доступа к базе данных");
+            //}
         }
 
         private void tb_name_KeyDown(object sender, KeyEventArgs e)
@@ -173,5 +171,10 @@ namespace АИСТ.Forms
                 login();
             }
         }
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    Info.Set_defolt_file();
+        //}
     }
 }

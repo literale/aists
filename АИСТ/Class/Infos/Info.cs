@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 using АИСТ.Class.algoritms;
 using АИСТ.Forms;
@@ -109,7 +110,7 @@ namespace АИСТ.Class
         {
             desCrypto.Key = key;
             desCrypto.IV = IV;
-          // Encrypt_File("info.txt", desCrypto);
+            //Encrypt_File("info.txt", desCrypto);
             Decrypt_File("info.txt", desCrypto);
             List<string> bd = new List<string>();
             string[] temp_info = File.ReadAllLines("info.txt");
@@ -181,7 +182,26 @@ namespace АИСТ.Class
 
 
         }
+        static void Encrypt_File(string sInputFilename, DESCryptoServiceProvider sKey, string sOutputFilename)
+        { 
+            FileStream fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);//читаем информацию
+            FileStream fsEncrypted = new FileStream(sOutputFilename, FileMode.Create, FileAccess.Write);//подготовливаем поток
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();//далем шифровальщик
+            DES.Key = sKey.Key;
+            DES.IV = sKey.IV;
+            ICryptoTransform desencrypt = DES.CreateEncryptor();
+            CryptoStream cryptostream = new CryptoStream(fsEncrypted, desencrypt, CryptoStreamMode.Write);//шифруем
+            byte[] bytearrayinput = new byte[fsInput.Length];
+            fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
+            cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);//записывем
+            cryptostream.Close();
+            fsInput.Close();
+            fsEncrypted.Close();
+            File.Delete(sInputFilename);//пересохраняем
+            File.Move(sOutputFilename, sInputFilename);
 
+
+        }
 
         /// <summary>
         /// Дешифрование
@@ -190,27 +210,57 @@ namespace АИСТ.Class
         /// <param name="sKey"></param>ключ
         static void Decrypt_File(string sInputFilename,  DESCryptoServiceProvider sKey)
         {
-            string sOutputFilename = "temp" + sInputFilename;
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-            DES.Key = sKey.Key;
-            DES.IV = sKey.IV;
-            FileStream fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);//поток для чтения зашифрованного файла
-            ICryptoTransform desdecrypt = DES.CreateDecryptor();//создание расшифровщика
-            CryptoStream cryptostreamDecr = new CryptoStream(fsread, desdecrypt, CryptoStreamMode.Read); //Поток для расшифрования
-            FileStream fsDecrypted = new FileStream(sOutputFilename, FileMode.Create);//Поток для расшифрования
-            byte[] bytearrayinput = new byte[1024];
-            int length;
-            do//расшифровываем
+            FileStream fsread = null;
+            CryptoStream cryptostreamDecr = null;
+            FileStream fsDecrypted = null;
+            try
             {
-                length = cryptostreamDecr.Read(bytearrayinput, 0, 1024);
-                fsDecrypted.Write(bytearrayinput, 0, length);
-            } while (length == 1024);
-            fsDecrypted.Flush();//заливаем, пересохраняем
-            fsread.Close();
-            cryptostreamDecr.Close();
-            fsDecrypted.Close();
-            File.Delete(sInputFilename);
-            File.Move(sOutputFilename, sInputFilename);
+                string sOutputFilename = "temp" + sInputFilename;
+                DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+                DES.Key = sKey.Key;
+                DES.IV = sKey.IV;
+                fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);//поток для чтения зашифрованного файла
+                ICryptoTransform desdecrypt = DES.CreateDecryptor();//создание расшифровщика
+                cryptostreamDecr = new CryptoStream(fsread, desdecrypt, CryptoStreamMode.Read); //Поток для расшифрования
+                fsDecrypted = new FileStream(sOutputFilename, FileMode.Create);//Поток для расшифрования
+                byte[] bytearrayinput = new byte[1024];
+                int length;
+                do//расшифровываем
+                {
+                    length = cryptostreamDecr.Read(bytearrayinput, 0, 1024);
+                    fsDecrypted.Write(bytearrayinput, 0, length);
+                } while (length == 1024);
+                fsDecrypted.Flush();//заливаем, пересохраняем
+                fsread.Close();
+                cryptostreamDecr.Close();
+                fsDecrypted.Close();
+                File.Delete(sInputFilename);
+                File.Move(sOutputFilename, sInputFilename);
+            }
+            catch
+            {
+                fsread.Close();
+                fsDecrypted.Close();
+                DialogResult result = MessageBox.Show(
+                 "Сбросить настройки?",
+                 "Ошибка импорта настроек",
+                  MessageBoxButtons.YesNo,
+                  MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                 MessageBoxOptions.DefaultDesktopOnly);
+
+                if (result == DialogResult.Yes)
+                    Info.Set_defolt_file();
+            }
+        }
+        public static void Set_defolt_file()
+        {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            File.Delete("info.txt");
+            File.Copy("F:\\учеба\\Вода(диплом)\\aists\\АИСТ\\Class\\Infos\\defolt_settings.txt", "info.txt");
+          //  Encrypt_File("info.txt", desCrypto);
+            //  Encrypt_File("F:\\учеба\\Вода(диплом)\\aists\\АИСТ\\Class\\Infos\\defolt_settings.txt", desCrypto, "info.txt");
         }
 
     }

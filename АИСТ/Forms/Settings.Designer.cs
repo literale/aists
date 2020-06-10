@@ -76,7 +76,7 @@
             // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(296, 334);
+            this.btn_save.Location = new System.Drawing.Point(302, 334);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(126, 23);
             this.btn_save.TabIndex = 1;
@@ -487,7 +487,7 @@
             // 
             // btn_emai
             // 
-            this.btn_emai.Location = new System.Drawing.Point(13, 334);
+            this.btn_emai.Location = new System.Drawing.Point(19, 334);
             this.btn_emai.Name = "btn_emai";
             this.btn_emai.Size = new System.Drawing.Size(126, 23);
             this.btn_emai.TabIndex = 77;
@@ -497,7 +497,7 @@
             // label13
             // 
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Location = new System.Drawing.Point(145, 334);
+            this.label13.Location = new System.Drawing.Point(151, 334);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(145, 23);
             this.label13.TabIndex = 77;
@@ -507,7 +507,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 363);
+            this.ClientSize = new System.Drawing.Size(451, 366);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.btn_emai);
             this.Controls.Add(this.groupBox1);

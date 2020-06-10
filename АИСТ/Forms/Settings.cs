@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using АИСТ.Class;
+using АИСТ.Class.Infos;
 using АИСТ.Forms;
 using АИСТ.Properties;
 
@@ -31,7 +32,7 @@ namespace АИСТ
 
         private void Settings_Load(object sender, EventArgs e)
         {
-           // temp_get_settings();
+           
         }
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)
@@ -61,9 +62,10 @@ namespace АИСТ
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            Form f2 = new menu();
-            f2.Show(); // отображаем Form2
+            //Form f2 = new menu();
+            //f2.Show(); // отображаем Form2
             this.Hide(); // скрываем Form1 (this - текущая форма)
+            comm.login();
         }
     }
 }

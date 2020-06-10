@@ -92,7 +92,7 @@
             // 
             // BD_connect
             // 
-            this.ClientSize = new System.Drawing.Size(206, 157);
+            this.ClientSize = new System.Drawing.Size(206, 152);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tb_password);
             this.Controls.Add(this.tb_login);

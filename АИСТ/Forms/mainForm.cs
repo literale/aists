@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using АИСТ.Class;
 using АИСТ.Class.algoritms;
+using АИСТ.Class.enums;
+using АИСТ.Class.SQL.Tab;
 using АИСТ.Forms;
 using АИСТ.Properties;
 
@@ -92,9 +94,9 @@ namespace АИСТ
             string login = textBox1.Text;
             string pass = tb_password.Text;
             //   Tab_Settings.Load_info();
-            Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
-
-            string req = "SELECT " + tabs["users"].Get_field("settings") + " FROM " + tabs["users"].Get_name() + " WHERE " + tabs["users"].Get_field("login") + " = '" + login + "' AND " + tabs["users"].Get_field("password") + " ='" + pass + "';";
+            //Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
+            Tab_users tu = (Tab_users)Tab_Settings.tabs[Tab_names.users.ToString()];
+            string req = "SELECT " + tu.ID_users_settings + " FROM " + tu.tab_name + " WHERE " + tu.login + " = '" + login + "' AND " + tu.passwor + " ='" + pass + "';";
             DataTable dt = SQL_Helper.Just_do_it(req);
             if (dt != null)
             {

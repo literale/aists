@@ -55,7 +55,6 @@ namespace АИСТ
             foreach(DataRow dr in dt.Rows)
             {
                 checkedListBox5.Items.Add(dr.ItemArray[1].ToString());
-
             }
         }
         private void Form2_Load(object sender, EventArgs e)
@@ -221,6 +220,7 @@ namespace АИСТ
                 расшифроватьФайлToolStripMenuItem.Enabled = true;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
                 open = false;
+                Tab_Settings.Load_info();
             }
         }
 
@@ -232,6 +232,7 @@ namespace АИСТ
                 расшифроватьФайлToolStripMenuItem.Enabled = true;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
                 open = false;
+                Tab_Settings.Load_info();
             }
             catch (Exception)
             {

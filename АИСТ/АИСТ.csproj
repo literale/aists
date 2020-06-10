@@ -108,6 +108,7 @@
     <Compile Include="Class\algoritms\Code128.cs" />
     <Compile Include="Class\essence\Prod_for_report.cs" />
     <Compile Include="Class\essence\Prod_tab.cs" />
+    <Compile Include="Class\Infos\comm.cs" />
     <Compile Include="Class\Infos\enums.cs" />
     <Compile Include="Class\Setttings\Settings_elsements\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Class\Setttings\Settings_elsements\Promo_types.cs" />
     <Compile Include="Class\SQL\SQL_Helper.cs" />
     <Compile Include="Class\Infos\Info.cs" />
+    <Compile Include="Class\SQL\Tab\Tab.cs" />
     <Compile Include="Class\SQL\Tab\Tabs.cs" />
     <Compile Include="Class\SQL\Tab\Tab_Settings.cs" />
     <Compile Include="Forms\BD_connect.cs">
@@ -236,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Class\Infos\defolt_settings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
