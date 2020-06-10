@@ -31,7 +31,7 @@ namespace АИСТ.Class
 
         public void Add_fields(string name_field, string field)
         {
-            fields.Add(name_field, field);
+            fields[name_field] = field;
         }
         
     }

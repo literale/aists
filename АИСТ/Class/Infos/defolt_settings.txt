@@ -9,7 +9,7 @@ id = ID_product
 name = product_name 
 type = type_little_name
 brand_id = brand_ID
-cost = product_cost
+product_cost = product_cost
 image = image_prod
 Tend
 
@@ -21,7 +21,7 @@ FIO = FIO_user
 login = login
 password = password
 email = email
-settings = ID_users_settings
+ID_users_settings = ID_users_settings
 Tend
 
 Tstart
@@ -118,7 +118,7 @@ ID_shop_promo_his = ID_shop_promo_his
 Tend
 
 Tstart
-promo_info = promo_info;
+promo_info = promo_info
 FieldStart
 ID_promo = ID_promo
 discount_date_start = discount_date_start

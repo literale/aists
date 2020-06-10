@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using АИСТ.Class.algoritms;
+using АИСТ.Class.SQL.Tab;
 using АИСТ.Forms;
 
 namespace АИСТ.Class
@@ -42,7 +43,7 @@ namespace АИСТ.Class
             return promos;
         }
         public static Dictionary<string, Tabs> Get_tabs()
-            {
+        {
             return tabs;
         }
 
@@ -102,6 +103,24 @@ namespace АИСТ.Class
             desCrypto.IV = IV;
             Encrypt_File("info.txt", desCrypto);
         }
+
+
+        public static List<string> get_bd(bool already_encript)
+        {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            //Encrypt_File("info.txt", desCrypto);
+          //  Decrypt_File("info.txt", desCrypto);
+            List<string> bd = new List<string>();
+            string[] temp_info = File.ReadAllLines("info.txt");
+            foreach (string s in temp_info)
+            {
+                bd.Add(s);
+            }
+            Encrypt_File("info.txt", desCrypto);
+            return bd;
+        }
+
         /// <summary>
         /// автозаполнение форм
         /// </summary>
@@ -154,7 +173,12 @@ namespace АИСТ.Class
             File.WriteAllLines("info.txt", bd.ToArray());
             Encrypt_File("info.txt", desCrypto);
         }
-
+        public static void Set_bd()
+        {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            Encrypt_File("info.txt", desCrypto);
+        }
 
         /// <summary>
         /// Шифрование
@@ -183,7 +207,7 @@ namespace АИСТ.Class
 
         }
         static void Encrypt_File(string sInputFilename, DESCryptoServiceProvider sKey, string sOutputFilename)
-        { 
+        {
             FileStream fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);//читаем информацию
             FileStream fsEncrypted = new FileStream(sOutputFilename, FileMode.Create, FileAccess.Write);//подготовливаем поток
             DESCryptoServiceProvider DES = new DESCryptoServiceProvider();//далем шифровальщик
@@ -208,7 +232,7 @@ namespace АИСТ.Class
         /// </summary>
         /// <param name="sInputFilename"></param> имя файла, который дешифруем
         /// <param name="sKey"></param>ключ
-        static void Decrypt_File(string sInputFilename,  DESCryptoServiceProvider sKey)
+        static void Decrypt_File(string sInputFilename, DESCryptoServiceProvider sKey)
         {
             FileStream fsread = null;
             CryptoStream cryptostreamDecr = null;
@@ -239,7 +263,14 @@ namespace АИСТ.Class
             }
             catch
             {
-                fsread.Close();
+                try
+                {
+                    fsread.Close();
+                }
+                catch
+                {
+                    File.Create("info.txt");
+                }
                 fsDecrypted.Close();
                 DialogResult result = MessageBox.Show(
                  "Сбросить настройки?",
@@ -259,9 +290,51 @@ namespace АИСТ.Class
             desCrypto.IV = IV;
             File.Delete("info.txt");
             File.Copy("F:\\учеба\\Вода(диплом)\\aists\\АИСТ\\Class\\Infos\\defolt_settings.txt", "info.txt");
-          //  Encrypt_File("info.txt", desCrypto);
+            //  Encrypt_File("info.txt", desCrypto);
             //  Encrypt_File("F:\\учеба\\Вода(диплом)\\aists\\АИСТ\\Class\\Infos\\defolt_settings.txt", desCrypto, "info.txt");
         }
+
+        public static void Update()
+            {
+            desCrypto.Key = key;
+            desCrypto.IV = IV;
+            Decrypt_File("info.txt", desCrypto);
+            List<string> bd = new List<string>();
+            string[] temp_info = File.ReadAllLines("info.txt");
+            Encrypt_File("info.txt", desCrypto);
+            Dictionary<string, Tab> tabs = Tab_Settings.tabs;
+            for (int i = 0; i < temp_info.Length; i++)
+            {
+                string s = temp_info[i];
+                if (s.Contains("Tstart"))
+                {
+                    bd.Add(s);
+                    i++;
+                    string name_tab = temp_info[i].Split(' ')[0];
+                    string s2 = name_tab + " = " + tabs[name_tab].tab_name;
+                    bd.Add(s2);
+                    i ++;
+                    bd.Add(temp_info[i]);
+                    i++;
+                    while (!temp_info[i].Contains("Tend"))
+                    {
+                       string[] name = temp_info[i].Split(' ');
+                        s2 = name[0] + " = " + tabs[name_tab].fields[name[0]];                
+                        bd.Add(s2);
+                        i++;
+                    }
+                    bd.Add(temp_info[i]);
+                }
+                else bd.Add(s);
+            }
+            Tab_Settings.Put_in_class();
+            Decrypt_File("info.txt", desCrypto);
+            File.Delete("info.txt");
+            File.WriteAllLines("info.txt", bd.ToArray());
+            Encrypt_File("info.txt", desCrypto);
+
+        }
+
 
     }
 }

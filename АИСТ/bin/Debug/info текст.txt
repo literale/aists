@@ -9,7 +9,7 @@ id = ID_product
 name = product_name 
 type = type_little_name
 brand_id = brand_ID
-cost = product_cost
+product_cost = product_cost
 image = image_prod
 Tend
 

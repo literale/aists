@@ -29,6 +29,9 @@ namespace АИСТ.Class.Infos
             catch (MySql.Data.MySqlClient.MySqlException)
             {
                 MessageBox.Show("Ошибка доступа к базе данных");
+                Tab_Settings.tabs.Clear();
+                Form ifrm = Application.OpenForms[0];
+                ifrm.Show();
             }
         }
 

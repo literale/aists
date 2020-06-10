@@ -21,8 +21,29 @@ namespace АИСТ.Forms
             InitializeComponent();
             List<string> temp = Info.get_bd();
             Info.Get_tabs();
-            tb_server.Text = temp[1].Split(' ')[2];
-            tb_name.Text = temp[2].Split(' ')[2];
+            try
+            {
+                tb_server.Text = temp[1].Split(' ')[2];
+                tb_name.Text = temp[2].Split(' ')[2];
+            }
+            catch
+            {
+                DialogResult result = MessageBox.Show(
+                 "Сбросить настройки?",
+                 "Ошибка импорта настроек",
+                  MessageBoxButtons.YesNo,
+                  MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                 MessageBoxOptions.DefaultDesktopOnly);
+
+                if (result == DialogResult.Yes)
+                    Info.Set_defolt_file();
+                Info.Set_bd();
+                Info.Get_tabs();
+                tb_server.Text = temp[1].Split(' ')[2];
+                tb_name.Text = temp[2].Split(' ')[2];
+
+            }
             lk = true;
             bn = true;
         }
@@ -118,26 +139,7 @@ namespace АИСТ.Forms
             Info.Set_bd(tb_server.Text, tb_name.Text);
             Form set = new Settings();
             set.Show();
-
-            ////пытаемся установить соединение
-            //SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
-            ////DataTable dt = SQL_Helper.TryToConnect_Full("users");
-            //try
-            //{
-            //    DataTable dt = SQL_Helper.Try_To_Connect_Full("users");
-            //    Info.Set_bd(tb_server.Text, tb_name.Text);
-            //    Form ifrm = new mainForm();
-            //    ifrm.Show();
-            //    ifrm.Enabled = true;
-            //    ifrm.Update();
-            //    Tab_Settings.Load_info();
-            //    this.Hide();
-
-            //}
-            //catch (MySql.Data.MySqlClient.MySqlException)
-            //{
-            //    MessageBox.Show("Ошибка доступа к базе данных");
-            //}
+            this.Hide();
         }
 
         private void tb_name_KeyDown(object sender, KeyEventArgs e)
@@ -172,9 +174,5 @@ namespace АИСТ.Forms
             }
         }
 
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    Info.Set_defolt_file();
-        //}
     }
 }

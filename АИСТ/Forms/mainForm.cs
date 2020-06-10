@@ -96,7 +96,7 @@ namespace АИСТ
             //   Tab_Settings.Load_info();
             //Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
             Tab_users tu = (Tab_users)Tab_Settings.tabs[Tab_names.users.ToString()];
-            string req = "SELECT " + tu.ID_users_settings + " FROM " + tu.tab_name + " WHERE " + tu.login + " = '" + login + "' AND " + tu.passwor + " ='" + pass + "';";
+            string req = "SELECT " + tu.ID_users_settings + " FROM " + tu.tab_name + " WHERE " + tu.login + " = '" + login + "' AND " + tu.password + " ='" + pass + "';";
             DataTable dt = SQL_Helper.Just_do_it(req);
             if (dt != null)
             {
