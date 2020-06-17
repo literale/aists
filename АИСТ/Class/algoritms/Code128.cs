@@ -278,18 +278,22 @@ namespace АИСТ.Class.essence
         /// Конструктор и генератор
         /// </summary>
         /// <param name="input"></param>
-        public Code128(string input)
+        public string Get_code(string input)
         {
-            Set_List();
-            Set_Hash();
+            output = "";
             input = ComputeSum(input);
             input = string.Format("[Start B{0}", input);
             input += "[Stop";
             string[] arr = input.Split('[');
             output += "00000";
             for (int i = 0; i < arr.Length; i++) output += htb[arr[i]];
+            return output;
         }
-
+        public Code128()
+        {
+            Set_List();
+            Set_Hash();
+        }
         /// <summary>
         /// Генератор изображения кода
         /// </summary>

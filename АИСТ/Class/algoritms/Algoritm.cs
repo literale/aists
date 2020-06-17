@@ -1227,6 +1227,7 @@ namespace АИСТ.Class.algoritms
             {
                 s += sp + " ";
             }
+            Code128 code128 = new Code128();
             string path = Directory.GetCurrentDirectory();
             string[] d = Directory.GetDirectories(path);
             path += "\\promos\\promo" + DateTime.Now.ToString().Replace(':', '.');
@@ -1301,7 +1302,7 @@ namespace АИСТ.Class.algoritms
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client + "  " + id_promo;
                                 string this_path = path + "\\" + input + ".bmp";
 
-                                this_path = Save_code123(input, this_path, image_format);
+                                this_path = Save_code123(input, this_path, image_format, code128);
 
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
@@ -1330,7 +1331,7 @@ namespace АИСТ.Class.algoritms
                                 }
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
                                 string this_path = path + "\\" + input + ".bmp";
-                                this_path = Save_code123(input, this_path, image_format);
+                                this_path = Save_code123(input, this_path, image_format, code128);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
                                 text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
@@ -1359,7 +1360,7 @@ namespace АИСТ.Class.algoritms
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
                                 string this_path = path + "\\" + input + ".bmp";
 
-                                this_path = Save_code123(input, this_path, image_format);
+                                this_path = Save_code123(input, this_path, image_format, code128);
 
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
@@ -1385,7 +1386,7 @@ namespace АИСТ.Class.algoritms
 
                                 string input = p.group + " " + p.id_prod + " " + discount + "% " + client;
                                 string this_path = path + "\\" + input + ".bmp";
-                                this_path = Save_code123(input, this_path, image_format);
+                                this_path = Save_code123(input, this_path, image_format, code128);
                                 String imgString = Get_string_img(this_path);
                                 text += "<table align=\"center\" width=80% >";
                                 text += "<tr><td width=50%  ><img src=\"" + image + "\" width=300 ></td><td width=50%><img src=\"" + imgString + "\" width=300 ></td></tr>";
@@ -1502,9 +1503,9 @@ namespace АИСТ.Class.algoritms
         /// <param name="this_path"></param>
         /// <param name="image_format"></param>
         /// <returns></returns>
-        private String Save_code123(String input, String this_path, System.Drawing.Imaging.ImageFormat image_format)
+        private String Save_code123(String input, String this_path, System.Drawing.Imaging.ImageFormat image_format, Code128 c)
         {
-            Code128 c = new Code128(input);
+            string s = c.Get_code(input);
             Bitmap image_this = c.get_img();
             Bitmap strih_t = new Bitmap(image_this, new Size(image_this.Width, 120));
             Bitmap strih2 = DrawWatermark(strih_t, input);

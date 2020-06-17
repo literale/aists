@@ -111,7 +111,7 @@ namespace АИСТ
             Info.Update();
             try
             {
-                check_settings();
+                check_settings(); //#TODO 
                 comm.login();
                 this.Hide();
             }
