@@ -65,5 +65,10 @@ namespace АИСТ.Properties
             ifrm.Show();
 
         }
+
+        private void Table_settings_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -18,11 +18,12 @@ namespace АИСТ.Class.essence
             this.prob_of_discount_for = prob_of_discount_for;
             name = custProd.ToString() + " type " + type_pair.Item1.ToString() + " " + type_pair.Item2.ToString();
         }
-        public Table_for_strategy(Tuple<Type_ABC_XYZ, Type_ABC_XYZ> type_pair, CustProd custProd)
+        public Table_for_strategy(Tuple<Type_ABC_XYZ, Type_ABC_XYZ> type_pair, CustProd custProd, Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> prob_of_discount_for)
         {
             this.type_pair = type_pair;
             this.prob_of_discount_for = new Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]>();
             name = custProd.ToString() + " type " + type_pair.Item1.ToString() + " " + type_pair.Item2.ToString();
+            this.prob_of_discount_for = prob_of_discount_for;
         }
 
         public void Set_prob_of_disc(Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> prob_of_discount_for)

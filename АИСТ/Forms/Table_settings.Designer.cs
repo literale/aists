@@ -71,6 +71,7 @@
             this.Controls.Add(this.save);
             this.Name = "Table_settings";
             this.Text = "Table_settings";
+            this.Load += new System.EventHandler(this.Table_settings_Load);
             this.ResumeLayout(false);
 
         }

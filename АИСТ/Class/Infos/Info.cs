@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using АИСТ.Class.algoritms;
+using АИСТ.Class.Setttings;
 using АИСТ.Class.SQL.Tab;
 using АИСТ.Forms;
 
@@ -30,6 +31,7 @@ namespace АИСТ.Class
         private static Dictionary<string, Tabs> tabs = new Dictionary<string, Tabs>();
         private static string email = "ESGdiplom2020shop@yandex.ru";
         private static string test_email = "ESGdiplom2020@yandex.ru";
+        public static Collect_settings temp_settings = new Collect_settings();
         public static void set_email()
         {
             email = "ESGdiplom2020shop@yandex.ru";

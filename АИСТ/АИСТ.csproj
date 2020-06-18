@@ -110,6 +110,7 @@
     <Compile Include="Class\essence\Prod_tab.cs" />
     <Compile Include="Class\Infos\comm.cs" />
     <Compile Include="Class\Infos\enums.cs" />
+    <Compile Include="Class\Setttings\Collect_settings.cs" />
     <Compile Include="Class\Setttings\Settings_elsements\Assortiment.cs" />
     <Compile Include="Class\AutoSet\AutoSetGenerate.cs" />
     <Compile Include="Class\Setttings\Settings_elsements\Customers.cs" />

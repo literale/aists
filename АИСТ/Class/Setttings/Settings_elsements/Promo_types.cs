@@ -44,8 +44,8 @@ namespace АИСТ.Class.Setttings
                         xyz = Type_ABC_XYZ.Y;
                     else xyz = Type_ABC_XYZ.Z;
 
-                    clients[i, j] = new Table_for_strategy(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(abc, xyz), CustProd.Customer);
-                    products[i, j] = new Table_for_strategy(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(abc, xyz), CustProd.Product);
+                    clients[i, j] = new Table_for_strategy(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(abc, xyz), CustProd.Customer, new Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]>());
+                    products[i, j] = new Table_for_strategy(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(abc, xyz), CustProd.Product, new Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]>());
                 }
             }
         }

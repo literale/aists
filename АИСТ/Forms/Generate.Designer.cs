@@ -52,6 +52,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
             this.label21 = new System.Windows.Forms.Label();
+            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -67,6 +68,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label17 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +77,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -85,17 +86,18 @@
             this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
             this.label16 = new System.Windows.Forms.Label();
             this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
-            this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пресетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.исмортироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.запуститьВТестовомРежимеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.работаСБдToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.расшифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зашифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.начатьГенерациюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.запуститьВТестовомРежимеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.запуститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -340,6 +342,19 @@
             this.label21.TabIndex = 37;
             this.label21.Text = "Анализ с";
             // 
+            // checkedListBox3
+            // 
+            this.checkedListBox3.FormattingEnabled = true;
+            this.checkedListBox3.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3"});
+            this.checkedListBox3.Location = new System.Drawing.Point(110, 190);
+            this.checkedListBox3.Name = "checkedListBox3";
+            this.checkedListBox3.Size = new System.Drawing.Size(137, 34);
+            this.checkedListBox3.TabIndex = 24;
+            this.checkedListBox3.SelectedIndexChanged += new System.EventHandler(this.checkedListBox3_SelectedIndexChanged);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.button7);
@@ -489,6 +504,16 @@
             this.dateTimePicker2.Size = new System.Drawing.Size(141, 20);
             this.dateTimePicker2.TabIndex = 6;
             // 
+            // label17
+            // 
+            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label17.Location = new System.Drawing.Point(4, 190);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 19);
+            this.label17.TabIndex = 16;
+            this.label17.Text = "Магазины";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
+            // 
             // listBox1
             // 
             this.listBox1.ContextMenuStrip = this.contextMenuStrip1;
@@ -569,19 +594,6 @@
             this.textBox6.TabIndex = 33;
             this.textBox6.Text = "Ассортимент 1";
             // 
-            // checkedListBox3
-            // 
-            this.checkedListBox3.FormattingEnabled = true;
-            this.checkedListBox3.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
-            this.checkedListBox3.Location = new System.Drawing.Point(110, 190);
-            this.checkedListBox3.Name = "checkedListBox3";
-            this.checkedListBox3.Size = new System.Drawing.Size(137, 34);
-            this.checkedListBox3.TabIndex = 24;
-            this.checkedListBox3.SelectedIndexChanged += new System.EventHandler(this.checkedListBox3_SelectedIndexChanged);
-            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(109, 110);
@@ -658,16 +670,6 @@
             this.dateTimePicker6.Size = new System.Drawing.Size(141, 20);
             this.dateTimePicker6.TabIndex = 13;
             // 
-            // label17
-            // 
-            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label17.Location = new System.Drawing.Point(4, 190);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(96, 19);
-            this.label17.TabIndex = 16;
-            this.label17.Text = "Магазины";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
-            // 
             // label18
             // 
             this.label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -680,7 +682,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.настройкиToolStripMenuItem});
+            this.настройкиToolStripMenuItem,
+            this.начатьГенерациюToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(810, 24);
@@ -691,7 +694,6 @@
             // 
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.пресетыToolStripMenuItem,
-            this.запуститьВТестовомРежимеToolStripMenuItem,
             this.работаСБдToolStripMenuItem});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
             this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
@@ -720,13 +722,6 @@
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.создатьToolStripMenuItem_Click_1);
             // 
-            // запуститьВТестовомРежимеToolStripMenuItem
-            // 
-            this.запуститьВТестовомРежимеToolStripMenuItem.Name = "запуститьВТестовомРежимеToolStripMenuItem";
-            this.запуститьВТестовомРежимеToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.запуститьВТестовомРежимеToolStripMenuItem.Text = "Запустить в тестовом режиме";
-            this.запуститьВТестовомРежимеToolStripMenuItem.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem_Click);
-            // 
             // работаСБдToolStripMenuItem
             // 
             this.работаСБдToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -749,6 +744,29 @@
             this.зашифроватьФайлToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.зашифроватьФайлToolStripMenuItem.Text = "Зашифровать файл";
             this.зашифроватьФайлToolStripMenuItem.Click += new System.EventHandler(this.зашифроватьФайлToolStripMenuItem_Click);
+            // 
+            // начатьГенерациюToolStripMenuItem
+            // 
+            this.начатьГенерациюToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.запуститьToolStripMenuItem,
+            this.запуститьВТестовомРежимеToolStripMenuItem1});
+            this.начатьГенерациюToolStripMenuItem.Name = "начатьГенерациюToolStripMenuItem";
+            this.начатьГенерациюToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.начатьГенерациюToolStripMenuItem.Text = "Начать генерацию";
+            // 
+            // запуститьВТестовомРежимеToolStripMenuItem1
+            // 
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Name = "запуститьВТестовомРежимеToolStripMenuItem1";
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Text = "Запустить в тестовом режиме";
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem1_Click);
+            // 
+            // запуститьToolStripMenuItem
+            // 
+            this.запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
+            this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.запуститьToolStripMenuItem.Text = "Запустить ";
+            this.запуститьToolStripMenuItem.Click += new System.EventHandler(this.запуститьToolStripMenuItem_Click);
             // 
             // Generate
             // 
@@ -837,7 +855,6 @@
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пресетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исмортироватьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem запуститьВТестовомРежимеToolStripMenuItem;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -851,5 +868,8 @@
         private System.Windows.Forms.ToolStripMenuItem зашифроватьФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem начатьГенерациюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem запуститьВТестовомРежимеToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem запуститьToolStripMenuItem;
     }
 }

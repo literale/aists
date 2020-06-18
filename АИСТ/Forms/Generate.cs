@@ -39,6 +39,7 @@ namespace АИСТ
             }
             checkedListBox5.SetItemChecked(0, true);
             Load_on_exept_fоrm();
+            Info.temp_settings.promo_type.Generate_matrix();
 
 
         }
@@ -259,6 +260,36 @@ namespace АИСТ
         }
 
         private void пресетыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void запуститьВТестовомРежимеToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            if (!open)
+            {
+                string connection_string = "server=localhost; " +
+                       "user=" + "admin" + "; " +
+                       "database=" + "bd_shop" + "; " +
+                       "password=" + "diplom2020";
+                SQL_Helper.setConnection(connection_string);
+                Algoritm a = new Algoritm();
+                Dictionary<string, List<Promo>> promos = a.Auto();
+                Generate_Setttings gs = AutoSetGenerate.AutoSettings();
+                Info.Set_test(true);
+                Info.Set_promo(promos, a, gs);
+                Form gr = new Generete_report();
+                gr.Show(); // отображаем Form2
+                this.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Зашифруйте файл");
+            }
+        }
+
+        private void запуститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
