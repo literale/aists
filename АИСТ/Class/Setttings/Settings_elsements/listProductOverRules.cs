@@ -12,25 +12,31 @@ namespace АИСТ.Class.essence
     
     class listProductOverRules
     {
-        Dictionary<Tuple<string, Group>, bool> rules = new Dictionary<Tuple<string, Group>, bool>();
+        Dictionary<Tuple<bool, Group>, List<string>> rules = new Dictionary<Tuple<bool, Group>, List<string>>();
 
-        public void Add_rule (Tuple<string, Group> id_group, bool allow)
+        public void Add_rule (Tuple<bool, Group> id_group, string id)
         {
-            if (rules.ContainsKey(id_group))
+            if (!rules.ContainsKey(id_group))
             {
-                //тут будет форма обработки
+                rules[id_group] = new List<string>();
             }
-            else rules.Add(id_group, allow);
+            rules[id_group].Add(id);
+               
         }
-        public Dictionary<Tuple<string, Group>, bool> Get_rules()
+        public Dictionary<Tuple<bool, Group>, List<string>> Get_rules()
         {
             return rules;
         }
-        public Tuple<Tuple<string, Group>, bool> Get_rule(Tuple<string, Group> id_group)
+        public List<string> Get_rule(Tuple<bool, Group> group)
         {
-            Tuple<Tuple<string, Group>, bool> t = new Tuple<Tuple<string, Group>, bool>(id_group, rules[id_group]);
+            if(rules.ContainsKey(group))
+            {
+                List<string> t = rules[group];
+                return t;
+            }
+            
 
-            return t;
+            return null;
         }
 
     }

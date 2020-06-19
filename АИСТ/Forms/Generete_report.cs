@@ -26,6 +26,10 @@ namespace АИСТ
             Generate_Setttings gs = Info.Get_settings();
             Dictionary<string, List<Promo>> promos = Info.Get_prom();
             Set_report(promos, gs);
+            if (Info.Is_test())
+            {
+                textBox3.Visible = true;
+            }
 
         }
 
@@ -39,10 +43,10 @@ namespace АИСТ
 
             InitializeComponent();
             Algoritm a = Info.Get_alg();
-            bool admin = Info.Is_test();
-            Generate_Setttings gs = Info.Get_settings();
+            bool test = Info.Is_test();
+            //Generate_Setttings gs = Info.Get_settings();
             Dictionary<string, List<Promo>> promos = Info.Get_prom();
-            a.Generate_mails(promos, admin, textBox1.Text);
+            a.Generate_mails(promos, test, textBox1.Text, textBox2.Text);
 
         }
 
@@ -138,7 +142,7 @@ namespace АИСТ
 
             string[] sh = dt.Rows[0].ItemArray[0].ToString().Split(' ');
             foreach (string s in sh)
-            {
+            { if (gs.shops.Contains(s))
                 shops_all.Items.Add(s);
             }
             prods_all.Text = prods_stat.Count.ToString();

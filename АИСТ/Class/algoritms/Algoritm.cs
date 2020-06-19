@@ -389,13 +389,14 @@ namespace АИСТ.Class.algoritms
         public Dictionary<Tuple<string, Group>, double> Set_over_rules_prod(listProductOverRules rules, Dictionary<Tuple<string, Group>, double> all_prods)
         {
             
-            foreach (KeyValuePair<Tuple<string, Group>, bool> kvp in rules.Get_rules())
+            foreach (KeyValuePair<Tuple<bool, Group>, List<string>> kvp in rules.Get_rules())
             {
                 if (kvp.Key.Item2 == Group.Product)
                 {
-                    if (!kvp.Value)
+                    if (!kvp.Key.Item1)
                     {
-                        bool b = all_prods.Remove(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2));
+                        foreach(string id in kvp.Value)
+                            all_prods.Remove(new Tuple<string, Group>(id, kvp.Key.Item2));
                     }
                     else
                     {
@@ -406,25 +407,31 @@ namespace АИСТ.Class.algoritms
                         {
                             amount += Convert.ToDouble(dt.ItemArray[0].ToString());
                         }
-                        if (!all_prods.ContainsKey(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)))
-                            all_prods.Add(new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2), amount);
+                        foreach (string id in kvp.Value)
+                        {
+                            if (!all_prods.ContainsKey(new Tuple<string, Group>(id, kvp.Key.Item2)))
+                                all_prods.Add(new Tuple<string, Group>(id, kvp.Key.Item2), amount);
+                        }
+                            
                     }
                 }
                 if (kvp.Key.Item2 == Group.Brand)
                 {
                     string request = "SELECT ID_product FROM products WHERE brand_ID = '" + kvp.Key.Item1 + "';";
                     DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                    if (kvp.Value)
+                    if (!kvp.Key.Item1)
                     {
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                        foreach (string id in kvp.Value)
+                            all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] = 0;
                     }
                     foreach (DataRow row in temp_dt.Rows)
                     {
-                        if (kvp.Value)
+                        if (kvp.Key.Item1)
                         {
                             if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
                             {
-                                all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                                foreach (string id in kvp.Value)
+                                    all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
                             }
                             else
                             {
@@ -432,7 +439,11 @@ namespace АИСТ.Class.algoritms
                                 DataTable am = SQL_Helper.Just_do_it(request);
                                 if (am.Rows.Count > 0)
                                 {
-                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                    foreach (string id in kvp.Value)
+                                    {
+                                        all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                    }
+                                       
                                     all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
                                 }
                             }
@@ -446,9 +457,10 @@ namespace АИСТ.Class.algoritms
                 }
                 if (kvp.Key.Item2 == Group.Little_type)
                 {
-                    if (kvp.Value)
+                    if (!kvp.Key.Item1)
                     {
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                        foreach (string id in kvp.Value)
+                            all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] = 0;
                     }
                     string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_little = '" + kvp.Key.Item1 + "';";
                     DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
@@ -456,17 +468,19 @@ namespace АИСТ.Class.algoritms
                     {
                         request = "SELECT ID_product FROM products WHERE type_little_name = '" + row2.ItemArray[0] + "';";
                         DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                        if (kvp.Value)
+                        if (!kvp.Key.Item1)
                         {
-                            all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                            foreach (string id in kvp.Value)
+                                all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] = 0;
                         }
                         foreach (DataRow row in temp_dt.Rows)
                         {
-                            if (kvp.Value)
+                            if (kvp.Key.Item1)
                             {
                                 if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
                                 {
-                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                                    foreach (string id in kvp.Value)
+                                        all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
                                 }
                                 else
                                 {
@@ -475,7 +489,8 @@ namespace АИСТ.Class.algoritms
                                     DataTable am = SQL_Helper.Just_do_it(request);
                                     if (am.Rows.Count > 0)
                                     {
-                                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                        foreach (string id in kvp.Value)
+                                            all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
                                         all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
                                     }
                                 }
@@ -491,8 +506,9 @@ namespace АИСТ.Class.algoritms
                 }
                 if (kvp.Key.Item2 == Group.Big_type)
                 {
-                    if (kvp.Value)
-                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 1;
+                    //if (!kvp.Key.Item1)
+                    //    foreach (string id in kvp.Value)
+                    //        all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] = 1;
 
                     string request = "SELECT name_product_type_little FROM product_type_little WHERE ID_product_type_bigger = '" + kvp.Key.Item1 + "';";
                     DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
@@ -500,17 +516,19 @@ namespace АИСТ.Class.algoritms
                     {
                         request = "SELECT ID_product FROM products WHERE type_little_name = '" + row2.ItemArray[0].ToString() + "';";
                         DataTable temp_dt = SQL_Helper.Just_do_it(request);
-                        if (kvp.Value)
+                        if (!kvp.Key.Item1)
                         {
-                            all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] = 0;
+                            foreach (string id in kvp.Value)
+                                all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] = 0;
                         }
                         foreach (DataRow row in temp_dt.Rows)
                         {
-                            if (kvp.Value)
+                            if (kvp.Key.Item1)
                             {
                                 if (all_prods.ContainsKey(new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)))
                                 {
-                                    all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
+                                    foreach (string id in kvp.Value)
+                                        all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)];
                                 }
                                 else
                                 {
@@ -518,7 +536,8 @@ namespace АИСТ.Class.algoritms
                                     DataTable am = SQL_Helper.Just_do_it(request);
                                     if (am.Rows.Count > 0)
                                     {
-                                        all_prods[new Tuple<string, Group>(kvp.Key.Item1, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
+                                        foreach (string id in kvp.Value)
+                                            all_prods[new Tuple<string, Group>(id, kvp.Key.Item2)] += Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
                                         all_prods[new Tuple<string, Group>(row.ItemArray[0].ToString(), Group.Product)] = Convert.ToDouble(am.Rows[0].ItemArray[0].ToString());
                                     }
                                 }
@@ -1211,7 +1230,7 @@ namespace АИСТ.Class.algoritms
             /// <param name="promos"></param>
             /// <param name="gs"></param>
             /// <param name="test"></param>
-        public void Generate_mails(Dictionary<string, List<Promo>> promos, bool test)
+        public void Generate_mails(Dictionary<string, List<Promo>> promos, bool test, string email_shop, string password)
         {
             rtb.Text += "Начат процесс отправки предложений \n ( ВНИМАНИЕ, ПРОЦЕСС МОЖЕТ ЗАНЯТЬ ДОЛГОЕ ВРЕМЯ )\n ";
             rtb.Refresh();
@@ -1409,7 +1428,7 @@ namespace АИСТ.Class.algoritms
 
                 //string name_f = client + " " + name + ".pdf";
                 string attach_pdf = Get_pdf(text, attach);
-                Mail_it(text, mail, attach_pdf, attach_html);
+                Mail_it(text, mail, attach_pdf, attach_html, email_shop, password);
                 promos.Remove(client);
                 prBar.Value++;
             }
@@ -1427,10 +1446,11 @@ namespace АИСТ.Class.algoritms
         /// <param name="mail"></param>
         /// <param name="attach_pdf"></param>
         /// <param name="attach_html"></param>
-        public void Mail_it(string text, string mail, string attach_pdf, string attach_html)
+        public void Mail_it(string text, string mail, string attach_pdf, string attach_html, string email_shop, string password)
         {
             // отправитель - устанавливаем адрес и отображаемое в письме имя
-            MailAddress from = new MailAddress("ESGdiplom2020shop@yandex.ru", "Торговая сеть N");
+            //
+            MailAddress from = new MailAddress(email_shop, "Торговая сеть N");
             // кому отправляем
             MailAddress to = new MailAddress(mail);
             // создаем объект сообщения
@@ -1448,7 +1468,7 @@ namespace АИСТ.Class.algoritms
             // адрес smtp-сервера и порт, с которого будем отправлять письмо
             SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 587);
             // логин и пароль
-            smtp.Credentials = new NetworkCredential("ESGdiplom2020shop@yandex.ru", "Literal696Ll!");
+            smtp.Credentials = new NetworkCredential(email_shop, password);
             smtp.EnableSsl = true;
             smtp.Send(m);
             Console.Read();

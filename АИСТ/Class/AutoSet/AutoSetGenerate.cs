@@ -61,7 +61,7 @@ namespace АИСТ.Class.AutoSet
             }
             foreach (string p in pieses)
             {
-                over_rules.Add_rule(new Tuple<string, Group>(p, group), true);
+                    over_rules.Add_rule(new Tuple<bool, Group>(true, group), p);
             }
             for (int i = 0; i < count; i++)
             {
@@ -70,7 +70,7 @@ namespace АИСТ.Class.AutoSet
             }
             foreach (string p in pieses)
             {
-                over_rules.Add_rule(new Tuple<string, Group>(p, group), false);
+                over_rules.Add_rule(new Tuple<bool, Group>(false, group), p);
             }
 
             return over_rules;

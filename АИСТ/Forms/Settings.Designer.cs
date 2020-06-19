@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.btn_save = new System.Windows.Forms.Button();
-            this.btn_emai = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
             this.gb_lb = new System.Windows.Forms.GroupBox();
             this.gb_tb = new System.Windows.Forms.GroupBox();
             this.gb_bt = new System.Windows.Forms.GroupBox();
@@ -45,24 +43,6 @@
             this.btn_save.Text = "Сохранить";
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
-            // 
-            // btn_emai
-            // 
-            this.btn_emai.Location = new System.Drawing.Point(19, 375);
-            this.btn_emai.Name = "btn_emai";
-            this.btn_emai.Size = new System.Drawing.Size(126, 23);
-            this.btn_emai.TabIndex = 77;
-            this.btn_emai.Text = "email";
-            this.btn_emai.UseVisualStyleBackColor = true;
-            // 
-            // label13
-            // 
-            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Location = new System.Drawing.Point(151, 375);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(145, 23);
-            this.label13.TabIndex = 77;
-            this.label13.Text = "shop@mail.com";
             // 
             // gb_lb
             // 
@@ -99,8 +79,6 @@
             this.Controls.Add(this.gb_bt);
             this.Controls.Add(this.gb_tb);
             this.Controls.Add(this.gb_lb);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.btn_emai);
             this.Controls.Add(this.btn_save);
             this.Name = "Settings";
             this.Text = "Settings";
@@ -114,8 +92,6 @@
 
         #endregion
         private System.Windows.Forms.Button btn_save;
-        private System.Windows.Forms.Button btn_emai;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox gb_lb;
         private System.Windows.Forms.GroupBox gb_tb;
         private System.Windows.Forms.GroupBox gb_bt;

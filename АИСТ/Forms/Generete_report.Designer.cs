@@ -50,6 +50,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -210,7 +211,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(11, 466);
+            this.button3.Location = new System.Drawing.Point(11, 495);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(192, 23);
             this.button3.TabIndex = 61;
@@ -220,7 +221,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 305);
+            this.button1.Location = new System.Drawing.Point(11, 466);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(191, 23);
             this.button1.TabIndex = 62;
@@ -247,11 +248,21 @@
             this.textBox2.Text = "password";
             this.textBox2.Click += new System.EventHandler(this.textBox2_Click);
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(11, 309);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(190, 20);
+            this.textBox3.TabIndex = 65;
+            this.textBox3.Text = "test_email";
+            this.textBox3.Visible = false;
+            // 
             // Generete_report
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1141, 530);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
@@ -307,5 +318,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

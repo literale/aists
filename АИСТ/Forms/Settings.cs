@@ -103,6 +103,7 @@ namespace АИСТ
             //Form f2 = new menu();
             //f2.Show(); // отображаем Form2
             // скрываем Form1 (this - текущая форма)
+
             foreach(Control c in gb_tb.Controls)
             {
                 Tab_Settings.tabs[c.Name].tab_name = c.Text;

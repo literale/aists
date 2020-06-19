@@ -26,7 +26,15 @@ namespace АИСТ
         bool open = false;
         private listProductOverRules lRules = new listProductOverRules();
         List<string> shops = new List<string>();
-        Dictionary<string, Tabs> tabs = Info.Get_tabs();
+        Dictionary<string, Tabs> tabs = Tab_Settings.Get_tabs();
+        bool range_click = false;
+        bool click_table = false;
+        bool click_type = false;
+        int index = 0;
+        Group g = Group.Big_type;
+        Tab_names t = Tab_names.product_type_big;
+        int name = 1;
+
         public Generate()
         {
             InitializeComponent();
@@ -44,10 +52,15 @@ namespace АИСТ
                 расшифроватьФайлToolStripMenuItem.Enabled = false;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
             }
-            checkedListBox5.SetItemChecked(0, true);
-            Load_on_exept_fоrm();
+            UD_allow.SelectedIndex = 0;
+            UD_id.SelectedIndex = 0;
+            UD_type.SelectedIndex = 0;
+           // checkedListBox5.SetItemChecked(0, true);
+            // Load_on_exept_fоrm();
+            LoadRules();
             Info.temp_settings.promo_type.Generate_matrix();
             setShops();
+           
 
         }
 
@@ -67,7 +80,7 @@ namespace АИСТ
             checkedListBox5.MultiColumn = true;
             checkedListBox5.Items.Clear();
             string table = "";
-            if (domainUpDown1.SelectedIndex == 0)
+            if (UD_type.SelectedIndex == 0)
                 table = "product_type_big";
             string request = "SELECT * FROM product_type_big;";
             DataTable dt = SQL_Helper.Just_do_it(request);
@@ -324,6 +337,120 @@ namespace АИСТ
 
         }
 
+        private void checkedListBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        //    bool allow = (UD_allow.SelectedIndex == 0) ? false : true;
+        //    Group g = (UD_type.SelectedIndex == 0) ? Group.Big_type: ((UD_type.SelectedIndex == 1) ? Group.Little_type : ((UD_type.SelectedIndex == 2) ? Group.Brand : Group.Product));
+        //    string s = checkedListBox5.SelectedItem.ToString();
+        //    lRules.Add_rule(new Tuple<bool, Group>(allow, g), s);
+        }
+
+        private void domainUpDown3_SelectedItemChanged(object sender, EventArgs e)
+        {
+            click_table = true;
+            LoadRules();
+        }
+        
+        private void LoadRules()
+        {
+           
+            bool allow = (UD_allow.SelectedIndex == 0) ? false : true;
+           
+            string table = tabs[t.ToString().ToLower()].Get_name(); 
+            string request = "SELECT * FROM " + table + ";";
+            DataTable dt = SQL_Helper.Just_do_it(request);
+
+            // string s = UD_id.Text;
+            //string[] ids = s.Split(' ')[1].Split('-');
+
+            //if (index < UD_id.SelectedIndex)
+            //    index -= 1;
+            //else if (index > UD_id.SelectedIndex) index += 1;
+            int id1 = index * 50;
+            int id2 = id1 + 50;
+            int i = 0;
+            for (i = 0; i < checkedListBox5.Items.Count; i++)
+            {
+                if (checkedListBox5.GetItemChecked(i))
+                {
+                    lRules.Add_rule(new Tuple<bool, Group>(allow, g), dt.Rows[i+id1].ItemArray[0].ToString());
+                }
+                i++;
+            }
+            checkedListBox5.Items.Clear();
+            g = (UD_type.SelectedIndex == 0) ? Group.Big_type : ((UD_type.SelectedIndex == 1) ? Group.Little_type : ((UD_type.SelectedIndex == 2) ? Group.Brand : Group.Product));
+            t = (UD_type.SelectedIndex == 0) ? Tab_names.product_type_big : ((UD_type.SelectedIndex == 1) ? Tab_names.product_type_little : ((UD_type.SelectedIndex == 2) ? Tab_names.brands : Tab_names.product));
+            name = (UD_type.SelectedIndex == 0) ? 1 : ((UD_type.SelectedIndex == 1) ? 2 : ((UD_type.SelectedIndex == 2) ? 1 : 1));
+            table = tabs[t.ToString().ToLower()].Get_name();
+            request = "SELECT * FROM " + table + ";";
+            dt = SQL_Helper.Just_do_it(request);
+            index = UD_id.SelectedIndex;
+            id1 = index * 50;
+            id2 = id1 + 50;
+            if (!range_click)
+            {
+                // s = UD_id.Text;
+                // string[] ids = s.Split(' ')[1].Split('-');
+                id1 = 0;
+                id2 = 50;
+                int h = 0;
+                UD_id.Items.RemoveRange(0, UD_id.Items.Count);
+                i = 0;
+                for (i = 0; i < dt.Rows.Count; i += 50)
+                {
+                    UD_id.Items.Add("id: " + id1 + "-" + id2);
+                    id1 += 50;
+                    id2 += 50;
+                }
+                UD_id.SelectedIndex = 0;
+                id1 = 0;
+                id2 = 50;
+            }
+            int j = 0;
+            for ( i = id1; i< id2 && i<dt.Rows.Count; i++)
+            {
+                checkedListBox5.Items.Add(dt.Rows[i].ItemArray[name].ToString());
+                checkedListBox5.SetItemChecked(j, false);
+                    j++;
+            }
+
+            if (lRules.Get_rule(new Tuple<bool, Group>(allow, g)) != null)
+            {
+
+                for( i=0; i< checkedListBox5.Items.Count; i++)
+                {
+                    string cb_id = checkedListBox5.Items[i].ToString();
+                    string field = (UD_type.SelectedIndex == 0) ? "name_product_type_big" : ((UD_type.SelectedIndex == 1) ? "name_product_type_little" : ((UD_type.SelectedIndex == 2) ? "brand_name" : "name"));
+                    dt = SQL_Helper.Just_do_it("Select * FROM "+ table + " WHERE " + tabs[t.ToString().ToLower()].Get_field(field)+ " = '"+ cb_id+"';");
+                    List<string> temp = lRules.Get_rule(new Tuple<bool, Group>(allow, g));
+                    string t_id = dt.Rows[0].ItemArray[0].ToString();
+                    if (temp.Contains(t_id))
+                    {
+                        checkedListBox5.SetItemChecked( i, true);
+                    }
+                }
+            }
+            checkedListBox5.MultiColumn = true;
+            range_click = false;
+            click_table = false;
+            click_type = false;
+
+        }
+
+        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
+        {
+            click_type = true;
+            LoadRules();
+        }
+
+        private void domainUpDown2_SelectedItemChanged(object sender, EventArgs e)
+        {
+            //string s = UD_id.Text;
+            //string[] ids = s.Split(' ')[1].Split('-');
+            // UD_id.Text = "id: " + Convert.ToInt32(ids[0] + 50) + "-" + Convert.ToInt32(ids[1] + 50);
+            range_click = true;
+            LoadRules();
+        }
         //private listProductOverRules GetRules()
         //{
         //    listProductOverRules lRules = new listProductOverRules();

@@ -56,9 +56,9 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
-            this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
-            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
+            this.UD_allow = new System.Windows.Forms.DomainUpDown();
+            this.UD_id = new System.Windows.Forms.DomainUpDown();
+            this.UD_type = new System.Windows.Forms.DomainUpDown();
             this.checkedListBox5 = new System.Windows.Forms.CheckedListBox();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -343,10 +343,6 @@
             // checkedListBox3
             // 
             this.checkedListBox3.FormattingEnabled = true;
-            this.checkedListBox3.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
             this.checkedListBox3.Location = new System.Drawing.Point(110, 190);
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.Size = new System.Drawing.Size(137, 34);
@@ -357,9 +353,9 @@
             // 
             this.groupBox5.Controls.Add(this.button7);
             this.groupBox5.Controls.Add(this.button3);
-            this.groupBox5.Controls.Add(this.domainUpDown3);
-            this.groupBox5.Controls.Add(this.domainUpDown2);
-            this.groupBox5.Controls.Add(this.domainUpDown1);
+            this.groupBox5.Controls.Add(this.UD_allow);
+            this.groupBox5.Controls.Add(this.UD_id);
+            this.groupBox5.Controls.Add(this.UD_type);
             this.groupBox5.Controls.Add(this.checkedListBox5);
             this.groupBox5.Location = new System.Drawing.Point(5, 230);
             this.groupBox5.Name = "groupBox5";
@@ -388,36 +384,39 @@
             this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // domainUpDown3
+            // UD_allow
             // 
-            this.domainUpDown3.Items.Add("Исключить");
-            this.domainUpDown3.Items.Add("Добавить");
-            this.domainUpDown3.Location = new System.Drawing.Point(6, 19);
-            this.domainUpDown3.Name = "domainUpDown3";
-            this.domainUpDown3.Size = new System.Drawing.Size(89, 20);
-            this.domainUpDown3.TabIndex = 22;
-            this.domainUpDown3.Text = "Исключить";
+            this.UD_allow.Items.Add("Исключить");
+            this.UD_allow.Items.Add("Добавить");
+            this.UD_allow.Location = new System.Drawing.Point(6, 19);
+            this.UD_allow.Name = "UD_allow";
+            this.UD_allow.Size = new System.Drawing.Size(89, 20);
+            this.UD_allow.TabIndex = 22;
+            this.UD_allow.Text = "Исключить";
+            this.UD_allow.SelectedItemChanged += new System.EventHandler(this.domainUpDown3_SelectedItemChanged);
             // 
-            // domainUpDown2
+            // UD_id
             // 
-            this.domainUpDown2.Items.Add("id: 1-50");
-            this.domainUpDown2.Location = new System.Drawing.Point(7, 71);
-            this.domainUpDown2.Name = "domainUpDown2";
-            this.domainUpDown2.Size = new System.Drawing.Size(89, 20);
-            this.domainUpDown2.TabIndex = 21;
-            this.domainUpDown2.Text = "id: 1-50";
+            this.UD_id.Items.Add("id: 1-50");
+            this.UD_id.Location = new System.Drawing.Point(7, 71);
+            this.UD_id.Name = "UD_id";
+            this.UD_id.Size = new System.Drawing.Size(89, 20);
+            this.UD_id.TabIndex = 21;
+            this.UD_id.Text = "id: 1-50";
+            this.UD_id.SelectedItemChanged += new System.EventHandler(this.domainUpDown2_SelectedItemChanged);
             // 
-            // domainUpDown1
+            // UD_type
             // 
-            this.domainUpDown1.Items.Add("Большой тип");
-            this.domainUpDown1.Items.Add("Малый тип");
-            this.domainUpDown1.Items.Add("Брэнд");
-            this.domainUpDown1.Items.Add("Товар");
-            this.domainUpDown1.Location = new System.Drawing.Point(6, 45);
-            this.domainUpDown1.Name = "domainUpDown1";
-            this.domainUpDown1.Size = new System.Drawing.Size(89, 20);
-            this.domainUpDown1.TabIndex = 20;
-            this.domainUpDown1.Text = "Большой тип";
+            this.UD_type.Items.Add("Большой тип");
+            this.UD_type.Items.Add("Малый тип");
+            this.UD_type.Items.Add("Брэнд");
+            this.UD_type.Items.Add("Товар");
+            this.UD_type.Location = new System.Drawing.Point(6, 45);
+            this.UD_type.Name = "UD_type";
+            this.UD_type.Size = new System.Drawing.Size(89, 20);
+            this.UD_type.TabIndex = 20;
+            this.UD_type.Text = "Большой тип";
+            this.UD_type.SelectedItemChanged += new System.EventHandler(this.domainUpDown1_SelectedItemChanged);
             // 
             // checkedListBox5
             // 
@@ -429,6 +428,7 @@
             this.checkedListBox5.Name = "checkedListBox5";
             this.checkedListBox5.Size = new System.Drawing.Size(140, 109);
             this.checkedListBox5.TabIndex = 19;
+            this.checkedListBox5.SelectedIndexChanged += new System.EventHandler(this.checkedListBox5_SelectedIndexChanged);
             // 
             // numericUpDown2
             // 
@@ -837,9 +837,9 @@
         private System.Windows.Forms.CheckedListBox checkedListBox5;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.DomainUpDown domainUpDown3;
-        private System.Windows.Forms.DomainUpDown domainUpDown2;
-        private System.Windows.Forms.DomainUpDown domainUpDown1;
+        private System.Windows.Forms.DomainUpDown UD_allow;
+        private System.Windows.Forms.DomainUpDown UD_id;
+        private System.Windows.Forms.DomainUpDown UD_type;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.DateTimePicker dateTimePicker7;
         private System.Windows.Forms.Label label21;
