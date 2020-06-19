@@ -54,17 +54,15 @@
             this.prior_cl = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
-            this.comboBox11 = new System.Windows.Forms.ComboBox();
+            this.prior_client = new System.Windows.Forms.ComboBox();
+            this.prior_prod = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBox15 = new System.Windows.Forms.ComboBox();
-            this.comboBox16 = new System.Windows.Forms.ComboBox();
+            this.cl_intresting = new System.Windows.Forms.ComboBox();
+            this.prod_intresting = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pers_prod)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -400,30 +398,31 @@
             this.label6.TabIndex = 21;
             this.label6.Text = "Приоритет для товара";
             // 
-            // comboBox9
+            // prior_client
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Items.AddRange(new object[] {
+            this.prior_client.FormattingEnabled = true;
+            this.prior_client.Items.AddRange(new object[] {
             "Объем закупок",
             "Затраченная сумма"});
-            this.comboBox9.Location = new System.Drawing.Point(141, 182);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(171, 21);
-            this.comboBox9.TabIndex = 31;
-            this.comboBox9.Text = "Объем закупок";
+            this.prior_client.Location = new System.Drawing.Point(141, 182);
+            this.prior_client.Name = "prior_client";
+            this.prior_client.Size = new System.Drawing.Size(171, 21);
+            this.prior_client.TabIndex = 31;
+            this.prior_client.Text = "Объем закупок";
+            this.prior_client.SelectedIndexChanged += new System.EventHandler(this.prior_client_SelectedIndexChanged);
             // 
-            // comboBox11
+            // prior_prod
             // 
-            this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Items.AddRange(new object[] {
+            this.prior_prod.FormattingEnabled = true;
+            this.prior_prod.Items.AddRange(new object[] {
             "Популярность",
             "Доходность",
             "Остаток на складе"});
-            this.comboBox11.Location = new System.Drawing.Point(141, 209);
-            this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(171, 21);
-            this.comboBox11.TabIndex = 32;
-            this.comboBox11.Text = "Популярность";
+            this.prior_prod.Location = new System.Drawing.Point(141, 209);
+            this.prior_prod.Name = "prior_prod";
+            this.prior_prod.Size = new System.Drawing.Size(171, 21);
+            this.prior_prod.TabIndex = 32;
+            this.prior_prod.Text = "Популярность";
             // 
             // label7
             // 
@@ -443,35 +442,34 @@
             this.label8.TabIndex = 34;
             this.label8.Text = "Порядок";
             // 
-            // comboBox15
+            // cl_intresting
             // 
-            this.comboBox15.FormattingEnabled = true;
-            this.comboBox15.Items.AddRange(new object[] {
+            this.cl_intresting.FormattingEnabled = true;
+            this.cl_intresting.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.comboBox15.Location = new System.Drawing.Point(376, 182);
-            this.comboBox15.Name = "comboBox15";
-            this.comboBox15.Size = new System.Drawing.Size(143, 21);
-            this.comboBox15.TabIndex = 35;
-            this.comboBox15.Text = "Сначала интересные";
+            this.cl_intresting.Location = new System.Drawing.Point(376, 182);
+            this.cl_intresting.Name = "cl_intresting";
+            this.cl_intresting.Size = new System.Drawing.Size(143, 21);
+            this.cl_intresting.TabIndex = 35;
+            this.cl_intresting.Text = "Сначала интересные";
             // 
-            // comboBox16
+            // prod_intresting
             // 
-            this.comboBox16.FormattingEnabled = true;
-            this.comboBox16.Items.AddRange(new object[] {
+            this.prod_intresting.FormattingEnabled = true;
+            this.prod_intresting.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.comboBox16.Location = new System.Drawing.Point(376, 209);
-            this.comboBox16.Name = "comboBox16";
-            this.comboBox16.Size = new System.Drawing.Size(143, 21);
-            this.comboBox16.TabIndex = 36;
-            this.comboBox16.Text = "Сначала не интересные";
+            this.prod_intresting.Location = new System.Drawing.Point(376, 209);
+            this.prod_intresting.Name = "prod_intresting";
+            this.prod_intresting.Size = new System.Drawing.Size(143, 21);
+            this.prod_intresting.TabIndex = 36;
+            this.prod_intresting.Text = "Сначала не интересные";
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сохранитьToolStripMenuItem,
-            this.экспортToolStripMenuItem1,
             this.импортToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -484,38 +482,26 @@
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
             this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
-            // 
-            // экспортToolStripMenuItem1
-            // 
-            this.экспортToolStripMenuItem1.Name = "экспортToolStripMenuItem1";
-            this.экспортToolStripMenuItem1.Size = new System.Drawing.Size(64, 20);
-            this.экспортToolStripMenuItem1.Text = "Экспорт";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
             // импортToolStripMenuItem
             // 
-            this.импортToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.экспортToolStripMenuItem});
             this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
             this.импортToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.импортToolStripMenuItem.Text = "Импорт";
-            // 
-            // экспортToolStripMenuItem
-            // 
-            this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.экспортToolStripMenuItem.Text = "Экспорт";
+            this.импортToolStripMenuItem.Click += new System.EventHandler(this.импортToolStripMenuItem_Click_1);
             // 
             // Promo_types_Setings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(532, 247);
-            this.Controls.Add(this.comboBox16);
-            this.Controls.Add(this.comboBox15);
+            this.Controls.Add(this.prod_intresting);
+            this.Controls.Add(this.cl_intresting);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.comboBox11);
-            this.Controls.Add(this.comboBox9);
+            this.Controls.Add(this.prior_prod);
+            this.Controls.Add(this.prior_client);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox4);
@@ -523,6 +509,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "Promo_types_Setings";
             this.Text = "Promo_types_Setings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Promo_types_Setings_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Promo_types_Setings_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pers_prod)).EndInit();
@@ -560,17 +548,15 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox9;
-        private System.Windows.Forms.ComboBox comboBox11;
+        private System.Windows.Forms.ComboBox prior_client;
+        private System.Windows.Forms.ComboBox prior_prod;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox15;
-        private System.Windows.Forms.ComboBox comboBox16;
+        private System.Windows.Forms.ComboBox cl_intresting;
+        private System.Windows.Forms.ComboBox prod_intresting;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem импортToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
         public System.Windows.Forms.ComboBox pr_client_ABC;
         public System.Windows.Forms.ComboBox cl_prod_ABC;
         public System.Windows.Forms.ComboBox prod_ABC;

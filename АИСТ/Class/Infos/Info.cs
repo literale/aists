@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Crypto.Tls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace АИСТ.Class
         private static string email = "ESGdiplom2020shop@yandex.ru";
         private static string test_email = "ESGdiplom2020@yandex.ru";
         public static Collect_settings temp_settings = new Collect_settings();
+        public static string connection_string = "";
         public static void set_email()
         {
             email = "ESGdiplom2020shop@yandex.ru";
@@ -337,6 +339,7 @@ namespace АИСТ.Class
 
         }
 
+        
 
     }
 }

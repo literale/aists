@@ -74,13 +74,13 @@ namespace АИСТ
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string connection_string = "server=localhost; " +
-                   "user=" + "admin" + "; " +
-                   "database=" + "bd_shop" + "; " +
-                   "password=" + "diplom2020";
-            SQL_Helper.setConnection(connection_string);
-            Algoritm a = new Algoritm();
-            a.Auto();
+        //    string connection_string = "server=localhost; " +
+        //           "user=" + "admin" + "; " +
+        //           "database=" + "bd_shop" + "; " +
+        //           "password=" + "diplom2020";
+        //    SQL_Helper.setConnection(connection_string);
+        //    Algoritm a = new Algoritm();
+        //    a.Auto();
         }
 
         private void mainForm_MouseEnter(object sender, EventArgs e)

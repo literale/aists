@@ -38,7 +38,7 @@ namespace АИСТ.Class.algoritms
         Dictionary<string, Dictionary<string, Tuple<double, double>>> client_prod;//покупки клиентов кол-вл сумма
         Dictionary<Tuple<string, Group>, double> all_prods_and_group_amount_on_store;//товар на складе (в том числе по группам)
         Generate_Setttings gs;
-        public Dictionary<string, List<Promo>> Auto()
+        public Dictionary<string, List<Promo>> Auto(Generate_Setttings gs)
         {
             Form f2 = new Process();
             f2.Show(); // отображаем Form2
@@ -61,7 +61,7 @@ namespace АИСТ.Class.algoritms
             
             rtb.Text += "Начат импорт настроек" + '\n';
             rtb.Refresh();
-            gs = AutoSetGenerate.AutoSettings();
+           // gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
             File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
@@ -1256,7 +1256,7 @@ namespace АИСТ.Class.algoritms
                 }
                 Shops = Shops.Substring(0, Shops.Length - 1);
                 text += "<tr><td colspan=\"2\"><p align=\"center\">" + "Ждем вас в магазинах по адресам: " + Shops + "</p></td></tr></table>";
-                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "C " + gs.start.ToString("d") + "по" + gs.end.ToString("d") + "</p></td></tr></table>";
+                text += "<tr><td colspan=\"2\"><p align=\"center\">" + "C " + gs.start.ToString("d") + " по " + gs.end.ToString("d") + "</p></td></tr></table>";
                 text += "<p align=\"center\"> Если письмо не отображается целиком - скачайте полную версию <b>Во вложении</b> в удобном для вас формате</p>";
                 Directory.CreateDirectory(path);
                 System.Drawing.Imaging.ImageFormat image_format = System.Drawing.Imaging.ImageFormat.Bmp;

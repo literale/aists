@@ -16,6 +16,8 @@ namespace АИСТ
 {
     public partial class Generete_report : Form
     {
+        private bool click_password = true;
+
         public Generete_report()
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace АИСТ
             bool admin = Info.Is_test();
             Generate_Setttings gs = Info.Get_settings();
             Dictionary<string, List<Promo>> promos = Info.Get_prom();
-            a.Generate_mails(promos, admin);
+            a.Generate_mails(promos, admin, textBox1.Text);
 
         }
 
@@ -174,6 +176,30 @@ namespace АИСТ
             //dt2.Rows.Add("03", "петя", "2", "10");
             //dataGridView2.DataSource = dt2.AsDataView();
             //dataGridView2.ReadOnly = true;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void textBox1_Click(object sender, EventArgs e)
+        {
+            if (click_password)
+            {
+                textBox1.Text = "";
+                click_password = false;
+            }
+        }
+
+        private void textBox2_Click(object sender, EventArgs e)
+        {
+            if (click_password)
+            {
+                textBox2.Text = "";
+                click_password = false;
+            }
         }
     }
 }

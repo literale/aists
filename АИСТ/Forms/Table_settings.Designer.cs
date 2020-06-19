@@ -71,6 +71,7 @@
             this.Controls.Add(this.save);
             this.Name = "Table_settings";
             this.Text = "Table_settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Table_settings_FormClosing);
             this.Load += new System.EventHandler(this.Table_settings_Load);
             this.ResumeLayout(false);
 

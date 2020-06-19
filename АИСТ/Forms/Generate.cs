@@ -11,6 +11,10 @@ using System.Windows.Forms;
 using АИСТ.Class;
 using АИСТ.Class.algoritms;
 using АИСТ.Class.AutoSet;
+using АИСТ.Class.enums;
+using АИСТ.Class.essence;
+using АИСТ.Class.Setttings;
+using АИСТ.Class.SQL.Tab;
 using АИСТ.Forms;
 
 namespace АИСТ
@@ -20,30 +24,44 @@ namespace АИСТ
         int n = 1;
         int n2 = 1;
         bool open = false;
+        private listProductOverRules lRules = new listProductOverRules();
+        List<string> shops = new List<string>();
+        Dictionary<string, Tabs> tabs = Info.Get_tabs();
         public Generate()
         {
             InitializeComponent();
             //button5.Enabled = false;
            if (Info.Is_admin())
             {
-                запуститьВТестовомРежимеToolStripMenuItem.Enabled = true;
+                запуститьВТестовомРежимеToolStripMenuItem1.Enabled = true;
                 расшифроватьФайлToolStripMenuItem.Enabled = true;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
 
             }
            else
             {
-                запуститьВТестовомРежимеToolStripMenuItem.Enabled = false;
+                запуститьВТестовомРежимеToolStripMenuItem1.Enabled = false;
                 расшифроватьФайлToolStripMenuItem.Enabled = false;
                 зашифроватьФайлToolStripMenuItem.Enabled = false;
             }
             checkedListBox5.SetItemChecked(0, true);
             Load_on_exept_fоrm();
             Info.temp_settings.promo_type.Generate_matrix();
-
+            setShops();
 
         }
 
+        //TODO
+        private void setShops()
+        {
+            Tab_shops tu = (Tab_shops)Tab_Settings.tabs[Tab_names.shops.ToString()];
+            DataTable dt = SQL_Helper.Try_To_Connect_Full(tu.tab_name);
+            foreach(DataRow dr in dt.Rows)
+            {
+                
+                checkedListBox3.Items.Add(dr.ItemArray[2].ToString()+" "+ dr.ItemArray[1].ToString());
+            }
+        }
         public void Load_on_exept_fоrm()
         {
             checkedListBox5.MultiColumn = true;
@@ -111,12 +129,7 @@ namespace АИСТ
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            //checkedListBox2.Items.Add(textBox5.Text);
-            //int i = checkedListBox2.Items.Count;
-            //checkedListBox2.SetItemChecked(i - 1, true);
-            //n++;
-            //textBox5.Text = "Клиенты " + n;
+           
 
         }
 
@@ -134,15 +147,7 @@ namespace АИСТ
 
         private void button6_Click(object sender, EventArgs e)
         {
-            //checkedListBox4.Items.Add(textBox6.Text);
-            //int i = checkedListBox4.Items.Count;
-            //checkedListBox4.SetItemChecked(i - 1, true);
-            //listBox4.Items.Add(textBox6.Text);
-            //listBox4.SetSelected(0, true);
-            //listBox3.SetSelected(0, true);
-            //n2++;
-            //textBox6.Text = "Ассортимент " + n2;
-            //button5.Enabled = true;
+
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -152,27 +157,9 @@ namespace АИСТ
 
         private void checkedListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (!open)
-            {
-                Algoritm a = new Algoritm();
-                a.Auto();
-                Form f2 = new Generete_report();
-                f2.Show(); // отображаем Form2
-                this.Hide(); // скрываем Form1 (this - текущая форма)
-            }
-            else
-            {
-                MessageBox.Show("Зашифруйте файл");
-            }
-        }
-
-
-
+       
         private void button5_Click(object sender, EventArgs e)
         {
 
@@ -182,6 +169,7 @@ namespace АИСТ
         {
 
         }
+
 
         private void запуститьВТестовомРежимеToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -193,7 +181,7 @@ namespace АИСТ
                        "password=" + "diplom2020";
                 SQL_Helper.setConnection(connection_string);
                 Algoritm a = new Algoritm();
-                Dictionary<string, List<Promo>> promos = a.Auto();
+                Dictionary<string, List<Promo>> promos = a.Auto(AutoSetGenerate.AutoSettings());
                 Generate_Setttings gs = AutoSetGenerate.AutoSettings();
                 Info.Set_test(true);
                 Info.Set_promo(promos, a, gs);
@@ -251,6 +239,7 @@ namespace АИСТ
         private void создатьToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             Form f = new Promo_types_Setings();
+            this.Enabled = false;
             f.Show();
         }
 
@@ -264,6 +253,7 @@ namespace АИСТ
 
         }
 
+        //TEST
         private void запуститьВТестовомРежимеToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
@@ -275,8 +265,9 @@ namespace АИСТ
                        "password=" + "diplom2020";
                 SQL_Helper.setConnection(connection_string);
                 Algoritm a = new Algoritm();
-                Dictionary<string, List<Promo>> promos = a.Auto();
                 Generate_Setttings gs = AutoSetGenerate.AutoSettings();
+                Dictionary<string, List<Promo>> promos = a.Auto(gs);
+                
                 Info.Set_test(true);
                 Info.Set_promo(promos, a, gs);
                 Form gr = new Generete_report();
@@ -289,9 +280,55 @@ namespace АИСТ
             }
         }
 
+        //TODO: дополнить строку настроек
         private void запуститьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!open)
+            {
+               // SQL_Helper.Set_Connection_String(tb_server.Text, tb_name.Text, tb_login.Text, tb_password.Text);
+               // SQL_Helper.setConnection(Info.connection_string);
+                Algoritm a = new Algoritm();
+                Collect_settings ts = Info.temp_settings;
+                shops = new List<string>();
+
+                foreach (int i in checkedListBox3.CheckedIndices)
+                {
+                    shops.Add(i.ToString());
+                }
+
+
+                Generate_Setttings gs = new Generate_Setttings(dateTimePicker1.Value.Date, dateTimePicker2.Value.Date, (int)numericUpDown1.Value, (int)numericUpDown2.Value,
+                    ts.assortiments, ts.customers, ts.promo_type, lRules, dateTimePicker7.Value.Date, shops);
+                Dictionary<string, List<Promo>> promos = a.Auto(gs);
+                
+                Info.Set_test(false);
+                Info.Set_promo(new Dictionary<string, List<Promo>>(), a, gs);
+                Form gr = new Generete_report();
+                gr.Show(); // отображаем Form2
+                this.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Зашифруйте файл");
+            }
+        }
+
+        private void начатьГенерациюToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        //private listProductOverRules GetRules()
+        //{
+        //    listProductOverRules lRules = new listProductOverRules();
+
+        //    return lRules;
+        //}
     }
 }

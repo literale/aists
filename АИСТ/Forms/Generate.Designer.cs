@@ -90,14 +90,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пресетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.исмортироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.работаСБдToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.расшифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зашифроватьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.начатьГенерациюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.запуститьВТестовомРежимеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.запуститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.запуститьВТестовомРежимеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -117,7 +116,6 @@
             this.button1.TabIndex = 16;
             this.button1.Text = "Начать генерацию";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox2
             // 
@@ -387,6 +385,8 @@
             this.button3.TabIndex = 39;
             this.button3.Text = "Подгрузить";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // domainUpDown3
             // 
@@ -702,23 +702,16 @@
             // пресетыToolStripMenuItem
             // 
             this.пресетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.исмортироватьToolStripMenuItem,
             this.создатьToolStripMenuItem});
             this.пресетыToolStripMenuItem.Name = "пресетыToolStripMenuItem";
-            this.пресетыToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.пресетыToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.пресетыToolStripMenuItem.Text = "Настройки совмещения";
             this.пресетыToolStripMenuItem.Click += new System.EventHandler(this.пресетыToolStripMenuItem_Click);
-            // 
-            // исмортироватьToolStripMenuItem
-            // 
-            this.исмортироватьToolStripMenuItem.Name = "исмортироватьToolStripMenuItem";
-            this.исмортироватьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.исмортироватьToolStripMenuItem.Text = "Импорт";
             // 
             // создатьToolStripMenuItem
             // 
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.создатьToolStripMenuItem_Click_1);
             // 
@@ -728,7 +721,7 @@
             this.расшифроватьФайлToolStripMenuItem,
             this.зашифроватьФайлToolStripMenuItem});
             this.работаСБдToolStripMenuItem.Name = "работаСБдToolStripMenuItem";
-            this.работаСБдToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.работаСБдToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.работаСБдToolStripMenuItem.Text = "Настройка таблиц";
             // 
             // расшифроватьФайлToolStripMenuItem
@@ -753,13 +746,7 @@
             this.начатьГенерациюToolStripMenuItem.Name = "начатьГенерациюToolStripMenuItem";
             this.начатьГенерациюToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
             this.начатьГенерациюToolStripMenuItem.Text = "Начать генерацию";
-            // 
-            // запуститьВТестовомРежимеToolStripMenuItem1
-            // 
-            this.запуститьВТестовомРежимеToolStripMenuItem1.Name = "запуститьВТестовомРежимеToolStripMenuItem1";
-            this.запуститьВТестовомРежимеToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
-            this.запуститьВТестовомРежимеToolStripMenuItem1.Text = "Запустить в тестовом режиме";
-            this.запуститьВТестовомРежимеToolStripMenuItem1.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem1_Click);
+            this.начатьГенерациюToolStripMenuItem.Click += new System.EventHandler(this.начатьГенерациюToolStripMenuItem_Click);
             // 
             // запуститьToolStripMenuItem
             // 
@@ -767,6 +754,13 @@
             this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.запуститьToolStripMenuItem.Text = "Запустить ";
             this.запуститьToolStripMenuItem.Click += new System.EventHandler(this.запуститьToolStripMenuItem_Click);
+            // 
+            // запуститьВТестовомРежимеToolStripMenuItem1
+            // 
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Name = "запуститьВТестовомРежимеToolStripMenuItem1";
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Text = "Запустить в тестовом режиме";
+            this.запуститьВТестовомРежимеToolStripMenuItem1.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem1_Click);
             // 
             // Generate
             // 
@@ -854,7 +848,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пресетыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem исмортироватьToolStripMenuItem;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

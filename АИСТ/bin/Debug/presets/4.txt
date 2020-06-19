@@ -1,0 +1,27 @@
+start_clients
+Client A X
+Prod A X 0 0
+Prod A Y 10 2
+Client A Y
+Client A Z
+Client B X
+Client B Y
+Client B Z
+Client C X
+Client C Y
+Client C Z
+stop_clients
+start_prods
+Prod A X
+Client A X 0
+Prod A Y
+Prod A Z
+Prod B X
+Prod B Y
+Prod B Z
+Prod C X
+Prod C Y
+Prod C Z
+stop_prods
+purchase_value 0
+amount 1

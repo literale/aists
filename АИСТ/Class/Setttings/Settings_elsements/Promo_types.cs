@@ -96,7 +96,7 @@ namespace АИСТ.Class.Setttings
         public Table_for_strategy Get_client_or_prod(Type_ABC_XYZ abc, Type_ABC_XYZ xyz, CustProd custOrProd)
         {
             int i = (abc == Type_ABC_XYZ.A) ? 0 : ((abc == Type_ABC_XYZ.B) ? 1 : 2);
-            int j = (abc == Type_ABC_XYZ.X) ? 0 : ((abc == Type_ABC_XYZ.Y) ? 1 : 2);
+            int j = (xyz == Type_ABC_XYZ.X) ? 0 : ((xyz == Type_ABC_XYZ.Y) ? 1 : 2);
             if (custOrProd == CustProd.Customer)
                 return clients[i, j];
             else return products[i, j];

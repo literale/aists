@@ -70,5 +70,16 @@ namespace АИСТ.Properties
         {
 
         }
+
+        private void Table_settings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach (Control c in gb2.Controls)
+            {
+                Tab_Settings.tabs[n].fields[c.Name] = c.Text;
+            }
+            this.Close();
+            Form ifrm = Application.OpenForms[1];
+            ifrm.Show();
+        }
     }
 }

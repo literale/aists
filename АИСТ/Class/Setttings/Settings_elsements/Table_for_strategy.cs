@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Icao;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using АИСТ.Class.enums;
@@ -56,6 +58,23 @@ namespace АИСТ.Class.essence
             return name;
         }
 
+        public List<string> ToList(string master, string slave)
+        {
+            List<string> s = new List<string>();
+            s.Add(master +" "+type_pair.Item1.ToString() + " " + type_pair.Item2.ToString());
+
+            foreach (Tuple<Type_ABC_XYZ, Type_ABC_XYZ> t in prob_of_discount_for.Keys)
+            {
+                string temp = slave + " " + t.Item1.ToString() + " " + t.Item2.ToString();
+                foreach(double d in prob_of_discount_for[t])
+                {
+                    temp += " " + d.ToString();
+                }
+                s.Add(temp);
+            }    
+            return s;
+
+        }
     }
    
 }
