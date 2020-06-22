@@ -42,7 +42,8 @@ namespace АИСТ.Class.algoritms
         {
             Form f2 = new Process();
             f2.Show(); // отображаем Form2
-           
+
+            this.gs = gs;
             foreach (Control ctrl in f2.Controls)
             {
                 if (ctrl is Label)
@@ -1158,6 +1159,8 @@ namespace АИСТ.Class.algoritms
                 ///дополнительные плюшки
                 double di = 10;
                 Random r1 = new Random();
+                List<string> lt = new List<string>();
+                List<string> b = new List<string>();
                 for (int l = 0; l < 5; l++)
                 {
                     Tuple<string, Group> key = temp_prior.First().Key;
@@ -1166,20 +1169,31 @@ namespace АИСТ.Class.algoritms
                     {
                         if (r1.Next(0, 2) == 0)
                         {
-                            full_prior.Remove(key);
+                            
                             string request = "SELECT type_little_name FROM products WHERE ID_product = '" + key.Item1 + "';";
                             DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
                             request = "SELECT ID_product_type_little FROM product_type_little WHERE name_product_type_little = '" + temp_dt2.Rows[0].ItemArray[0].ToString() + "';";
                             temp_dt2 = SQL_Helper.Just_do_it(request);
-                            temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Little_type, di));
-                            di--;
+                            if (!lt.Contains(temp_dt2.Rows[0].ItemArray[0].ToString()))
+                            {
+                                full_prior.Remove(key);
+                                temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Little_type, di));
+                                di--;
+                            }
+                            
+                            
                         }
                         else
                         {
-                            full_prior.Remove(key);
                             string request = "SELECT brand_ID FROM products WHERE ID_product = '" + key.Item1 + "';";
                             DataTable temp_dt2 = SQL_Helper.Just_do_it(request);
-                            temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Brand, di));
+                            if (!b.Contains(temp_dt2.Rows[0].ItemArray[0].ToString()))
+                            {
+                                full_prior.Remove(key);
+                                temp_p.Add(new Promo(temp_dt2.Rows[0].ItemArray[0].ToString(), Group.Brand, di));
+                                di--;
+                            }
+                            
                             di--;
 
                         }

@@ -40,7 +40,11 @@ namespace АИСТ.Class
         {
             return name;
         }
-
+        public override bool Equals(object obj)  //Перегрузка метода 
+        {
+            string name2 = ((Assortiment)obj).Get_name();
+            return (name.Equals(name2));
+        }
         //public listProductOverRules[] Get_product()
         //{
         //    listProductOverRules[] lp = product.ToArray();

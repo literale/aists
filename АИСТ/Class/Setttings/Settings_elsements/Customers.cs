@@ -35,7 +35,11 @@ namespace АИСТ.Class
             return sum;
         }
 
-
+        public override bool Equals(object obj)  //Перегрузка метода 
+        {
+            string name2 = ((Customers)obj).Get_name();
+            return (name.Equals(name2));
+        }
         public string Get_name()
         {
             return name;

@@ -30,11 +30,20 @@ namespace АИСТ
         bool range_click = false;
         bool click_table = false;
         bool click_type = false;
+        bool update_assort = false;
+        bool update_cust = false;
+        bool touch_cust = false;
+        bool touch_assort = false;
+        string last_cust = "";
+        string last_assort = "";
+        bool start = false;
+        bool delete = false;
         int index = 0;
         Group g = Group.Big_type;
         Tab_names t = Tab_names.product_type_big;
         int name = 1;
-
+        static Collect_settings c_set = Info.temp_settings;
+        
         public Generate()
         {
             InitializeComponent();
@@ -60,10 +69,27 @@ namespace АИСТ
             LoadRules();
             Info.temp_settings.promo_type.Generate_matrix();
             setShops();
-           
+            Reset_assort();
+            Reset_cust();
+            dateTimePicker2.Value = DateTime.Now.AddDays(20).Date;
 
         }
-
+        private void Reset_cust()
+        {
+            dt_min_active.Value = DateTime.Now.AddDays(-10).Date;
+            dt_max_active.Value = DateTime.Now.Date;
+            tb_min_sum.Text = "0";
+            tb_max_sum.Text = "10000";
+            touch_cust = false;
+        }
+        private void Reset_assort()
+        {
+            dt_min_Deliver.Value = DateTime.Now.AddDays(-10).Date;
+            dt_max_Deliver.Value = DateTime.Now.Date;
+            tb_min_count.Text = "0";
+            tb_max_count.Text = "100";
+            touch_assort = false;
+        }
         //TODO
         private void setShops()
         {
@@ -96,8 +122,11 @@ namespace АИСТ
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form ifrm = Application.OpenForms[0];
-            ifrm.Show();
+            if (!start)
+            {
+                Form ifrm = Application.OpenForms[0];
+                ifrm.Show();
+            }
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -285,6 +314,8 @@ namespace АИСТ
                 Info.Set_promo(promos, a, gs);
                 Form gr = new Generete_report();
                 gr.Show(); // отображаем Form2
+                start = true;
+                this.Close();
                 this.Enabled = false;
             }
             else
@@ -317,8 +348,11 @@ namespace АИСТ
                 Info.Set_test(false);
                 Info.Set_promo(new Dictionary<string, List<Promo>>(), a, gs);
                 Form gr = new Generete_report();
+                start = true;
+                this.Close();
                 gr.Show(); // отображаем Form2
                 this.Enabled = false;
+
             }
             else
             {
@@ -451,11 +485,223 @@ namespace АИСТ
             range_click = true;
             LoadRules();
         }
-        //private listProductOverRules GetRules()
-        //{
-        //    listProductOverRules lRules = new listProductOverRules();
 
-        //    return lRules;
-        //}
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Save_assort();
+        }
+
+        private void CM_assort_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            Update_assort();
+        }
+
+        private void Save_assort()
+        {
+            int min_count = Convert.ToInt32(tb_min_count.Text);
+            int max_count = Convert.ToInt32(tb_max_count.Text);
+            DateTime deliver1 = dt_min_Deliver.Value;
+            DateTime deliver2 = dt_max_Deliver.Value;
+            string name = tb_name_assort.Text;
+            Assortiment assort = new Assortiment(min_count, max_count, deliver1, deliver2, name);
+            if (min_count > max_count || deliver1 > deliver2)
+            {
+                MessageBox.Show("Недопустимое значение границ");
+                return;
+            }
+            if (update_assort)
+            {
+                c_set.assortiments.Remove(assort);
+                lb_assort.Items.RemoveAt(lb_assort.Items.IndexOf(last_assort));
+                update_assort = false;
+            }
+            if (c_set.assortiments.Contains(assort))
+            {
+                MessageBox.Show("Недопустимое имя");
+                return;
+            }
+
+            c_set.assortiments.Add(assort);
+            tb_name_assort.Text = "Ассортимент" + (c_set.assortiments.Count+1).ToString();
+            lb_assort.Items.Add(name);
+            Reset_assort();
+        }
+        private void Update_assort()
+        {
+            
+            if (touch_assort)
+            {
+                if (MessageBox.Show("Сохранить изменения?", "Сохранить?", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Save_assort();
+                }
+            }
+            update_assort = true;
+            Assortiment assort = c_set.assortiments[lb_assort.SelectedIndex];
+            last_assort = assort.Get_name();
+            tb_min_count.Text = assort.Get_count()[0].ToString();
+            tb_max_count.Text = assort.Get_count()[1].ToString();
+            dt_min_Deliver.Value = assort.Get_deliver()[0];
+            dt_max_Deliver.Value = assort.Get_deliver()[1];
+            tb_name_assort.Text = assort.Get_name();
+            touch_assort = false;
+        }
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            delete = true;
+            
+            c_set.assortiments.Remove(c_set.assortiments[lb_assort.SelectedIndex]);
+            update_assort = false;
+            lb_assort.Items.Remove(lb_assort.SelectedItem);
+            delete = false;
+            Reset_assort();
+        }
+
+        private void lb_assort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lb_assort.SelectedIndex != -1)
+            {
+                CM_assort.Show(Cursor.Position);
+                //if (!delete)
+                //    Update_assort();
+                //else
+                //    Reset_assort();
+            }
+        }
+
+
+        private void Touch_ass(object sender, EventArgs e)
+        {
+            touch_assort = true;
+        }
+
+        private void Touch_cust(object sender, EventArgs e)
+        {
+            touch_cust = true;
+        }
+
+        private void lb_assort_MouseClick(object sender, MouseEventArgs e)
+        {
+            //if (e.Button == MouseButtons.Right)
+            //{
+            //    CM_assort.Show(Cursor.Position);
+            //}
+        }
+
+        private void lb_assort_MouseDown(object sender, MouseEventArgs e)
+        {
+            //if (e.Button == MouseButtons.Right)
+            //{
+            //    if (lb_assort.SelectedIndex > 0)
+            //        CM_assort.Show(Cursor.Position);
+            //}
+        }
+
+        private void CM_client_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Save_cust();
+        }
+
+        private void Save_cust()
+        {
+            int min_sum = Convert.ToInt32(tb_min_sum.Text);
+            int max_sum = Convert.ToInt32(tb_max_sum.Text);
+            DateTime dt_act1 = dt_min_active.Value;
+            DateTime dt_act2 = dt_max_active.Value;
+            string name = tb_name_cust.Text;
+            Customers cust = new Customers(dt_act1, dt_act2, min_sum, max_sum,  name);
+            if (min_sum > max_sum || dt_act1 > dt_act2)
+            {
+                MessageBox.Show("Недопустимое значение границ");
+                return;
+            }
+            if (update_cust)
+            {
+                c_set.customers.Remove(cust);
+                lb_client.Items.RemoveAt(lb_client.Items.IndexOf(last_cust));
+                update_cust = false;
+            }
+            if (c_set.customers.Contains(cust))
+            {
+                MessageBox.Show("Недопустимое имя");
+                return;
+            }
+
+            c_set.customers.Add(cust);
+            tb_name_cust.Text = "Клиенты" + (c_set.customers.Count + 1).ToString();
+            lb_client.Items.Add(name);
+            Reset_cust();
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            Update_client();
+        }
+
+        private void Update_client()
+        {
+
+            if (touch_cust)
+            {
+                if (MessageBox.Show("Сохранить изменения?", "Сохранить?", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Save_cust();
+                }
+            }
+            update_cust = true;
+            Customers cust = c_set.customers[lb_client.SelectedIndex];
+            last_cust = cust.Get_name();
+            tb_min_sum.Text = cust.Get_averrage_sum()[0].ToString();
+            tb_max_sum.Text = cust.Get_averrage_sum()[1].ToString();
+            dt_min_active.Value = cust.Get_active()[0];
+            dt_max_active.Value= cust.Get_active()[1];
+            tb_name_cust.Text = cust.Get_name();
+            touch_cust = false;
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            delete = true;
+
+            c_set.customers.Remove(c_set.customers[lb_client.SelectedIndex]);
+            update_cust = false;
+            lb_client.Items.Remove(lb_client.SelectedItem);
+            delete = false;
+            Reset_cust();
+        }
+
+        private void lb_client_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lb_client.SelectedIndex != -1)
+            {
+                CM_cust.Show(Cursor.Position);
+                //if (!delete)
+                //    Update_client();
+                //else
+                //    Reset_cust();
+            }
+        }
+
+        private void изменитьToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Update_assort();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+           // Info.G
+        }
     }
 }

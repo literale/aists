@@ -31,22 +31,19 @@
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.изменитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.lb_client = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_name_cust = new System.Windows.Forms.TextBox();
+            this.tb_max_sum = new System.Windows.Forms.TextBox();
+            this.tb_min_sum = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+            this.dt_max_active = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.dt_min_active = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -69,23 +66,22 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label17 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.lb_assort = new System.Windows.Forms.ListBox();
+            this.CM_assort = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tb_name_assort = new System.Windows.Forms.TextBox();
+            this.tb_max_count = new System.Windows.Forms.TextBox();
+            this.tb_min_count = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
+            this.dt_max_Deliver = new System.Windows.Forms.DateTimePicker();
             this.label16 = new System.Windows.Forms.Label();
-            this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
+            this.dt_min_Deliver = new System.Windows.Forms.DateTimePicker();
             this.label18 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,15 +93,19 @@
             this.начатьГенерациюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запуститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запуститьВТестовомРежимеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CM_cust = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.CM_assort.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.CM_cust.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -119,19 +119,19 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listBox2);
+            this.groupBox2.Controls.Add(this.lb_client);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.label19);
-            this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.tb_name_cust);
+            this.groupBox2.Controls.Add(this.tb_max_sum);
+            this.groupBox2.Controls.Add(this.tb_min_sum);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.dateTimePicker4);
+            this.groupBox2.Controls.Add(this.dt_max_active);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.dateTimePicker3);
+            this.groupBox2.Controls.Add(this.dt_min_active);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(541, 27);
             this.groupBox2.Name = "groupBox2";
@@ -140,37 +140,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Клиенты";
             // 
-            // listBox2
+            // lb_client
             // 
-            this.listBox2.ContextMenuStrip = this.contextMenuStrip2;
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Items.AddRange(new object[] {
-            "Клиенты 1",
-            ""});
-            this.listBox2.Location = new System.Drawing.Point(9, 199);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(242, 186);
-            this.listBox2.TabIndex = 39;
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem1,
-            this.изменитьToolStripMenuItem1});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(129, 48);
-            // 
-            // удалитьToolStripMenuItem1
-            // 
-            this.удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
-            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
-            this.удалитьToolStripMenuItem1.Text = "Удалить";
-            // 
-            // изменитьToolStripMenuItem1
-            // 
-            this.изменитьToolStripMenuItem1.Name = "изменитьToolStripMenuItem1";
-            this.изменитьToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
-            this.изменитьToolStripMenuItem1.Text = "Изменить";
+            this.lb_client.FormattingEnabled = true;
+            this.lb_client.Location = new System.Drawing.Point(9, 199);
+            this.lb_client.Name = "lb_client";
+            this.lb_client.Size = new System.Drawing.Size(242, 186);
+            this.lb_client.TabIndex = 39;
+            this.lb_client.SelectedIndexChanged += new System.EventHandler(this.lb_client_SelectedIndexChanged);
             // 
             // button4
             // 
@@ -180,6 +157,7 @@
             this.button4.TabIndex = 41;
             this.button4.Text = "Сохранить";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label19
             // 
@@ -190,30 +168,32 @@
             this.label19.TabIndex = 26;
             this.label19.Text = "Имя набора";
             // 
-            // textBox5
+            // tb_name_cust
             // 
-            this.textBox5.Location = new System.Drawing.Point(108, 142);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(140, 20);
-            this.textBox5.TabIndex = 27;
-            this.textBox5.Text = "Клиенты 1";
-            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
+            this.tb_name_cust.Location = new System.Drawing.Point(108, 142);
+            this.tb_name_cust.Name = "tb_name_cust";
+            this.tb_name_cust.Size = new System.Drawing.Size(140, 20);
+            this.tb_name_cust.TabIndex = 27;
+            this.tb_name_cust.Text = "Клиенты1";
+            this.tb_name_cust.TextChanged += new System.EventHandler(this.Touch_cust);
             // 
-            // textBox2
+            // tb_max_sum
             // 
-            this.textBox2.Location = new System.Drawing.Point(109, 110);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(140, 20);
-            this.textBox2.TabIndex = 23;
-            this.textBox2.Text = "10000";
+            this.tb_max_sum.Location = new System.Drawing.Point(109, 110);
+            this.tb_max_sum.Name = "tb_max_sum";
+            this.tb_max_sum.Size = new System.Drawing.Size(140, 20);
+            this.tb_max_sum.TabIndex = 23;
+            this.tb_max_sum.Text = "10000";
+            this.tb_max_sum.TextChanged += new System.EventHandler(this.Touch_cust);
             // 
-            // textBox1
+            // tb_min_sum
             // 
-            this.textBox1.Location = new System.Drawing.Point(109, 80);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 20);
-            this.textBox1.TabIndex = 22;
-            this.textBox1.Text = "0";
+            this.tb_min_sum.Location = new System.Drawing.Point(109, 80);
+            this.tb_min_sum.Name = "tb_min_sum";
+            this.tb_min_sum.Size = new System.Drawing.Size(140, 20);
+            this.tb_min_sum.TabIndex = 22;
+            this.tb_min_sum.Text = "0";
+            this.tb_min_sum.TextChanged += new System.EventHandler(this.Touch_cust);
             // 
             // label11
             // 
@@ -252,13 +232,13 @@
             this.label7.Text = "До";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
-            // dateTimePicker4
+            // dt_max_active
             // 
-            this.dateTimePicker4.Location = new System.Drawing.Point(108, 51);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePicker4.TabIndex = 14;
-            this.dateTimePicker4.ValueChanged += new System.EventHandler(this.dateTimePicker4_ValueChanged);
+            this.dt_max_active.Location = new System.Drawing.Point(108, 51);
+            this.dt_max_active.Name = "dt_max_active";
+            this.dt_max_active.Size = new System.Drawing.Size(141, 20);
+            this.dt_max_active.TabIndex = 14;
+            this.dt_max_active.ValueChanged += new System.EventHandler(this.Touch_cust);
             // 
             // label5
             // 
@@ -270,13 +250,13 @@
             this.label5.Text = "Активность";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
-            // dateTimePicker3
+            // dt_min_active
             // 
-            this.dateTimePicker3.Location = new System.Drawing.Point(108, 21);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePicker3.TabIndex = 13;
-            this.dateTimePicker3.ValueChanged += new System.EventHandler(this.dateTimePicker3_ValueChanged);
+            this.dt_min_active.Location = new System.Drawing.Point(108, 21);
+            this.dt_min_active.Name = "dt_min_active";
+            this.dt_min_active.Size = new System.Drawing.Size(141, 20);
+            this.dt_min_active.TabIndex = 13;
+            this.dt_min_active.ValueChanged += new System.EventHandler(this.Touch_cust);
             // 
             // label8
             // 
@@ -372,6 +352,7 @@
             this.button7.TabIndex = 34;
             this.button7.Text = "Сохранить";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button3
             // 
@@ -514,52 +495,48 @@
             this.label17.Text = "Магазины";
             this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
-            // listBox1
+            // lb_assort
             // 
-            this.listBox1.ContextMenuStrip = this.contextMenuStrip1;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Items.AddRange(new object[] {
-            "Ассортимент 1"});
-            this.listBox1.Location = new System.Drawing.Point(10, 196);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(242, 186);
-            this.listBox1.TabIndex = 33;
+            this.lb_assort.FormattingEnabled = true;
+            this.lb_assort.Location = new System.Drawing.Point(10, 196);
+            this.lb_assort.Name = "lb_assort";
+            this.lb_assort.Size = new System.Drawing.Size(242, 186);
+            this.lb_assort.TabIndex = 33;
+            this.lb_assort.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lb_assort_MouseClick);
+            this.lb_assort.SelectedIndexChanged += new System.EventHandler(this.lb_assort_SelectedIndexChanged);
+            this.lb_assort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_assort_MouseDown);
             // 
-            // contextMenuStrip1
+            // CM_assort
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CM_assort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.удалитьToolStripMenuItem,
             this.изменитьToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 48);
+            this.CM_assort.Name = "contextMenuStrip1";
+            this.CM_assort.Size = new System.Drawing.Size(129, 48);
+            this.CM_assort.Opening += new System.ComponentModel.CancelEventHandler(this.CM_assort_Opening);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
             this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
-            // 
-            // изменитьToolStripMenuItem
-            // 
-            this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
-            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.изменитьToolStripMenuItem.Text = "Изменить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.label20);
-            this.groupBox3.Controls.Add(this.textBox6);
-            this.groupBox3.Controls.Add(this.textBox3);
-            this.groupBox3.Controls.Add(this.textBox4);
+            this.groupBox3.Controls.Add(this.tb_name_assort);
+            this.groupBox3.Controls.Add(this.tb_max_count);
+            this.groupBox3.Controls.Add(this.tb_min_count);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.listBox1);
+            this.groupBox3.Controls.Add(this.lb_assort);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.label15);
-            this.groupBox3.Controls.Add(this.dateTimePicker5);
+            this.groupBox3.Controls.Add(this.dt_max_Deliver);
             this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Controls.Add(this.dateTimePicker6);
+            this.groupBox3.Controls.Add(this.dt_min_Deliver);
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Location = new System.Drawing.Point(277, 27);
             this.groupBox3.Name = "groupBox3";
@@ -576,6 +553,7 @@
             this.button2.TabIndex = 40;
             this.button2.Text = "Сохранить";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // label20
             // 
@@ -586,30 +564,32 @@
             this.label20.TabIndex = 32;
             this.label20.Text = "Имя набора";
             // 
-            // textBox6
+            // tb_name_assort
             // 
-            this.textBox6.Location = new System.Drawing.Point(109, 143);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(140, 20);
-            this.textBox6.TabIndex = 33;
-            this.textBox6.Text = "Ассортимент 1";
+            this.tb_name_assort.Location = new System.Drawing.Point(109, 143);
+            this.tb_name_assort.Name = "tb_name_assort";
+            this.tb_name_assort.Size = new System.Drawing.Size(140, 20);
+            this.tb_name_assort.TabIndex = 33;
+            this.tb_name_assort.Text = "Ассортимент1";
+            this.tb_name_assort.TextChanged += new System.EventHandler(this.Touch_ass);
             // 
-            // textBox3
+            // tb_max_count
             // 
-            this.textBox3.Location = new System.Drawing.Point(109, 110);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(140, 20);
-            this.textBox3.TabIndex = 23;
-            this.textBox3.Text = "1000";
+            this.tb_max_count.Location = new System.Drawing.Point(109, 110);
+            this.tb_max_count.Name = "tb_max_count";
+            this.tb_max_count.Size = new System.Drawing.Size(140, 20);
+            this.tb_max_count.TabIndex = 23;
+            this.tb_max_count.Text = "100";
+            this.tb_max_count.TextChanged += new System.EventHandler(this.Touch_ass);
             // 
-            // textBox4
+            // tb_min_count
             // 
-            this.textBox4.Location = new System.Drawing.Point(109, 80);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(140, 20);
-            this.textBox4.TabIndex = 22;
-            this.textBox4.Text = "0";
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.tb_min_count.Location = new System.Drawing.Point(109, 80);
+            this.tb_min_count.Name = "tb_min_count";
+            this.tb_min_count.Size = new System.Drawing.Size(140, 20);
+            this.tb_min_count.TabIndex = 22;
+            this.tb_min_count.Text = "0";
+            this.tb_min_count.TextChanged += new System.EventHandler(this.Touch_ass);
             // 
             // label12
             // 
@@ -647,12 +627,13 @@
             this.label15.TabIndex = 12;
             this.label15.Text = "До";
             // 
-            // dateTimePicker5
+            // dt_max_Deliver
             // 
-            this.dateTimePicker5.Location = new System.Drawing.Point(108, 51);
-            this.dateTimePicker5.Name = "dateTimePicker5";
-            this.dateTimePicker5.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePicker5.TabIndex = 14;
+            this.dt_max_Deliver.Location = new System.Drawing.Point(108, 51);
+            this.dt_max_Deliver.Name = "dt_max_Deliver";
+            this.dt_max_Deliver.Size = new System.Drawing.Size(141, 20);
+            this.dt_max_Deliver.TabIndex = 14;
+            this.dt_max_Deliver.VisibleChanged += new System.EventHandler(this.Touch_ass);
             // 
             // label16
             // 
@@ -663,12 +644,14 @@
             this.label16.TabIndex = 11;
             this.label16.Text = "Поставки";
             // 
-            // dateTimePicker6
+            // dt_min_Deliver
             // 
-            this.dateTimePicker6.Location = new System.Drawing.Point(108, 21);
-            this.dateTimePicker6.Name = "dateTimePicker6";
-            this.dateTimePicker6.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePicker6.TabIndex = 13;
+            this.dt_min_Deliver.Location = new System.Drawing.Point(108, 21);
+            this.dt_min_Deliver.Name = "dt_min_Deliver";
+            this.dt_min_Deliver.Size = new System.Drawing.Size(141, 20);
+            this.dt_min_Deliver.TabIndex = 13;
+            this.dt_min_Deliver.Value = new System.DateTime(2020, 6, 15, 0, 0, 0, 0);
+            this.dt_min_Deliver.ValueChanged += new System.EventHandler(this.Touch_ass);
             // 
             // label18
             // 
@@ -762,6 +745,35 @@
             this.запуститьВТестовомРежимеToolStripMenuItem1.Text = "Запустить в тестовом режиме";
             this.запуститьВТестовомРежимеToolStripMenuItem1.Click += new System.EventHandler(this.запуститьВТестовомРежимеToolStripMenuItem1_Click);
             // 
+            // изменитьToolStripMenuItem
+            // 
+            this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
+            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.изменитьToolStripMenuItem.Text = "Изменить";
+            this.изменитьToolStripMenuItem.Click += new System.EventHandler(this.изменитьToolStripMenuItem_Click_1);
+            // 
+            // CM_cust
+            // 
+            this.CM_cust.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.CM_cust.Name = "contextMenuStrip1";
+            this.CM_cust.Size = new System.Drawing.Size(129, 48);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "Удалить";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "Изменить";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
             // Generate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -778,17 +790,17 @@
             this.Load += new System.EventHandler(this.Form2_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.contextMenuStrip2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.CM_assort.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.CM_cust.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -808,32 +820,32 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
+        private System.Windows.Forms.DateTimePicker dt_max_active;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
+        private System.Windows.Forms.DateTimePicker dt_min_active;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_max_sum;
+        private System.Windows.Forms.TextBox tb_min_sum;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckedListBox checkedListBox3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tb_max_count;
+        private System.Windows.Forms.TextBox tb_min_count;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.DateTimePicker dateTimePicker5;
+        private System.Windows.Forms.DateTimePicker dt_max_Deliver;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.DateTimePicker dateTimePicker6;
+        private System.Windows.Forms.DateTimePicker dt_min_Deliver;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox tb_name_cust;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox tb_name_assort;
         private System.Windows.Forms.CheckedListBox checkedListBox5;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -843,19 +855,15 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.DateTimePicker dateTimePicker7;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lb_client;
+        private System.Windows.Forms.ListBox lb_assort;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пресетыToolStripMenuItem;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip CM_assort;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem работаСБдToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem расшифроватьФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem зашифроватьФайлToolStripMenuItem;
@@ -864,5 +872,10 @@
         private System.Windows.Forms.ToolStripMenuItem начатьГенерациюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запуститьВТестовомРежимеToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem запуститьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip CM_cust;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }

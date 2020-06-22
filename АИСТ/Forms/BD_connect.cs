@@ -39,6 +39,7 @@ namespace АИСТ.Forms
                 if (result == DialogResult.Yes)
                     Info.Set_defolt_file();
                 Info.Set_bd();
+                temp = Info.get_bd();
                 Info.Get_tabs();
                 tb_server.Text = temp[1].Split(' ')[2];
                 tb_name.Text = temp[2].Split(' ')[2];
