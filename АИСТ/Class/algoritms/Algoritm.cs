@@ -64,7 +64,7 @@ namespace АИСТ.Class.algoritms
             rtb.Refresh();
            // gs = AutoSetGenerate.AutoSettings();
             DateTime analiz_border = gs.analiz_border;
-            File.Create("test.xml");
+            //File.Create("test.xml");
             List<Customers> all_customres_sets = gs.customers;
             List<Assortiment> all_assortiment_sets = gs.assortiments;
             listProductOverRules rules = gs.rules;
@@ -1283,7 +1283,7 @@ namespace АИСТ.Class.algoritms
                 string Shops = "";
                 foreach (String sh in gs.shops)
                 {
-                    string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + sh + "';";
+                    string re = "SELECT shop_address, shop_city FROM shops WHERE ID_shop = '" + (Convert.ToInt32(sh)+1).ToString() + "';";
                     temp_dt = SQL_Helper.Just_do_it(re);
                     Shops += "Город " + temp_dt.Rows[0].ItemArray[1].ToString() + " улица " + temp_dt.Rows[0].ItemArray[0].ToString() + ", ";
                 }

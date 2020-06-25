@@ -1,0 +1,94 @@
+start_clients
+Client A X
+Prod A X 50 2
+Prod A Y 25 1
+Prod A Z 0 0
+Prod B Y 0 0
+Prod B X 25 1
+Client A Y
+Prod B Y 25 0
+Prod A Y 25 1
+Prod A X 25 2
+Prod B X 25 1
+Prod B Z 0 0
+Client A Z
+Client B X
+Prod A Y 25 2
+Prod A X 25 2
+Prod B X 25 2
+Prod C Y 0 0
+Prod B Y 25 1
+Client B Y
+Prod B Y 20 1
+Prod A Y 20 1
+Prod A X 20 2
+Prod B X 20 1
+Prod B Z 20 0
+Client B Z
+Client C X
+Client C Y
+Prod A X 10 0
+Prod A Y 20 0
+Prod A Z 10 0
+Prod B Z 10 0
+Prod B Y 20 0
+Prod B X 0 0
+Client C Z
+stop_clients
+start_prods
+Prod A X
+Client A X 2
+Client A Y 1
+Client B Y 1
+Client B X 2
+Client C Z 0
+Client B Z 0
+Prod A Y
+Client B X 2
+Client A X 2
+Client A Y 1
+Client B Y 0
+Client C Z 0
+Prod A Z
+Prod B X
+Client B Z 0
+Prod B Y
+Client B X 1
+Client A X 2
+Client B Y 2
+Client C Y 1
+Client C Z 0
+Client B Z 0
+Prod B Z
+Client B Z 0
+Client A Z 0
+Client C Z 0
+Client C X 0
+Client C Y 0
+Client B Y 0
+Client B X 0
+Client A X 0
+Client A Y 0
+Prod C X
+Client B Y 0
+Client B Z 0
+Prod C Y
+Client B Y 2
+Client A Y 0
+Client B Z 0
+Client A Z 0
+Client A X 0
+Client C Y 0
+Prod C Z
+Client B Z 0
+Client C Z 0
+Client C X 0
+Client C Y 0
+Client B X 0
+Client B Y 0
+Client A Z 0
+Client A X 0
+Client A Y 0
+stop_prods
+cost 0
+cost 0

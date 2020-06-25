@@ -346,7 +346,7 @@ namespace АИСТ
                 Dictionary<string, List<Promo>> promos = a.Auto(gs);
                 
                 Info.Set_test(false);
-                Info.Set_promo(new Dictionary<string, List<Promo>>(), a, gs);
+                Info.Set_promo(promos, a, gs);
                 Form gr = new Generete_report();
                 start = true;
                 this.Close();

@@ -77,7 +77,7 @@ namespace АИСТ.Properties
             {
                 Tab_Settings.tabs[n].fields[c.Name] = c.Text;
             }
-            this.Close();
+            //this.Close();
             Form ifrm = Application.OpenForms[1];
             ifrm.Show();
         }

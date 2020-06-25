@@ -85,7 +85,7 @@
             this.groupBox1.Controls.Add(this.label29);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(251, 133);
+            this.groupBox1.Size = new System.Drawing.Size(251, 104);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Клиент";
@@ -117,6 +117,7 @@
             this.comboBox8.Size = new System.Drawing.Size(141, 21);
             this.comboBox8.TabIndex = 32;
             this.comboBox8.Text = "Сет 1";
+            this.comboBox8.Visible = false;
             // 
             // button2
             // 
@@ -127,6 +128,7 @@
             this.button2.TabIndex = 31;
             this.button2.Text = "Добавить";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             // 
             // pr_client_XYZ
             // 
@@ -248,7 +250,7 @@
             this.groupBox4.Controls.Add(this.prior_cl);
             this.groupBox4.Location = new System.Drawing.Point(282, 30);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(237, 130);
+            this.groupBox4.Size = new System.Drawing.Size(237, 101);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Товар";
@@ -337,6 +339,7 @@
             this.comboBox13.Size = new System.Drawing.Size(106, 21);
             this.comboBox13.TabIndex = 23;
             this.comboBox13.Text = "Сет 1";
+            this.comboBox13.Visible = false;
             // 
             // label1
             // 
@@ -356,6 +359,7 @@
             this.button1.TabIndex = 22;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             // 
             // label31
             // 
@@ -372,7 +376,8 @@
             this.prior_cl.Items.AddRange(new object[] {
             "Низкий",
             "Средний",
-            "Высокий"});
+            "Высокий",
+            "Запрещен"});
             this.prior_cl.Location = new System.Drawing.Point(118, 55);
             this.prior_cl.Name = "prior_cl";
             this.prior_cl.Size = new System.Drawing.Size(82, 21);
@@ -383,7 +388,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 185);
+            this.label5.Location = new System.Drawing.Point(13, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(126, 13);
             this.label5.TabIndex = 20;
@@ -392,7 +397,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 213);
+            this.label6.Location = new System.Drawing.Point(15, 168);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(120, 13);
             this.label6.TabIndex = 21;
@@ -404,7 +409,7 @@
             this.prior_client.Items.AddRange(new object[] {
             "Объем закупок",
             "Затраченная сумма"});
-            this.prior_client.Location = new System.Drawing.Point(141, 182);
+            this.prior_client.Location = new System.Drawing.Point(145, 137);
             this.prior_client.Name = "prior_client";
             this.prior_client.Size = new System.Drawing.Size(171, 21);
             this.prior_client.TabIndex = 31;
@@ -418,7 +423,7 @@
             "Популярность",
             "Доходность",
             "Остаток на складе"});
-            this.prior_prod.Location = new System.Drawing.Point(141, 209);
+            this.prior_prod.Location = new System.Drawing.Point(145, 164);
             this.prior_prod.Name = "prior_prod";
             this.prior_prod.Size = new System.Drawing.Size(171, 21);
             this.prior_prod.TabIndex = 32;
@@ -427,7 +432,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(319, 185);
+            this.label7.Location = new System.Drawing.Point(323, 140);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 13);
             this.label7.TabIndex = 33;
@@ -436,7 +441,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(320, 213);
+            this.label8.Location = new System.Drawing.Point(324, 168);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(51, 13);
             this.label8.TabIndex = 34;
@@ -448,7 +453,7 @@
             this.cl_intresting.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.cl_intresting.Location = new System.Drawing.Point(376, 182);
+            this.cl_intresting.Location = new System.Drawing.Point(380, 137);
             this.cl_intresting.Name = "cl_intresting";
             this.cl_intresting.Size = new System.Drawing.Size(143, 21);
             this.cl_intresting.TabIndex = 35;
@@ -460,7 +465,7 @@
             this.prod_intresting.Items.AddRange(new object[] {
             "Сначала интересные",
             "Сначала не интересные"});
-            this.prod_intresting.Location = new System.Drawing.Point(376, 209);
+            this.prod_intresting.Location = new System.Drawing.Point(380, 164);
             this.prod_intresting.Name = "prod_intresting";
             this.prod_intresting.Size = new System.Drawing.Size(143, 21);
             this.prod_intresting.TabIndex = 36;
@@ -495,7 +500,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 247);
+            this.ClientSize = new System.Drawing.Size(532, 193);
             this.Controls.Add(this.prod_intresting);
             this.Controls.Add(this.cl_intresting);
             this.Controls.Add(this.label8);

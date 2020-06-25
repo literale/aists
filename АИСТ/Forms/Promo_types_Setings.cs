@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using АИСТ.Class;
 using АИСТ.Class.enums;
@@ -24,6 +25,7 @@ namespace АИСТ.Forms
         static Table_for_strategy active_table = c_set.promo_type.clients[0, 0];
         static Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> temp_cl;
         static Dictionary<Tuple<Type_ABC_XYZ, Type_ABC_XYZ>, double[]> temp_prod;
+        bool now_load = false;
         public Promo_types_Setings()
         {
             InitializeComponent();
@@ -118,8 +120,10 @@ namespace АИСТ.Forms
                 {
                     if (load)
                     {
+                        now_load = true;
                         pers_prod.Value = (decimal)temp_cl[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][0];
                         disc_size.SelectedIndex = (int)temp_cl[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][1];
+                        now_load = false;
                     }
                     else
                     {
@@ -132,10 +136,12 @@ namespace АИСТ.Forms
                 {
                     if (load)
                     {
+                        now_load = true;
                         temp_cl.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[2] { 0, 0 });
                         pers_prod.Value = 0;
                         disc_size.SelectedIndex = 0;
-                       // temp_cl.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[2] { (double)pers_prod.Value, disc_size.SelectedIndex });
+                        now_load = false;
+                        // temp_cl.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[2] { (double)pers_prod.Value, disc_size.SelectedIndex });
                     }
                     else
                     {
@@ -157,11 +163,14 @@ namespace АИСТ.Forms
                 {
                     if (load)
                     {
+                        now_load = true;
                         prior_cl.SelectedIndex = (int)temp_prod[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][0];
+                        now_load = false;
                     }
                     else
                     {
-                        temp_prod[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][0] = prior_cl.SelectedIndex;
+                        if (prior_cl.SelectedIndex == 3) temp_prod.Remove(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x));
+                        else temp_prod[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][0] = prior_cl.SelectedIndex;
 
                     }
 
@@ -171,13 +180,16 @@ namespace АИСТ.Forms
                 {
                     if (load)
                     {
+                        now_load = true;
                         temp_prod.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[1] { 0 });
                         prior_cl.SelectedIndex = 0;
-                       // temp_prod.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[1] { prior_cl.SelectedIndex });
+                        now_load = false;
+                        // temp_prod.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[1] { prior_cl.SelectedIndex });
                     }
                     else
                     {
                         temp_prod[new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x)][0] = prior_cl.SelectedIndex;
+                        if (prior_cl.SelectedIndex == 3) temp_prod.Remove(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x));       
                         //temp_prod.Add(new Tuple<Type_ABC_XYZ, Type_ABC_XYZ>(opp_a, opp_x), new double[1] { prior_cl.SelectedIndex });
                     }
 
@@ -228,17 +240,20 @@ namespace АИСТ.Forms
 
         private void pers_prod_ValueChanged(object sender, EventArgs e)
         {
-            load_info(CustProd.Customer, false);
+            if(!now_load)
+              load_info(CustProd.Customer, false);
         }
 
         private void disc_size_SelectedIndexChanged(object sender, EventArgs e)
         {
-            load_info(CustProd.Customer, false);
+            if (!now_load)
+                load_info(CustProd.Customer, false);
         }
 
         private void prior_cl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            load_info(CustProd.Product, false);
+            if (!now_load)
+                load_info(CustProd.Product, false);
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -267,6 +282,14 @@ namespace АИСТ.Forms
                 prod_intresting.SelectedIndex = (pt.intresting_pr) ? 0 : 1;
                 prior_client.SelectedIndex = (pt.comp_client.Equals(CompareType.purchase_value)) ? 0 : 1;
                 prior_prod.SelectedIndex = (pt.comp_prod.Equals(CompareType.sell_value)) ? 0 : ((pt.comp_prod.Equals(CompareType.cost)) ? 1 : 2);
+                client_ABC.SelectedIndex = 0;
+                client_XYZ.SelectedIndex = 0;
+                pr_client_ABC.SelectedIndex = 0;
+                pr_client_XYZ.SelectedIndex = 0;
+                prod_ABC.SelectedIndex = 0;
+                prod_XYZ.SelectedIndex = 0;
+                cl_prod_ABC.SelectedIndex = 0;
+                cl_prod_XYZ.SelectedIndex = 0;
                 load_info(CustProd.Customer, true);
                 load_info(CustProd.Product, true);
             }

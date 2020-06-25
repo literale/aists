@@ -17,7 +17,6 @@ F:\учеба\Вода(диплом)\АИСТ\АИСТ\obj\Debug\АИСТ.Proper
 F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\АИСТ.exe.config
 F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\АИСТ.exe
 F:\учеба\Вода(диплом)\aists\АИСТ\bin\Debug\АИСТ.pdb
-F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.csprojAssemblyReference.cache
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Generete_report.resources
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.mainForm.resources
 F:\учеба\Вода(диплом)\aists\АИСТ\obj\Debug\АИСТ.Generate.resources
